@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import WordEditor from "./editor";
-import axiosHttp from "../../../utils/httpConfig";
+import axiosHttp from "../../../../utils/httpConfig";
 
 // Custom Tag Input component
 const TagInput = ({ value = [], onChange, placeholder }) => {
@@ -78,6 +78,8 @@ const TagInput = ({ value = [], onChange, placeholder }) => {
 };
 
 export default function BlogForm({ onSubmit, blogId }) {
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [initialEditorContent, setInitialEditorContent] = useState("");
 
@@ -109,23 +111,35 @@ export default function BlogForm({ onSubmit, blogId }) {
   const metaDesc = watch("metaDescription") || "";
   const currentImage = watch("image") || "";
 
-  const categoryOptions = [
-    { value: "Technology", label: "Technology" },
-    { value: "Marketing", label: "Marketing" },
-    { value: "Design", label: "Design" },
-    { value: "Business", label: "Business" },
-    { value: "Productivity", label: "Productivity" },
-    { value: "Finance", label: "Finance" },
-    { value: "Accessiblity", label: "Accessiblity" },
-    { value: "Andriod Dev", label: "Andriod Dev" },
-    { value: "Blockchain", label: "Blockchain" },
-    { value: "Gadgets", label: "Gadgets" },
-  ];
   const editorRef = useRef(null);
 
   const updateEditorContent = (content) => {
     setValue("editorContent", content, { shouldValidate: true });
   };
+  const fetchCategories = async () => {
+    try {
+      setIsLoadingCategories(true);
+      const response = await axiosHttp.get("/blog-categories");
+      if (response?.status === 200) {
+        // Transform API data to react-select format
+        const formattedOptions = response.data.data.map((category) => ({
+          value: category.title,
+          label: category.title,
+          id: category.id,
+        }));
+        setCategoryOptions(formattedOptions);
+        console.log(formattedOptions, "formattedOptions");
+      }
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+      toast.error("Failed to load categories");
+    } finally {
+      setIsLoadingCategories(false);
+    }
+  };
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   // In the getBlogById function, update these lines:
   const getBlogById = async () => {
@@ -141,8 +155,7 @@ export default function BlogForm({ onSubmit, blogId }) {
         // TO:
         reset({
           title: blogData.title || "",
-          // For category, convert string to object format for react-select
-          category: blogData.category || "",
+          category: blogData.category?.id || "",
           status: blogData.status || "draft",
           isFeatured: blogData.is_featured,
           metaDescription: blogData.meta_description || "",
@@ -156,6 +169,7 @@ export default function BlogForm({ onSubmit, blogId }) {
           imageAltText: blogData.image_alt || "",
           editorContent: blogData.content || "",
         });
+        console.log(blogData, "blogData");
       }
     } catch (err) {
       toast.warning(err?.response?.data?.message || "Failed to load blog");
@@ -225,7 +239,6 @@ export default function BlogForm({ onSubmit, blogId }) {
         )}
       </div>
 
-      {/* Category - Using react-select */}
       <div>
         <label className="block mb-1 font-medium">
           Category <span className="text-red-500">*</span>
@@ -238,16 +251,14 @@ export default function BlogForm({ onSubmit, blogId }) {
             <Select
               {...field}
               options={categoryOptions}
-              classNamePrefix="react-select"
-              isMulti={false}
-              onChange={(selectedOption) =>
-                field.onChange(selectedOption.value)
-              }
+              isLoading={isLoadingCategories}
+              getOptionLabel={(e) => e.label}
+              getOptionValue={(e) => e.id}
+              onChange={(selected) => field.onChange(selected.id)}
               value={
-                categoryOptions.find(
-                  (option) => option.value === field.value
-                ) || null
+                categoryOptions.find((opt) => opt.id === field.value) || null
               }
+              placeholder="Select a category"
             />
           )}
         />

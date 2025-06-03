@@ -53,6 +53,54 @@ export const MENUITEMS = [
           },
         ],
       },
+      {
+        path: `${process.env.PUBLIC_URL}/widgets/managecategories`,
+        title: "Manage Category",
+        icon: "widget",
+        type: "link",
+      },
+      {
+        title: "Manage Glossary",
+        icon: "widget",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/manageglossary`,
+            title: " Add Glossary",
+            type: "link",
+          },
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/viewglossary`,
+            title: "View Glossary",
+            type: "link",
+          },
+        ],
+      },
+      {
+        path: `${process.env.PUBLIC_URL}/widgets/manageclients`,
+        title: "Manage Clients",
+        icon: "widget",
+        type: "link",
+      },
+      {
+        title: "Manage-Clients",
+        icon: "widget",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/addclients`,
+            title: " Add Clients",
+            type: "link",
+          },
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/viewclients`,
+            title: "View Clients",
+            type: "link",
+          },
+        ],
+      },
     ],
   },
 

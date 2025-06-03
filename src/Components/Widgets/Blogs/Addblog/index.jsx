@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import BlogForm from "./form";
-import axiosHttp from "../../../utils/httpConfig";
+import axiosHttp from "../../../../utils/httpConfig";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import the CSS
+import "react-toastify/dist/ReactToastify.css";
 import { useSearchParams } from "react-router-dom";
 
 const AddBlogComponent = () => {
@@ -27,7 +27,7 @@ const AddBlogComponent = () => {
       } else {
         URL = "/blog/add-blog";
       }
-
+      console.log(data, "data response");
       const formData = new FormData();
       formData.append("blogId", blogId);
       formData.append("title", data.title);
@@ -36,7 +36,7 @@ const AddBlogComponent = () => {
       formData.append("meta_keywords", JSON.stringify(data.metaKeywords));
       formData.append("summary", data.summary);
       formData.append("content", data.editorContent);
-      formData.append("category", data.category);
+      formData.append("category_id", data.category);
       formData.append("tags", JSON.stringify(data.tags));
       formData.append("post_date", "2025-05-13");
       formData.append("author_id", "1");

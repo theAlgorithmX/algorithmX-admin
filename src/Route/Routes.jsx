@@ -8,8 +8,14 @@ import Social from "../Components/Dashboard/Social";
 // //widgets
 import Chart from "../Components/Widgets/Chart";
 import General from "../Components/Widgets/General";
-import AddBlogComponent from "../Components/Widgets/Addblog";
-import ViewBlogComponent from "../Components/Widgets/Viewblog";
+import AddBlogComponent from "../Components/Widgets/Blogs/Addblog";
+import ViewBlogComponent from "../Components/Widgets/Blogs/Viewblog";
+import ManageCategories from "../Components/Widgets/ManageCategories";
+import ManageClientComponent from "../Components/Widgets/ManageClients";
+import AddGlossaryComponent from "../Components/Widgets/Glossary/AddGlossary";
+import ViewGlossaryComponent from "../Components/Widgets/Glossary/ViewGlossary";
+import AddClient from "../Components/Widgets/Manage-Clients/AddClients";
+import ViewClients from "../Components/Widgets/Manage-Clients/ViewClients";
 // //page-layout
 // import FooterLight from '../Components/PageLayout/FooterLight';
 
@@ -215,15 +221,39 @@ export const routes = [
     path: `${process.env.PUBLIC_URL}/widgets/addblog/:layout`,
     Component: <AddBlogComponent />,
   },
-   {
-     path: `${process.env.PUBLIC_URL}/widgets/viewblog/:layout`,
-     Component: <ViewBlogComponent />,
-   },
-
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/viewblog/:layout`,
+    Component: <ViewBlogComponent />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/managecategories/:layout`,
+    Component: <ManageCategories />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/manageclients/:layout`,
+    Component: <ManageClientComponent />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/manageglossary/:layout`,
+    Component: <AddGlossaryComponent />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/viewglossary/:layout`,
+    Component: <ViewGlossaryComponent />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/addclients/:layout`,
+    Component: <AddClient />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/viewclients/:layout`,
+    Component: <ViewClients />,
+  },
   {
     path: `${process.env.PUBLIC_URL}/ui-kits/typography/:layout`,
     Component: <Typography />,
   },
+
   {
     path: `${process.env.PUBLIC_URL}/ui-kits/avatar/:layout`,
     Component: <Avatars />,

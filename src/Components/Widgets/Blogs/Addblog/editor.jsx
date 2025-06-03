@@ -277,10 +277,31 @@ const WordEditor = forwardRef(({ updateContent, initialContent = "" }, ref) => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        // Save current selection
-        saveSelection();
+        // Always ensure we're working within the editor
+        editorRef.current.focus();
 
-        // Create a proper image element with styling
+        // Check if there's a valid selection within the editor
+        const selection = window.getSelection();
+        let range;
+
+        if (
+          selection.rangeCount > 0 &&
+          editorRef.current.contains(
+            selection.getRangeAt(0).commonAncestorContainer
+          )
+        ) {
+          // Use existing selection if it's within the editor
+          range = selection.getRangeAt(0);
+        } else {
+          // Create a new range at the end of the editor content
+          range = document.createRange();
+          range.selectNodeContents(editorRef.current);
+          range.collapse(false); // Collapse to end
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+
+        // Create the image element
         const imgElement = document.createElement("img");
         imgElement.src = event.target.result;
         imgElement.className = "editor-image";
@@ -291,9 +312,7 @@ const WordEditor = forwardRef(({ updateContent, initialContent = "" }, ref) => {
         imgElement.setAttribute("tabindex", "0");
         imgElement.setAttribute("data-events-attached", "false");
 
-        // Insert the image into the editor
-        const selection = window.getSelection();
-        const range = selection.getRangeAt(0);
+        // Insert the image
         range.deleteContents();
         range.insertNode(imgElement);
 
@@ -302,12 +321,10 @@ const WordEditor = forwardRef(({ updateContent, initialContent = "" }, ref) => {
         range.setStartAfter(imgElement);
         range.insertNode(space);
 
-        // Update the content
         handleContentChange({ currentTarget: editorRef.current });
       };
       reader.readAsDataURL(file);
     }
-    // Clear the input value to allow selecting the same file again
     e.target.value = "";
   };
 

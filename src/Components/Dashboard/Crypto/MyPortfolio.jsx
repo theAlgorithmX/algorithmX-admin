@@ -4,7 +4,7 @@ import { Card, CardBody, CardHeader, Col, Row, Table } from "reactstrap";
 import { H5, H6 } from "../../../AbstractElements";
 import { CryptoDropdown, MyPortfolioTitle } from "../../../Constant";
 import { portfolioLegend } from "../../../Data/Crypto";
-import { myPortfolioChartOption } from "../../../Data/Crypto/Chart";
+
 import SvgIcon from "../../Common/Component/SvgIcon";
 import DropdownCommon from "../../Common/Dropdown";
 
