@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { Col } from "reactstrap";
 import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
+// import dayGridPlugin from "@fullcalendar/daygrid";
+// import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { H4 } from "../../../../AbstractElements";
-import moment from "moment";
+// import moment from "moment";
 import uuid from "react-uuid";
 
 class DragCalendar extends Component {
@@ -97,7 +97,7 @@ class DragCalendar extends Component {
     const newEvent = {
       title: info.draggedEl.getAttribute("title"),
       start: info.date,
-      end: new Date(moment(info.date).add(1, "hour").valueOf()),
+      // end: new Date(moment(info.date).add(1, "hour").valueOf()),
       id: id,
     };
     this.setState({
@@ -111,13 +111,21 @@ class DragCalendar extends Component {
       <Fragment>
         <Col xxl="3" className="box-col-12">
           <div className="md-sidebar">
-            <div className={`md-sidebar-aside job-left-aside custom-scrollbar `}>
+            <div
+              className={`md-sidebar-aside job-left-aside custom-scrollbar `}
+            >
               <div className="email-sidebar">
                 <div className={`email-left-aside`}></div>
                 <div id="external-events">
                   <H4>{"Draggable Events"}</H4>
                   {this.state.events.map((event) => (
-                    <div className="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event" title={event.title} data={event.id} icon={event.icon} key={event.id}>
+                    <div
+                      className="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"
+                      title={event.title}
+                      data={event.id}
+                      icon={event.icon}
+                      key={event.id}
+                    >
                       <div className="fc-event-main">
                         <i className={`fa fa-${event.icon} me-2`}></i>
                         {event.title}
@@ -125,7 +133,11 @@ class DragCalendar extends Component {
                     </div>
                   ))}
                   <p>
-                    <input className="checkbox_animated" id="drop-remove" type="checkbox" />
+                    <input
+                      className="checkbox_animated"
+                      id="drop-remove"
+                      type="checkbox"
+                    />
                     <label htmlFor="drop-remove" className="m-0">
                       remove after drop
                     </label>
@@ -148,7 +160,7 @@ class DragCalendar extends Component {
               eventDurationEditable={false}
               editable={true}
               droppable={true}
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+              // plugins={[/* dayGridPlugin, */ timeGridPlugin, interactionPlugin]}
               ref={this.state.calendarComponentRef}
               weekends={this.state.calendarWeekends}
               events={this.state.calendarEvents}

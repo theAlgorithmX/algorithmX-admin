@@ -19,8 +19,8 @@
 @import "~react-image-crop/dist/ReactCrop.css";
 @import "react-day-picker/dist/style.css";
 @import "~react-big-calendar/lib/css/react-big-calendar.css";
-@import "~@fullcalendar/daygrid/main.css";
-@import "~@fullcalendar/timegrid/main.css";
+/* @import "~@fullcalendar/daygrid/main.css"; */
+/* @import "~@fullcalendar/timegrid/main.css"; */
 @import "~react-vertical-timeline-component/style.min.css";
 @import "~easymde/dist/easymde.min.css";
 /* @import '~emoji-mart/css/emoji-mart.css'; */
@@ -16365,16 +16365,16 @@ body.modal-open .select2-container--open .select2-dropdown {
 .calendar-basic #external-events .fc-h-event .fc-event-main {
   font-size: 13px;
 }
-.calendar-basic .calendar-default .fc-daygrid-dot-event .fc-event-title {
+/* .calendar-basic .calendar-default .fc-daygrid-dot-event .fc-event-title {
   text-overflow: ellipsis;
-}
+} */
 .calendar-basic .calendar-default .fc td[role="presentation"] {
   border: 0;
 }
-.calendar-basic .calendar-default .fc .fc-daygrid-day-number,
+/* .calendar-basic .calendar-default .fc .fc-daygrid-day-number,
 .calendar-basic .calendar-default .fc .fc-col-header-cell-cushion {
   color: #2f2f3b;
-}
+} */
 .calendar-basic .calendar-default .fc .fc-button .fc-icon {
   height: 23px;
 }
@@ -43721,10 +43721,10 @@ body.dark-only .calendar-basic .md-sidebar-aside {
 body.dark-only .calendar-basic #external-events {
   border-color: #374558;
 }
-body.dark-only .calendar-basic .calendar-default .fc .fc-daygrid-day-number,
+/* body.dark-only .calendar-basic .calendar-default .fc .fc-daygrid-day-number,
 body.dark-only .calendar-basic .calendar-default .fc .fc-col-header-cell-cushion {
   color: rgba(255, 255, 255, 0.6);
-}
+} */
 body.dark-only .clockpicker-popover .popover-title {
   background-color: #262932;
 }
@@ -44322,19 +44322,19 @@ body.dark-only .lnb-calendars > div {
 body.dark-only #menu .sidebar-list .btn-default {
   color: rgba(255, 255, 255, 0.2);
 }
-body.dark-only .tui-full-calendar-timegrid-hour {
+/* body.dark-only .tui-full-calendar-timegrid-hour {
   background-color: #262932;
   color: #fff !important;
 }
 body.dark-only .tui-full-calendar-timegrid-gridline {
   border-bottom: 1px solid #374558 !important;
-}
+} */
 body.dark-only .tui-full-calendar-time-date,
 body.dark-only .tui-full-calendar-weekday-grid-line,
 body.dark-only .tui-full-calendar-left,
-body.dark-only .tui-full-calendar-timegrid-timezone {
+/* body.dark-only .tui-full-calendar-timegrid-timezone {
   border-right-color: #374558 !important;
-}
+} */
 body.dark-only .tui-full-calendar-popup {
   color: #2f2f3b;
 }

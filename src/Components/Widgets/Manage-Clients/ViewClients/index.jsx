@@ -1,7 +1,13 @@
-import React from "react";
-
+import { React, Fragment } from "react";
+import ClientsTable from "./viewclient";
 const ViewClients = () => {
-  return <div> View</div>;
+  return (
+    <div>
+      <Fragment>
+        <ClientsTable />
+      </Fragment>
+    </div>
+  );
 };
 
 export default ViewClients;
