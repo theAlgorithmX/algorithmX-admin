@@ -1,14 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { H6, Image } from '../../../AbstractElements';
-import fireImage from '../../../assets/images/giftools.gif';
-import Slider from 'react-slick';
-import { notificationSliderOption } from './NotificationSliderOption';
+import React from "react";
+import { Link } from "react-router-dom";
+import { H6, Image } from "../../../AbstractElements";
+import fireImage from "../../../assets/images/giftools.gif";
+import Slider from "react-slick";
+import { notificationSliderOption } from "./NotificationSliderOption";
 
 const NotificationSlider = () => {
   return (
-    <div className='notification-slider overflow-hidden '>
-      <Slider className='m-0' {...notificationSliderOption}>
+    <div className="notification-slider overflow-hidden ">
+      {/* <Slider className='m-0' {...notificationSliderOption}>
         <div className='d-flex h-100'>
           <Image attrImage={{ src: fireImage, alt: 'gif' }} />
           <H6 attrH6={{ className: 'mb-0 f-w-400' }}>
@@ -26,7 +26,7 @@ const NotificationSlider = () => {
             Buy now !
           </Link>
         </div>
-      </Slider>
+      </Slider> */}
     </div>
   );
 };

@@ -2,8 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import axiosHttp from "../../../../utils/httpConfig";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { classes } from "../../../../Data/Layouts";
+
+const defaultLayoutObj = classes.find(
+  (item) => Object.values(item).pop(1) === "compact-wrapper"
+);
+const layout =
+  localStorage.getItem("layout") || Object.keys(defaultLayoutObj).pop();
 
 const AddClientForm = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const clientId = searchParams.get("clientId");
+  const isEditMode = Boolean(clientId);
+
   //const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
@@ -64,14 +78,14 @@ const AddClientForm = () => {
         { title: "", description: "", image: "" },
         { title: "", description: "", image: "" },
       ],
-      metrices: [
-        { rating: "", description: "" },
-        { rating: "", description: "" },
-        { rating: "", description: "" },
-        { rating: "", description: "" },
-        { rating: "", description: "" },
-        { rating: "", description: "" },
-      ],
+      metrices: {
+        avgRatings: "",
+        conversionRate: "",
+        totalOrders: "",
+        repeatPurchases: "",
+        orderFulfilledPerDay: "",
+        sessionRevenueUplift: "",
+      },
     },
   });
 
@@ -90,6 +104,7 @@ const AddClientForm = () => {
     fields: techStackFields,
     append: appendTechStackField,
     remove: removeTechStackField,
+    replace: replaceTechStack,
   } = useFieldArray({
     control,
     name: "techstackImages",
@@ -146,6 +161,136 @@ const AddClientForm = () => {
       }));
     }
   };
+
+  // Fetch client data if in edit mode
+  useEffect(() => {
+    const fetchClientData = async () => {
+      if (isEditMode && clientId) {
+        try {
+          const response = await axiosHttp.get(`/clients/${clientId}`);
+          if (response?.status === 200) {
+            const clientData = response.data.data;
+
+            // Set form values
+            setValue(
+              "projectType",
+              clientData.productType === "web" ? "Web" : "App"
+            );
+            setValue("brandName", clientData.brandName || "");
+            setValue("brandVideoURL", clientData.brandVideoURL || "");
+            setValue("brandRGB", clientData.brandRGB || "#000000");
+            setValue("brandVideoTitle", clientData.brandVideoTitle || "");
+            setValue("brandIndustry", clientData.brandIndustry || "");
+            setValue("brandServices", clientData.brandServices || "");
+            setValue("brandType", clientData.brandType || "");
+            setValue("brandAboutDesc", clientData.brandAboutDesc || "");
+            setValue("solutionTitle", clientData.solutionTitle || "");
+            setValue("solutionDesc", clientData.solutionDesc || "");
+            setValue("clientName", clientData.clientName || "");
+            setValue("clientDesignation", clientData.clientDesignation || "");
+            setValue("clientTestimonial", clientData.clientTestimonial || "");
+            setValue("resultTitle", clientData.resultTitle || "");
+            setValue("techStackTitle", clientData.techStackTitle || "");
+            setValue("optimizationTitle", clientData.optimizationTitle || "");
+            setValue("optimizationDesc", clientData.optimizationDesc || "");
+
+            // Handle metrics data
+            if (clientData.metrices) {
+              setValue(
+                "metrices.avgRatings",
+                clientData.metrices.avgRatings || ""
+              );
+              setValue(
+                "metrices.conversionRate",
+                clientData.metrices.conversionRate || ""
+              );
+              setValue(
+                "metrices.totalOrders",
+                clientData.metrices.totalOrders || ""
+              );
+              setValue(
+                "metrices.repeatPurchases",
+                clientData.metrices.repeatPurchases || ""
+              );
+              setValue(
+                "metrices.orderFulfilledPerDay",
+                clientData.metrices.orderFulfilledPerDay || ""
+              );
+              setValue(
+                "metrices.sessionRevenueUplift",
+                clientData.metrices.sessionRevenueUplift || ""
+              );
+            }
+
+            // Handle arrays and complex objects
+            if (clientData.aboutImgURLs) {
+              replaceAboutImg(clientData.aboutImgURLs);
+            }
+            if (clientData.wireFrameURLs) {
+              replaceWireFrame(clientData.wireFrameURLs);
+            }
+            if (clientData.prototypeURLs) {
+              replacePrototype(clientData.prototypeURLs);
+            }
+            if (clientData.techStackURLs) {
+              replaceTechStack(clientData.techStackURLs);
+            }
+
+            // Handle result pointers
+            if (clientData.resultPointers) {
+              const parsedPointers = JSON.parse(clientData.resultPointers);
+              setValue("resultPointers", parsedPointers);
+            }
+
+            // Handle business process
+            if (clientData.businessProcess) {
+              const parsedProcess = JSON.parse(clientData.businessProcess);
+              setValue("businessProcess", parsedProcess);
+            }
+
+            // Handle project goals
+            if (clientData.projectGoals) {
+              const parsedGoals = JSON.parse(clientData.projectGoals);
+              setValue("projectGoals", parsedGoals);
+            }
+
+            // Handle optimization pointers
+            if (clientData.optimizationPointers) {
+              const parsedOptimization = JSON.parse(
+                clientData.optimizationPointers
+              );
+              setValue("optimizationPointers", parsedOptimization);
+            }
+
+            // Store existing files in fileStorage
+            const existingFiles = {
+              brandVideo: clientData.brandVideoURL,
+              brandImage: clientData.brandImageURL,
+              brandLogo: clientData.brandLogoURL,
+              solutionImage: clientData.solutionImgURL,
+              clientImage: clientData.clientImgURL,
+              projectGoalImg: clientData.projectGoalImgURL,
+            };
+
+            setFileStorage(existingFiles);
+          }
+        } catch (error) {
+          console.error("Error fetching client data:", error);
+          toast.error("Failed to fetch client data");
+        }
+      }
+    };
+
+    fetchClientData();
+  }, [
+    clientId,
+    isEditMode,
+    setValue,
+    replaceAboutImg,
+    replaceWireFrame,
+    replacePrototype,
+    replaceTechStack,
+  ]);
 
   const onSubmit = async (data) => {
     try {
@@ -245,13 +390,8 @@ const AddClientForm = () => {
       }));
       formData.append("projectGoals", JSON.stringify(projectGoalsData));
 
-      // Static metrics as per your example
-      formData.append("avgRatings", "4.9");
-      formData.append("conversionRate", "22%");
-      formData.append("totalOrders", "50%");
-      formData.append("repeatPurchases", "60%");
-      formData.append("orderFulfilledPerDay", "30,000+");
-      formData.append("sessionRevenueUplift", "100%");
+      // Replace the static metrics with dynamic form data
+      formData.append("metrices", JSON.stringify(data.metrices));
 
       // Result pointers
       const resultPointersData = data.resultPointers.map((pointer, index) => ({
@@ -268,12 +408,12 @@ const AddClientForm = () => {
         }
       });
 
-      // Optimization pointers - only id and title as per your example
+      // Optimization pointers - include description field
       const optimizationPointersData = data.optimizationPointers.map(
         (pointer, index) => ({
           id: index + 1,
           title: pointer.title,
-          // Removed description as it's not in the expected format
+          description: pointer.description, // Add description field
         })
       );
       formData.append(
@@ -285,7 +425,7 @@ const AddClientForm = () => {
       data.optimizationPointers.forEach((pointer, index) => {
         const file = fileStorage[`optimizationPointers.${index}.image`];
         if (file) {
-          formData.append(`optimizationImages`, file); // Changed from optimizationPointerImages to optimizationImages
+          formData.append(`optimizationImages`, file);
         }
       });
 
@@ -295,26 +435,27 @@ const AddClientForm = () => {
       }
 
       // Submit the form data to API
-      await submitPortfolio(formData);
+      if (isEditMode) {
+        await axiosHttp.put(`/clients/${clientId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        toast.success("Client updated successfully!");
+      } else {
+        await axiosHttp.post("/clients/", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        toast.success("Client added successfully!");
+      }
+
+      // Navigate back to clients list
+      window.location.href = `${process.env.PUBLIC_URL}/widgets/viewclients/${layout}`;
     } catch (error) {
       console.error("Form submission error:", error);
-      alert("Error submitting portfolio. Please try again.");
-    }
-  };
-
-  const submitPortfolio = async (formData) => {
-    try {
-      const response = await axiosHttp.post("/clients/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      console.log("Success:", response.data);
-      alert("Portfolio submitted successfully!");
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Error submitting portfolio. Please try again.");
+      toast.error("Error submitting form. Please try again.");
     }
   };
 
@@ -818,28 +959,57 @@ const AddClientForm = () => {
         {/* Metrices Section */}
         <section className="bg-gray-50 p-6 rounded-lg">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Project Metrics (6 Metrics)
+            Project Metrics
           </h2>
           <div className="space-y-4">
-            {[0, 1, 2, 3, 4, 5].map((index) => (
-              <div
-                key={index}
-                className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md"
-              >
-                <InputField
-                  label={`Metric ${index + 1} Rating`}
-                  name={`metrices.${index}.rating`}
-                  required
-                  placeholder="e.g., 5 stars, 95%, A+"
-                />
-                <InputField
-                  label={`Metric ${index + 1} Description`}
-                  name={`metrices.${index}.description`}
-                  required
-                  placeholder="Brief description of this metric"
-                />
-              </div>
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
+              <InputField
+                label="Average Ratings"
+                name="metrices.avgRatings"
+                required
+                placeholder="e.g., 4.9"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
+              <InputField
+                label="Conversion Rate"
+                name="metrices.conversionRate"
+                required
+                placeholder="e.g., 22%"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
+              <InputField
+                label="Total Orders"
+                name="metrices.totalOrders"
+                required
+                placeholder="e.g., 50%"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
+              <InputField
+                label="Repeat Purchases"
+                name="metrices.repeatPurchases"
+                required
+                placeholder="e.g., 60%"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
+              <InputField
+                label="Orders Fulfilled Per Day"
+                name="metrices.orderFulfilledPerDay"
+                required
+                placeholder="e.g., 30,000+"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
+              <InputField
+                label="Session Revenue Uplift"
+                name="metrices.sessionRevenueUplift"
+                required
+                placeholder="e.g., 100%"
+              />
+            </div>
           </div>
         </section>
         {/* Submit Button */}

@@ -145,14 +145,22 @@ export default function BlogForm({ onSubmit, blogId }) {
   const getBlogById = async () => {
     try {
       const response = await axiosHttp.get(`/blog/${blogId}`);
+      console.log("API Response:", response.data);
+
       if (response?.status === 200) {
         // Set edit mode to true
         setIsEditMode(true);
 
         // Get blog data from response
         const blogData = response.data.data;
+        console.log("Blog Data:", blogData);
+        console.log("Blog Content:", blogData.content);
 
-        // TO:
+        // Set initial editor content first
+        setInitialEditorContent(blogData.content || "");
+        console.log("Initial Editor Content Set:", blogData.content);
+
+        // Then reset the form
         reset({
           title: blogData.title || "",
           category: blogData.category?.id || "",
@@ -169,12 +177,18 @@ export default function BlogForm({ onSubmit, blogId }) {
           imageAltText: blogData.image_alt || "",
           editorContent: blogData.content || "",
         });
-        console.log(blogData, "blogData");
+        console.log("Form Reset with Content:", blogData.content);
       }
     } catch (err) {
+      console.error("Error fetching blog:", err);
       toast.warning(err?.response?.data?.message || "Failed to load blog");
     }
   };
+
+  // Add useEffect to monitor initialEditorContent changes
+  useEffect(() => {
+    console.log("initialEditorContent changed:", initialEditorContent);
+  }, [initialEditorContent]);
 
   useEffect(() => {
     if (blogId) {
@@ -426,8 +440,13 @@ export default function BlogForm({ onSubmit, blogId }) {
       {/* Post Description */}
       <WordEditor
         ref={editorRef}
-        updateContent={updateEditorContent}
-        initialContent={watch("editorContent")}
+        updateContent={(content) => {
+          console.log("Editor content updated:", content);
+          updateEditorContent(content);
+        }}
+        initialContent={
+          isEditMode ? initialEditorContent : watch("editorContent")
+        }
       />
 
       <div className="text-center mt-6">

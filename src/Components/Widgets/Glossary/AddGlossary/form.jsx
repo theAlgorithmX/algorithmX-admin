@@ -34,7 +34,7 @@ export default function BlogForm({ onSubmit, blogId }) {
       shouldTouch: true,
     });
   };
-  // In the getBlogById function, update these lines:
+
   const getBlogById = async () => {
     try {
       const response = await axiosHttp.get(`/glossary/glossaries/${blogId}`);
@@ -44,17 +44,22 @@ export default function BlogForm({ onSubmit, blogId }) {
 
         // Get blog data from response
         const glossaryData = response.data.data;
+        console.log("API Response:", response.data);
+        console.log("Glossary Data:", glossaryData);
 
-        // TO:
+        // Set initial editor content first
+        setInitialEditorContent(glossaryData.content || "");
+
+        // Then reset form with all data
         reset({
           keyword: glossaryData.keyword || "",
           summary: glossaryData.summary || "",
           content: glossaryData.content || "",
         });
-        console.log(glossaryData, "glossaryData");
       }
     } catch (err) {
-      toast.warning(err?.response?.data?.message || "Failed to load blog");
+      console.error("Error fetching glossary:", err);
+      toast.warning(err?.response?.data?.message || "Failed to load glossary");
     }
   };
 
@@ -75,6 +80,11 @@ export default function BlogForm({ onSubmit, blogId }) {
     }
   }, [blogId]);
 
+  // Add effect to monitor initialEditorContent changes
+  useEffect(() => {
+    console.log("Initial editor content changed:", initialEditorContent);
+  }, [initialEditorContent]);
+
   const handleFormKeyDown = (e) => {
     if (
       e.key === "Enter" &&
@@ -84,7 +94,7 @@ export default function BlogForm({ onSubmit, blogId }) {
       e.preventDefault();
     }
   };
-  // Add this function in BlogForm.jsx before the return statement:
+
   const getEditorContent = () => {
     if (editorRef.current && editorRef.current.getContent) {
       const editorContent = editorRef.current.getContent();
@@ -93,6 +103,7 @@ export default function BlogForm({ onSubmit, blogId }) {
     }
     return watch("content");
   };
+
   return (
     <form
       onSubmit={handleSubmit((data) => {
@@ -155,7 +166,7 @@ export default function BlogForm({ onSubmit, blogId }) {
       <WordEditor
         ref={editorRef}
         updateContent={updateEditorContent}
-        initialContent={watch("content")}
+        initialContent={isEditMode ? initialEditorContent : watch("content")}
         onBlur={() => {
           if (editorRef.current && editorRef.current.getContent) {
             const content = editorRef.current.getContent();

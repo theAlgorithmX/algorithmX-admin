@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Eye, Edit, Trash2 } from "lucide-react";
 import axiosHttp from "../../../../utils/httpConfig";
+import { useNavigate } from "react-router-dom";
+import { classes } from "../../../../Data/Layouts";
+
+const defaultLayoutObj = classes.find(
+  (item) => Object.values(item).pop(1) === "compact-wrapper"
+);
+const layout =
+  localStorage.getItem("layout") || Object.keys(defaultLayoutObj).pop();
 
 const ClientsTable = () => {
   const [clients, setClients] = useState([]);
@@ -8,6 +16,7 @@ const ClientsTable = () => {
   const [error, setError] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Replace with your actual axiosHttp import
   // import axiosHttp from 'your-axios-config-file';
@@ -38,18 +47,16 @@ const ClientsTable = () => {
   };
 
   const handleEdit = (clientId) => {
-    console.log("Edit client:", clientId);
-    // Implement edit logic - maybe open edit form or navigate to edit page
-    alert(`Editing client with ID: ${clientId}`);
+    navigate(
+      `${process.env.PUBLIC_URL}/widgets/addclients/${layout}?clientId=${clientId}`
+    );
   };
 
   const handleDelete = async (clientId) => {
     if (window.confirm("Are you sure you want to delete this client?")) {
       try {
-        // Replace with your actual axiosHttp.delete call
-        // await axiosHttp.delete(`/clients/${clientId}`);
-        // Remove from local state
-        setClients(clients.filter((client) => client.id !== clientId));
+        await axiosHttp.patch(`/clients/${clientId}`);
+
         alert("Client deleted successfully");
       } catch (err) {
         console.error("Error deleting client:", err);

@@ -7,7 +7,8 @@ import CustomizerContext from "../../../_helper/Customizer";
 import NotificationSlider from "./NotificationSlider";
 
 const Leftbar = () => {
-  const { layoutURL, setToggleIcon, toggleSidebar } = useContext(CustomizerContext);
+  const { layoutURL, setToggleIcon, toggleSidebar } =
+    useContext(CustomizerContext);
   const [sidebartoggle] = useState(true);
   const width = useWindowSize();
 
@@ -37,10 +38,12 @@ const Leftbar = () => {
     } else {
       if (toggle) {
         toggleSidebar(!toggle);
-        document.querySelector(".sidebar-wrapper").className = "sidebar-wrapper close_icon ";
+        document.querySelector(".sidebar-wrapper").className =
+          "sidebar-wrapper close_icon ";
       } else {
         toggleSidebar(!toggle);
-        document.querySelector(".sidebar-wrapper").className = "sidebar-wrapper ";
+        document.querySelector(".sidebar-wrapper").className =
+          "sidebar-wrapper ";
       }
     }
   };
@@ -66,8 +69,19 @@ const Leftbar = () => {
             />
           </Link>
         </div>
-        <div className="toggle-sidebar" onClick={() => responsive_openCloseSidebar(sidebartoggle)} style={window.innerWidth <= 991 ? { display: "block" } : { display: "none" }}>
-          <AlignCenter className="status_toggle middle sidebar-toggle" id="sidebar-toggle" />
+        <div
+          className="toggle-sidebar"
+          onClick={() => responsive_openCloseSidebar(sidebartoggle)}
+          style={
+            window.innerWidth <= 991
+              ? { display: "block" }
+              : { display: "none" }
+          }
+        >
+          <AlignCenter
+            className="status_toggle middle sidebar-toggle"
+            id="sidebar-toggle"
+          />
         </div>
       </Col>
       <Col xxl="5" xl="6" lg="5" md="4" sm="3" className="left-header p-0">
