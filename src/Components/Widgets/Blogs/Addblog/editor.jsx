@@ -23,7 +23,7 @@ const WordEditor = forwardRef(({ updateContent, initialContent = "" }, ref) => {
       <div className="rounded-lg shadow-lg p-4 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-800">
-            Post Description Editor
+            Post Description Editors
           </h2>
         </div>
         <Editor
