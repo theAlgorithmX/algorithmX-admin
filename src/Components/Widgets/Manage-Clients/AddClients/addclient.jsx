@@ -391,7 +391,31 @@ const AddClientForm = () => {
       formData.append("projectGoals", JSON.stringify(projectGoalsData));
 
       // Replace the static metrics with dynamic form data
-      formData.append("metrices", JSON.stringify(data.metrices));
+      console.log("Original metrics data from form:", data.metrices);
+
+      // Send each metric field separately
+      formData.append("avgRatings", data.metrices.avgRatings || "");
+      formData.append("conversionRate", data.metrices.conversionRate || "");
+      formData.append("totalOrders", data.metrices.totalOrders || "");
+      formData.append("repeatPurchases", data.metrices.repeatPurchases || "");
+      formData.append(
+        "orderFulfilledPerDay",
+        data.metrices.orderFulfilledPerDay || ""
+      );
+      formData.append(
+        "sessionRevenueUplift",
+        data.metrices.sessionRevenueUplift || ""
+      );
+
+      // Log metrics data being sent
+      console.log("Metrics data being sent:", {
+        avgRatings: formData.get("avgRatings"),
+        conversionRate: formData.get("conversionRate"),
+        totalOrders: formData.get("totalOrders"),
+        repeatPurchases: formData.get("repeatPurchases"),
+        orderFulfilledPerDay: formData.get("orderFulfilledPerDay"),
+        sessionRevenueUplift: formData.get("sessionRevenueUplift"),
+      });
 
       // Result pointers
       const resultPointersData = data.resultPointers.map((pointer, index) => ({
@@ -436,6 +460,10 @@ const AddClientForm = () => {
 
       // Submit the form data to API
       if (isEditMode) {
+        console.log(
+          "Complete FormData being sent:",
+          Object.fromEntries(formData)
+        );
         await axiosHttp.put(`/clients/${clientId}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -443,6 +471,10 @@ const AddClientForm = () => {
         });
         toast.success("Client updated successfully!");
       } else {
+        console.log(
+          "Complete FormData being sent:",
+          Object.fromEntries(formData)
+        );
         await axiosHttp.post("/clients/", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -450,9 +482,6 @@ const AddClientForm = () => {
         });
         toast.success("Client added successfully!");
       }
-
-      // Navigate back to clients list
-      window.location.href = `${process.env.PUBLIC_URL}/widgets/viewclients/${layout}`;
     } catch (error) {
       console.error("Form submission error:", error);
       toast.error("Error submitting form. Please try again.");

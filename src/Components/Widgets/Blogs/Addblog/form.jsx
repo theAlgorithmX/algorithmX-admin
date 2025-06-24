@@ -288,12 +288,24 @@ export default function BlogForm({ onSubmit, blogId }) {
         </label>
         <select
           {...register("status", { required: "Status is required" })}
-          className="w-full p-2 border rounded border-gray-300"
+          className={`w-full p-2 border rounded 
+            ${
+              isEditMode && watch("status") === "published"
+                ? "bg-gray-100 text-gray-500 border-gray-300 cursor-not-allowed"
+                : "bg-white text-black border-gray-300"
+            }
+          `}
+          disabled={isEditMode && watch("status") === "published"}
         >
           <option value="draft">Draft</option>
           <option value="published">Published</option>
           <option value="archived">Archived</option>
         </select>
+        {isEditMode && watch("status") === "published" && (
+          <p className="text-sm text-gray-500 mt-1">
+            Status cannot be changed once published
+          </p>
+        )}
       </div>
 
       {/* Featured */}
