@@ -145,10 +145,11 @@ export const BrowserUses = "Browser Uses";
 export const Finance = "Finance";
 export const PaperNoteTitle = "PaperNote";
 export const ViewProject = "View project";
-export const BlogMessage = "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.";
+export const BlogMessage =
+  "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.";
 
 // Default Dashboard //
-export const WelcomeToCuba = "Welcome to cuba";
+export const WelcomeToCuba = "Welcome to AlgorithmX";
 export const WelcomeMessage = "Here whats happing in your account today";
 export const WhatsNew = "Whats New !";
 export const OverallBalanceTitle = "Overall Balance";
@@ -182,7 +183,8 @@ export const MonthlyProfitsGrowth = "Total profit growth of 30%";
 export const OrderOverviewTitle = "Order Overview";
 export const Refunds = "Refunds";
 export const DiscoverPro = "Discover Pro";
-export const DiscoverPera = "Amet minim mollit non deserunt ullamco est sit aliqua dolor ";
+export const DiscoverPera =
+  "Amet minim mollit non deserunt ullamco est sit aliqua dolor ";
 export const UpdateNow = "Update Now";
 export const Visitors = " Visitors";
 export const LearningOverviewTitle = "Learning Overview";
@@ -191,7 +193,8 @@ export const UpcomingEventsTitle = "Upcoming Events";
 
 // Online Course //
 export const HelloJashmin = " Hello Jashmin";
-export const welcomeMessage = "Learn something new every day with world's best courses.Free online courses available.";
+export const welcomeMessage =
+  "Learn something new every day with world's best courses.Free online courses available.";
 export const TopCategoriesTitle = "Top Categories";
 export const TodayProgressTitle = "Today Progress";
 export const TodayProgressMessage = "Your Daily Goal Almost Done!";
@@ -275,7 +278,8 @@ export const ShowingProducts = "Showing Products 1 - 24 Of 200 Results";
 export const Featured = "Featured";
 export const LowestPrices = "Lowest Prices";
 export const HighestPrices = "Highest Prices";
-export const NotFoundData = "Sorry, We didn't find any results matching this search";
+export const NotFoundData =
+  "Sorry, We didn't find any results matching this search";
 export const ProductDetails = "Product Details";
 export const AddToCart = "Add to Cart";
 export const BuyNow = "Buy Now";
@@ -285,12 +289,14 @@ export const OutOfStock = "Out Of Stock";
 export const ProductSizeArray = ["M", "L", "Xl"];
 export const Fusion = "Fusion white & blue printed regular fit asymmetric";
 export const ProductReview = "(250 review)";
-export const ProductPageDetails = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters";
+export const ProductPageDetails =
+  "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters";
 export const Febric = "Febric";
 export const Brand = "Brand";
 export const Availability = "Availability";
 export const ProductListTitle = "Individual column searching (text inputs)";
-export const ProductListDesc = "The searching functionality provided by DataTables is useful for quickly search through the information in the table - however the search is global, and you may wish to present controls that search on specific columns.";
+export const ProductListDesc =
+  "The searching functionality provided by DataTables is useful for quickly search through the information in the table - however the search is global, and you may wish to present controls that search on specific columns.";
 export const CreditCard = "Credit card";
 export const DebitCard = "Debit card";
 export const ExpirationDate = "Expiration Date";
@@ -299,10 +305,23 @@ export const EMI = "EMI";
 export const NetBanking = "Net Banking";
 export const Submit = "Submit";
 export const SelectMonth = ["Select Month", "Jan", "Fab", "March", "April"];
-export const SelectYear = ["Select Year", "2015", "2016", "2017", "2018", "2021"];
+export const SelectYear = [
+  "Select Year",
+  "2015",
+  "2016",
+  "2017",
+  "2018",
+  "2021",
+];
 export const BankName = ["Bank Name", "SBI", "ICICI", "KOTAK", "BOB"];
 export const SelectCard = ["Select Card", "2", "3", "4", "5"];
-export const SelectDuration = ["Select Duration", "2015-2016", "2016-2017", "2017-2018", "2018-2021"];
+export const SelectDuration = [
+  "Select Duration",
+  "2015-2016",
+  "2016-2017",
+  "2017-2018",
+  "2018-2021",
+];
 export const ShippedOrders = "Shipped Orders";
 export const CancelledOrders = "Cancelled Orders";
 export const SimplePricingCard = "Simple Pricing Card";
@@ -322,7 +341,14 @@ export const Subscribe = "Subscribe";
 export const LorumIpsum = "Lorum Ipsum";
 export const Purchase = "Purchase";
 export const CartTitle = "Cart";
-export const CartTableHeader = ["Prdouct", "Prdouct Name", "Price", "Quantity", "Action", "Total"];
+export const CartTableHeader = [
+  "Prdouct",
+  "Prdouct Name",
+  "Price",
+  "Quantity",
+  "Action",
+  "Total",
+];
 export const NewOrders = "New Orders";
 export const TotalPrice = "Total Price";
 export const CheckOut = "check out";
@@ -330,7 +356,13 @@ export const CartEmpty = "Your Cart is Empty";
 export const ExploreShortlistItems = "Explore more shortlist some items.";
 export const WishlistTitle = "Wishlist";
 export const MoveToCarts = "Move to Cart";
-export const WishlistTableHeader = ["Prdouct", "Prdouct Name", "Price", "Availability", "Action"];
+export const WishlistTableHeader = [
+  "Prdouct",
+  "Prdouct Name",
+  "Price",
+  "Availability",
+  "Action",
+];
 
 // check out
 export const BillingDetails = "Billing Details";
@@ -340,7 +372,12 @@ export const Phone = "Phone";
 export const EmailAddress = "Email Address";
 export const Country = "Country";
 
-export const CountryMenu = ["India", "South Africa", "United State", "Australia"];
+export const CountryMenu = [
+  "India",
+  "South Africa",
+  "United State",
+  "Australia",
+];
 
 export const Address = "Address";
 export const TownCity = "Town/City";
@@ -377,11 +414,13 @@ export const PaymentDue = "Payment Due: Feb";
 export const JohanDeo = "Johan Deo";
 export const JohanDeoMailId = "JohanDeo@gmail.com";
 export const ProjectDescription = "Project Description";
-export const ProjectDescriptionDetails = "You're Only As Good As Your Last Collection, Which Is An Enormous Pressure. Jeans Represent Democracy In Fashion.Fashion Is About Dressing According To What's Fashionable.";
+export const ProjectDescriptionDetails =
+  "You're Only As Good As Your Last Collection, Which Is An Enormous Pressure. Jeans Represent Democracy In Fashion.Fashion Is About Dressing According To What's Fashionable.";
 export const ProductName = "Product Name";
 export const Sub_total = "Sub-total";
 export const ThankBusiness = "Thank you for your business!";
-export const ThankBusinessDesc = "Payment is expected within 31 days; please process this invoice within that time. There will be a 5% interest charge per month on late invoices.";
+export const ThankBusinessDesc =
+  "Payment is expected within 31 days; please process this invoice within that time. There will be a 5% interest charge per month on late invoices.";
 export const Print = "Print";
 
 // Users
@@ -393,7 +432,8 @@ export const Designer = "designer";
 export const ContactUsNumber = "India +91 123-456-7890";
 export const LocationDetails = "B69 Near Schoool Demo Home";
 export const JOHANDIO = "JOHAN DIO";
-export const UserProfileDesc1 = "you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.";
+export const UserProfileDesc1 =
+  "you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.";
 export const UserProfileDesc4 =
   "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source .Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source";
 export const UserProfileDesc2 =
@@ -411,7 +451,13 @@ export const Save = "Save";
 export const EditProfile = "Edit Profile";
 export const Company = "Company";
 export const Username = "Username";
-export const UsersCountryMenu = ["--Select--", "Germany", "Canada", "Usa", "Aus"];
+export const UsersCountryMenu = [
+  "--Select--",
+  "Germany",
+  "Canada",
+  "Usa",
+  "Aus",
+];
 export const AboutMe = "About Me";
 export const UpdateProfile = "Update Profile";
 export const UsersTableTitle = "Add projects And Upload";
@@ -849,7 +895,8 @@ export const PillRating = "Pill Rating";
 
 export const SingleFileUpload = "Single File Upload";
 export const MultiImageUpload = "Multi only Image Upload";
-export const MultipleImageVideoAudioUpload = "Multiple Image Video Audio Upload";
+export const MultipleImageVideoAudioUpload =
+  "Multiple Image Video Audio Upload";
 export const LimitationFileUpload = "Limitation File Upload";
 export const CustomFileUpload = "Custom File Upload";
 
@@ -1085,7 +1132,8 @@ export const LineChartWithArea = "Line chart with area";
 export const BipolarBarChart = "Bi-polar bar chart";
 export const StackedBarChart = "Stacked bar chart";
 export const HorizontalBarChart = "Horizontal bar chart";
-export const ExtremeResponsiveConfiguration = "Extreme responsive configuration";
+export const ExtremeResponsiveConfiguration =
+  "Extreme responsive configuration";
 export const SimpleLineChart = "Simple line chart";
 export const HolesInData = "Holes in data";
 export const FilledHolesInData = "Filled holes in data";
@@ -1224,7 +1272,8 @@ export const YY = "YY";
 //  tables
 export const BasicTable = "Basic Table";
 export const InverseTable = "Inverse Table";
-export const InverseTablePrimaryBackground = "Inverse Table with Primary background";
+export const InverseTablePrimaryBackground =
+  "Inverse Table with Primary background";
 export const HoverableRows = "Hoverable rows";
 export const TextBackgroundUtilities = "Text or background utilities";
 export const TableHeadOptions = "Table head options";
@@ -1251,9 +1300,11 @@ export const DashedBorder = "Dashed Border";
 export const BorderBottomColor = "Border Bottom Color";
 export const DefultStyling = "Defult Styling";
 export const TableFooterStyling = "Table Footer Styling";
-export const TableHeadOptionsPrimaryBackground = "Table head options With Primary Background";
+export const TableHeadOptionsPrimaryBackground =
+  "Table head options With Primary Background";
 export const CustomTableColor = "Custom Table Color";
-export const CustomTableColorHoverStripped = "Custom Table Color with Hover and Stripped";
+export const CustomTableColorHoverStripped =
+  "Custom Table Color with Hover and Stripped";
 export const Useclass = "Use a class";
 export const insidetable = " inside table element.";
 export const tableinverse = "table-inverse";
@@ -1266,21 +1317,27 @@ export const Security = "Security";
 export const Stage = "Stage";
 export const Schedule = "Schedule";
 export const TeamLead = "TeamLead";
-export const inverstablecode = ".bg-info, .bg-success, .bg-warning and .bg-danger classes.";
-export const inverstabletext = " with light text on dark backgrounds inside table element.";
-export const inverstabletext2 = "To set the light background color use .bg-[color] class where [color] is the value of your selected color from stack color palette. So for teal color background class will be .bg-teal";
+export const inverstablecode =
+  ".bg-info, .bg-success, .bg-warning and .bg-danger classes.";
+export const inverstabletext =
+  " with light text on dark backgrounds inside table element.";
+export const inverstabletext2 =
+  "To set the light background color use .bg-[color] class where [color] is the value of your selected color from stack color palette. So for teal color background class will be .bg-teal";
 export const CreditVolume = "Credit Volume";
 export const Role = "Role";
 export const ColorType = "Color Type";
-export const TableHeadspan = "Similar to tables and dark tables, use the modifier classes";
+export const TableHeadspan =
+  "Similar to tables and dark tables, use the modifier classes";
 export const theadlight = ".thead-light";
 export const tomake = "to make";
 export const thead = "thead ";
 export const theadtext = "appear light or dark gray.";
 export const Use = "Use";
 export const tablestriped = ".table-striped";
-export const tablestripedspan = "to add zebra-striping to any table row within the";
-export const tablestripedspan1 = "This styling doesn't work in IE8 and below as :nth-child CSS selector isn't supported.";
+export const tablestripedspan =
+  "to add zebra-striping to any table row within the";
+export const tablestripedspan1 =
+  "This styling doesn't work in IE8 and below as :nth-child CSS selector isn't supported.";
 export const Game = "Game";
 export const Point = "Point";
 export const Dessert = "Dessert";
@@ -1305,18 +1362,25 @@ export const Trainer = "Trainer";
 export const Spots = "Spots";
 export const ListGrouphead = "List group item heading";
 export const Daysago = "3 days ago";
-export const CustomcontentText = "Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.";
+export const CustomcontentText =
+  "Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.";
 export const CustomcontentText2 = "Donec id elit non mi porta.";
 export const clickAndDrag = "Click And Drag";
 export const smallSizescroll = "Small Size Scroll";
 export const bothSidescroll = "Both Side Scroll";
 export const horizontalscroll = "Horizontal Scroll";
-export const Modalcontent = "Warmth comfort hangs loosely from the body large pocket at the front full button detail cotton blend cute functional. Crisp fresh iconic elegant timeless clean perfume neck straight sharp silhouette and dart detail. Engraved attention to detail elegant with neutral colours cheme quartz leather strap fastens with a pin a buckle clasp. Button concelead zip front fastening strech micro modal straight-leg drawstring waste.";
-export const Pilltabcontent = " Warmth comfort hangs loosely from the body large pocket at the front full button detail cotton blend cute functional. Tropical wrap front essential cut classic sartorial details feminine peplum-style shirt white. Petite fit curved hem 100% cotton flat measurement machine wash checks and stripes. Fluffy soft kind to sensitive skin warm and cosy contrast cuffs ankles and neckline motif all-over floral design.";
-export const scrollpara = "Warmth comfort hangs loosely from the body large pocket at the front full button detail cotton blend cute functional. Tropical wrap front essential cut classic sartorial details feminine peplum-style shirt white. Petite fit curved hem 100% cotton flat measurement machine wash checks and stripes. Fluffy soft kind to sensitive skin warm and cosy contrast cuffs ankles and neckline motif all-over floral design.";
-export const scrollpara1 = "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
-export const scrollpara2 = "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words";
-export const scrollpara3 = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.";
+export const Modalcontent =
+  "Warmth comfort hangs loosely from the body large pocket at the front full button detail cotton blend cute functional. Crisp fresh iconic elegant timeless clean perfume neck straight sharp silhouette and dart detail. Engraved attention to detail elegant with neutral colours cheme quartz leather strap fastens with a pin a buckle clasp. Button concelead zip front fastening strech micro modal straight-leg drawstring waste.";
+export const Pilltabcontent =
+  " Warmth comfort hangs loosely from the body large pocket at the front full button detail cotton blend cute functional. Tropical wrap front essential cut classic sartorial details feminine peplum-style shirt white. Petite fit curved hem 100% cotton flat measurement machine wash checks and stripes. Fluffy soft kind to sensitive skin warm and cosy contrast cuffs ankles and neckline motif all-over floral design.";
+export const scrollpara =
+  "Warmth comfort hangs loosely from the body large pocket at the front full button detail cotton blend cute functional. Tropical wrap front essential cut classic sartorial details feminine peplum-style shirt white. Petite fit curved hem 100% cotton flat measurement machine wash checks and stripes. Fluffy soft kind to sensitive skin warm and cosy contrast cuffs ankles and neckline motif all-over floral design.";
+export const scrollpara1 =
+  "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
+export const scrollpara2 =
+  "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words";
+export const scrollpara3 =
+  "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.";
 
 // pages
 export const RememberPassword = "Remember password";
