@@ -136,6 +136,8 @@ const AddClientForm = () => {
 
   // Store files in state to prevent clearing on re-render
   const [fileStorage, setFileStorage] = React.useState({});
+  // Store client data for edit mode
+  const [clientData, setClientData] = React.useState(null);
 
   // Update field arrays when project type changes
   React.useEffect(() => {
@@ -170,8 +172,8 @@ const AddClientForm = () => {
           const response = await axiosHttp.get(`/clients/${clientId}`);
           if (response?.status === 200) {
             const clientData = response.data.data;
+            setClientData(clientData); // Store client data in state
 
-            // Set form values
             setValue(
               "projectType",
               clientData.productType === "web" ? "Web" : "App"
@@ -194,7 +196,7 @@ const AddClientForm = () => {
             setValue("optimizationTitle", clientData.optimizationTitle || "");
             setValue("optimizationDesc", clientData.optimizationDesc || "");
 
-            // Handle metrics data
+            // Metrics
             if (clientData.metrices) {
               setValue(
                 "metrices.avgRatings",
@@ -222,47 +224,93 @@ const AddClientForm = () => {
               );
             }
 
-            // Handle arrays and complex objects
+            // About Images
             if (clientData.aboutImgURLs) {
               replaceAboutImg(clientData.aboutImgURLs);
             }
+            // Wireframes
             if (clientData.wireFrameURLs) {
               replaceWireFrame(clientData.wireFrameURLs);
             }
+            // Prototypes
             if (clientData.prototypeURLs) {
               replacePrototype(clientData.prototypeURLs);
             }
+            // Tech stack images
             if (clientData.techStackURLs) {
               replaceTechStack(clientData.techStackURLs);
             }
 
-            // Handle result pointers
+            // Result pointers (parse JSON)
             if (clientData.resultPointers) {
-              const parsedPointers = JSON.parse(clientData.resultPointers);
+              let parsedPointers = [];
+              try {
+                parsedPointers = JSON.parse(clientData.resultPointers);
+              } catch (e) {}
               setValue("resultPointers", parsedPointers);
             }
 
-            // Handle business process
+            // Business process (double-parse)
             if (clientData.businessProcess) {
-              const parsedProcess = JSON.parse(clientData.businessProcess);
-              setValue("businessProcess", parsedProcess);
+              let parsedProcess = [];
+              try {
+                parsedProcess = JSON.parse(
+                  typeof clientData.businessProcess === "string"
+                    ? JSON.parse(clientData.businessProcess)
+                    : clientData.businessProcess
+                );
+              } catch (e) {
+                try {
+                  parsedProcess = JSON.parse(clientData.businessProcess);
+                } catch (e2) {
+                  parsedProcess = [];
+                }
+              }
+              // Map desc to description and ensure category exists
+              const mappedProcess = parsedProcess.map((step) => ({
+                title: step.title || "",
+                category: step.category || "", // fallback to empty string if not present
+                description: step.desc || step.description || "",
+              }));
+              setValue("businessProcess", mappedProcess);
             }
 
-            // Handle project goals
+            // Project goals (double-parse)
             if (clientData.projectGoals) {
-              const parsedGoals = JSON.parse(clientData.projectGoals);
-              setValue("projectGoals", parsedGoals);
+              let parsedGoals = [];
+              try {
+                parsedGoals = JSON.parse(
+                  typeof clientData.projectGoals === "string"
+                    ? JSON.parse(clientData.projectGoals)
+                    : clientData.projectGoals
+                );
+              } catch (e) {
+                try {
+                  parsedGoals = JSON.parse(clientData.projectGoals);
+                } catch (e2) {
+                  parsedGoals = [];
+                }
+              }
+              // Map desc to description
+              const mappedGoals = parsedGoals.map((goal) => ({
+                title: goal.title || "",
+                description: goal.desc || goal.description || "",
+              }));
+              setValue("projectGoals", mappedGoals);
             }
 
-            // Handle optimization pointers
+            // Optimization pointers
             if (clientData.optimizationPointers) {
-              const parsedOptimization = JSON.parse(
-                clientData.optimizationPointers
-              );
+              let parsedOptimization = [];
+              try {
+                parsedOptimization = JSON.parse(
+                  clientData.optimizationPointers
+                );
+              } catch (e) {}
               setValue("optimizationPointers", parsedOptimization);
             }
 
-            // Store existing files in fileStorage
+            // Store existing files and image URLs for preview
             const existingFiles = {
               brandVideo: clientData.brandVideoURL,
               brandImage: clientData.brandImageURL,
@@ -271,7 +319,55 @@ const AddClientForm = () => {
               clientImage: clientData.clientImgURL,
               projectGoalImg: clientData.projectGoalImgURL,
             };
-
+            // About images
+            if (clientData.aboutImgURLs) {
+              clientData.aboutImgURLs.forEach((url, idx) => {
+                existingFiles[`aboutImages.${idx}`] = url;
+              });
+            }
+            // Wireframes
+            if (clientData.wireFrameURLs) {
+              clientData.wireFrameURLs.forEach((url, idx) => {
+                existingFiles[`wireFrameImages.${idx}`] = url;
+              });
+            }
+            // Prototypes
+            if (clientData.prototypeURLs) {
+              clientData.prototypeURLs.forEach((url, idx) => {
+                existingFiles[`prototypeImages.${idx}`] = url;
+              });
+            }
+            // Tech stack images
+            if (clientData.techStackURLs) {
+              clientData.techStackURLs.forEach((url, idx) => {
+                existingFiles[`techstackImages.${idx}`] = url;
+              });
+            }
+            // Result pointer images
+            if (clientData.resultPointers) {
+              try {
+                const pointers = JSON.parse(clientData.resultPointers);
+                pointers.forEach((pointer, idx) => {
+                  if (pointer.img) {
+                    existingFiles[`resultPointers.${idx}.image`] = pointer.img;
+                  }
+                });
+              } catch (e) {}
+            }
+            // Optimization pointer images
+            if (clientData.optimizationPointers) {
+              try {
+                const optimizations = JSON.parse(
+                  clientData.optimizationPointers
+                );
+                optimizations.forEach((opt, idx) => {
+                  if (opt.img) {
+                    existingFiles[`optimizationPointers.${idx}.image`] =
+                      opt.img;
+                  }
+                });
+              } catch (e) {}
+            }
             setFileStorage(existingFiles);
           }
         } catch (error) {
@@ -280,7 +376,6 @@ const AddClientForm = () => {
         }
       }
     };
-
     fetchClientData();
   }, [
     clientId,
@@ -407,6 +502,28 @@ const AddClientForm = () => {
         data.metrices.sessionRevenueUplift || ""
       );
 
+      // Also send the full metrices object as JSON string
+      const metricesObject = {
+        avgRatings: data.metrices.avgRatings || "",
+        conversionRate: data.metrices.conversionRate || "",
+        totalOrders: data.metrices.totalOrders || "",
+        repeatPurchases: data.metrices.repeatPurchases || "",
+        orderFulfilledPerDay: data.metrices.orderFulfilledPerDay || "",
+        sessionRevenueUplift: data.metrices.sessionRevenueUplift || "",
+      };
+
+      // In edit mode, include the id
+      if (isEditMode && clientData?.metricesId) {
+        metricesObject.id = clientData.metricesId;
+      }
+
+      formData.append("metrices", JSON.stringify(metricesObject));
+
+      // In edit mode, also send metricesId
+      if (isEditMode && clientData?.metricesId) {
+        formData.append("metricesId", clientData.metricesId);
+      }
+
       // Log metrics data being sent
       console.log("Metrics data being sent:", {
         avgRatings: formData.get("avgRatings"),
@@ -529,9 +646,13 @@ const AddClientForm = () => {
   );
 
   const FileInput = React.memo(
-    ({ label, name, required = false, className = "" }) => {
+    ({ label, name, required = false, className = "", existingUrl }) => {
       const storedFile = fileStorage[name];
-
+      // Determine if storedFile is a File or a URL string
+      const isFileObj = storedFile && typeof storedFile !== "string";
+      const previewUrl = isFileObj
+        ? URL.createObjectURL(storedFile)
+        : storedFile || existingUrl;
       return (
         <div className={className}>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -543,8 +664,7 @@ const AddClientForm = () => {
               const files = e.target.files;
               if (files && files.length > 0) {
                 handleFileChange(name, files);
-                // Register with react-hook-form for validation
-                setValue(name, files[0]); // Pass the file object, not the FileList
+                setValue(name, files[0]);
               }
             }}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
@@ -554,11 +674,24 @@ const AddClientForm = () => {
                 : "image/*"
             }
           />
-          {storedFile && (
-            <p className="mt-1 text-xs text-green-600">
-              Selected: {storedFile.name} (
-              {(storedFile.size / 1024 / 1024).toFixed(2)} MB)
-            </p>
+          {/* Preview for existing or selected file */}
+          {previewUrl && (
+            <div className="mt-1">
+              {previewUrl.endsWith(".mp4") ? (
+                <video
+                  src={previewUrl}
+                  controls
+                  style={{ maxWidth: 100, maxHeight: 100 }}
+                />
+              ) : (
+                <img
+                  src={previewUrl}
+                  alt={label}
+                  style={{ maxWidth: 100, maxHeight: 100 }}
+                />
+              )}
+              <p className="text-xs text-gray-500">Current file</p>
+            </div>
           )}
           {errors[name] && (
             <p className="mt-1 text-sm text-red-600">{errors[name].message}</p>
@@ -607,8 +740,16 @@ const AddClientForm = () => {
             Brand Media
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FileInput label="Brand Video" name="brandVideo" />
-            <FileInput label="Brand Image" name="brandImage" />
+            <FileInput
+              label="Brand Video"
+              name="brandVideo"
+              existingUrl={fileStorage.brandVideo}
+            />
+            <FileInput
+              label="Brand Image"
+              name="brandImage"
+              existingUrl={fileStorage.brandImage}
+            />
             <InputField label="Brand Video Title" name="brandVideoTitle" />
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -640,7 +781,12 @@ const AddClientForm = () => {
             <InputField label="Brand Industry" name="brandIndustry" required />
             <InputField label="Brand Services" name="brandServices" required />
             <InputField label="Brand Type" name="brandType" required />
-            <FileInput label="Brand Logo" name="brandLogo" required />
+            <FileInput
+              label="Brand Logo"
+              name="brandLogo"
+              required
+              existingUrl={fileStorage.brandLogo}
+            />
           </div>
         </section>
         {/* About Section */}
@@ -665,6 +811,7 @@ const AddClientForm = () => {
                     key={field.id}
                     label={`About Image ${index + 1}`}
                     name={`aboutImages.${index}`}
+                    existingUrl={fileStorage[`aboutImages.${index}`]}
                   />
                 ))}
               </div>
@@ -677,7 +824,12 @@ const AddClientForm = () => {
             Solution Section
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FileInput label="Solution Image" name="solutionImage" required />
+            <FileInput
+              label="Solution Image"
+              name="solutionImage"
+              required
+              existingUrl={fileStorage.solutionImage}
+            />
             <InputField label="Solution Title" name="solutionTitle" required />
             <InputField
               label="Solution Description"
@@ -694,7 +846,12 @@ const AddClientForm = () => {
             Client Section
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FileInput label="Client Image" name="clientImage" required />
+            <FileInput
+              label="Client Image"
+              name="clientImage"
+              required
+              existingUrl={fileStorage.clientImage}
+            />
             <InputField label="Client Name" name="clientName" required />
             <InputField
               label="Client Designation"
@@ -746,6 +903,7 @@ const AddClientForm = () => {
                     label={`Pointer ${index + 1} Image`}
                     name={`resultPointers.${index}.image`}
                     required
+                    existingUrl={fileStorage[`resultPointers.${index}.image`]}
                   />
                   {resultPointerFields.length > 3 && (
                     <button
@@ -809,6 +967,7 @@ const AddClientForm = () => {
                     key={field.id}
                     label={`Wireframe ${index + 1}`}
                     name={`wireFrameImages.${index}`}
+                    existingUrl={fileStorage[`wireFrameImages.${index}`]}
                   />
                 ))}
               </div>
@@ -823,6 +982,7 @@ const AddClientForm = () => {
                     key={field.id}
                     label={`Prototype ${index + 1}`}
                     name={`prototypeImages.${index}`}
+                    existingUrl={fileStorage[`prototypeImages.${index}`]}
                   />
                 ))}
               </div>
@@ -862,6 +1022,7 @@ const AddClientForm = () => {
                       label={`Tech Image ${index + 1}`}
                       name={`techstackImages.${index}`}
                       className="flex-1"
+                      existingUrl={fileStorage[`techstackImages.${index}`]}
                     />
                     {techStackFields.length > 2 && (
                       <button
@@ -888,6 +1049,7 @@ const AddClientForm = () => {
               label="Project Goal Image"
               name="projectGoalImg"
               required
+              existingUrl={fileStorage.projectGoalImg}
             />
             <div className="space-y-4">
               {[0, 1, 2, 3].map((index) => (
@@ -969,6 +1131,9 @@ const AddClientForm = () => {
                     label={`Pointer ${index + 1} Image`}
                     name={`optimizationPointers.${index}.image`}
                     required
+                    existingUrl={
+                      fileStorage[`optimizationPointers.${index}.image`]
+                    }
                   />
                   {optimizationFields.length > 3 && (
                     <button
