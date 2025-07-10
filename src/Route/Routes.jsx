@@ -16,6 +16,9 @@ import AddGlossaryComponent from "../Components/Widgets/Glossary/AddGlossary";
 import ViewGlossaryComponent from "../Components/Widgets/Glossary/ViewGlossary";
 import AddClient from "../Components/Widgets/Manage-Clients/AddClients";
 import ViewClients from "../Components/Widgets/Manage-Clients/ViewClients";
+import AddEbooks from "../Components/Widgets/Manage-ebooks/add-ebooks";
+import ViewEbook from "../Components/Widgets/Manage-ebooks/view-ebooks";
+
 // //page-layout
 // import FooterLight from '../Components/PageLayout/FooterLight';
 
@@ -186,6 +189,8 @@ import FormSwitchContain from "../Components/Forms/FormWidget/FormSwitch";
 import FormTouchspinContain from "../Components/Forms/FormWidget/FormTouchspin";
 import FormClipboardContain from "../Components/Forms/FormWidget/FormClipboard";
 import FAQContent from "../Components/FAQ";
+import AddBrands from "../Components/Widgets/Manage-Brand-Audits/Add-brands";
+import ViewBrands from "../Components/Widgets/Manage-Brand-Audits/View-brands";
 
 export const routes = [
   {
@@ -248,6 +253,26 @@ export const routes = [
   {
     path: `${process.env.PUBLIC_URL}/widgets/viewclients/:layout`,
     Component: <ViewClients />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/add-ebooks/:layout`,
+    Component: <AddEbooks />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/add-ebooks/:id`,
+    Component: <AddEbooks />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/view-ebooks/:layout`,
+    Component: <ViewEbook />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/add-brand/:layout`,
+    Component: <AddBrands />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/view-brand/:layout`,
+    Component: <ViewBrands />,
   },
   {
     path: `${process.env.PUBLIC_URL}/ui-kits/typography/:layout`,

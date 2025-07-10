@@ -101,6 +101,42 @@ export const MENUITEMS = [
           },
         ],
       },
+      {
+        title: "Manage-Ebooks",
+        icon: "widget",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/add-ebooks`,
+            title: " Add Ebooks",
+            type: "link",
+          },
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/view-ebooks`,
+            title: "View Ebooks",
+            type: "link",
+          },
+        ],
+      },
+      {
+        title: "Manage-Brand-Audits",
+        icon: "widget",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/add-brand`,
+            title: " Add Brands",
+            type: "link",
+          },
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/view-brand`,
+            title: "View Brands",
+            type: "link",
+          },
+        ],
+      },
     ],
   },
 

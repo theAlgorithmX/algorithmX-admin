@@ -29,7 +29,7 @@ const AddClientForm = () => {
     getValues,
   } = useForm({
     defaultValues: {
-      projectType: "Web",
+      productType: "Web",
       brandName: "",
       brandVideoURL: "",
       brandRGB: "#000000",
@@ -89,7 +89,7 @@ const AddClientForm = () => {
     },
   });
 
-  const projectType = watch("projectType");
+  const productType = watch("productType");
 
   const {
     fields: resultPointerFields,
@@ -139,9 +139,9 @@ const AddClientForm = () => {
   // Store client data for edit mode
   const [clientData, setClientData] = React.useState(null);
 
-  // Update field arrays when project type changes
+  // Update field arrays when product type changes
   React.useEffect(() => {
-    if (projectType === "Web") {
+    if (productType === "Web") {
       replaceAboutImg(["", ""]);
       replaceWireFrame(["", ""]);
       replacePrototype(["", ""]);
@@ -150,7 +150,7 @@ const AddClientForm = () => {
       replaceWireFrame(["", "", "", "", ""]);
       replacePrototype(["", "", "", "", ""]);
     }
-  }, [projectType, replaceAboutImg, replaceWireFrame, replacePrototype]);
+  }, [productType, replaceAboutImg, replaceWireFrame, replacePrototype]);
 
   // Store file when selected
   // Update the handleFileChange function
@@ -175,7 +175,7 @@ const AddClientForm = () => {
             setClientData(clientData); // Store client data in state
 
             setValue(
-              "projectType",
+              "productType",
               clientData.productType === "web" ? "Web" : "App"
             );
             setValue("brandName", clientData.brandName || "");
@@ -431,7 +431,7 @@ const AddClientForm = () => {
       formData.append("optimizationDesc", data.optimizationDesc || "");
 
       // Add productType field
-      formData.append("productType", projectType === "Web" ? "web" : "mobile");
+      formData.append("productType", productType === "Web" ? "web" : "mobile");
 
       // Append single files
       appendStoredFile("brandVideo");
@@ -442,17 +442,17 @@ const AddClientForm = () => {
       appendStoredFile("projectGoalImg", "projectGoalImage");
 
       // Append file arrays with same field names (no indices)
-      const aboutImgCount = projectType === "Web" ? 2 : 4;
+      const aboutImgCount = productType === "Web" ? 2 : 4;
       appendStoredFileArray("aboutImages", aboutImgCount, "aboutImages");
 
-      const wireframeCount = projectType === "Web" ? 2 : 5;
+      const wireframeCount = productType === "Web" ? 2 : 5;
       appendStoredFileArray(
         "wireFrameImages",
         wireframeCount,
         "wireFrameImages"
       );
 
-      const prototypeCount = projectType === "Web" ? 2 : 5;
+      const prototypeCount = productType === "Web" ? 2 : 5;
       appendStoredFileArray(
         "prototypeImages",
         prototypeCount,
@@ -708,17 +708,17 @@ const AddClientForm = () => {
       </h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        {/* Project Type Selection */}
+        {/* Product Type Selection */}
         <div className="bg-blue-50 p-4 rounded-lg">
           <label className="block text-sm font-medium text-gray-700 mb-3">
-            Project Type <span className="text-red-500">*</span>
+            Product Type <span className="text-red-500">*</span>
           </label>
           <div className="flex space-x-4">
             <label className="flex items-center">
               <input
                 type="radio"
                 value="Web"
-                {...register("projectType")}
+                {...register("productType")}
                 className="mr-2"
               />
               Web Project
@@ -727,7 +727,7 @@ const AddClientForm = () => {
               <input
                 type="radio"
                 value="App"
-                {...register("projectType")}
+                {...register("productType")}
                 className="mr-2"
               />
               App Project
@@ -803,7 +803,7 @@ const AddClientForm = () => {
             />
             <div>
               <h3 className="text-lg font-medium text-gray-700 mb-3">
-                About Images ({projectType === "Web" ? "2" : "4"} images)
+                About Images ({productType === "Web" ? "2" : "4"} images)
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {aboutImgFields.map((field, index) => (
@@ -934,18 +934,15 @@ const AddClientForm = () => {
                 <InputField
                   label={`Step ${index + 1} Title`}
                   name={`businessProcess.${index}.title`}
-                  required
                 />
                 <InputField
                   label={`Step ${index + 1} Category`}
                   name={`businessProcess.${index}.category`}
-                  required
                 />
                 <InputField
                   label={`Step ${index + 1} Description`}
                   name={`businessProcess.${index}.description`}
                   type="textarea"
-                  required
                 />
               </div>
             ))}
@@ -959,7 +956,7 @@ const AddClientForm = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="text-lg font-medium text-gray-700 mb-3">
-                Wireframes ({projectType === "Web" ? "2" : "5"} files)
+                Wireframes ({productType === "Web" ? "2" : "5"} files)
               </h3>
               <div className="space-y-3">
                 {wireFrameFields.map((field, index) => (
@@ -974,7 +971,7 @@ const AddClientForm = () => {
             </div>
             <div>
               <h3 className="text-lg font-medium text-gray-700 mb-3">
-                Prototypes ({projectType === "Web" ? "2" : "5"} files)
+                Prototypes ({productType === "Web" ? "2" : "5"} files)
               </h3>
               <div className="space-y-3">
                 {prototypeFields.map((field, index) => (
