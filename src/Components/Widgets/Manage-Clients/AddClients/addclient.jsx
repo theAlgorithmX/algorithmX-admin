@@ -653,6 +653,20 @@ const AddClientForm = () => {
       const previewUrl = isFileObj
         ? URL.createObjectURL(storedFile)
         : storedFile || existingUrl;
+
+      // Determine file type for preview
+      const isVideo = (url) => {
+        if (typeof url === "string") {
+          return (
+            url.includes(".mp4") ||
+            url.includes(".mov") ||
+            url.includes(".avi") ||
+            url.includes(".webm")
+          );
+        }
+        return false;
+      };
+
       return (
         <div className={className}>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -669,7 +683,9 @@ const AddClientForm = () => {
             }}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             accept={
-              name.includes("Video") || name.includes("brandVideo")
+              name.includes("brandVideo")
+                ? "image/*,video/*"
+                : name.includes("Video")
                 ? "video/*"
                 : "image/*"
             }
@@ -677,7 +693,7 @@ const AddClientForm = () => {
           {/* Preview for existing or selected file */}
           {previewUrl && (
             <div className="mt-1">
-              {previewUrl.endsWith(".mp4") ? (
+              {isVideo(previewUrl) ? (
                 <video
                   src={previewUrl}
                   controls
