@@ -18,6 +18,8 @@ import AddClient from "../Components/Widgets/Manage-Clients/AddClients";
 import ViewClients from "../Components/Widgets/Manage-Clients/ViewClients";
 import AddEbooks from "../Components/Widgets/Manage-ebooks/add-ebooks";
 import ViewEbook from "../Components/Widgets/Manage-ebooks/view-ebooks";
+import AddStory from "../Components/Widgets/Manage-Impact-Stories/Add-story";
+import ViewStory from "../Components/Widgets/Manage-Impact-Stories/View-story";
 
 // //page-layout
 // import FooterLight from '../Components/PageLayout/FooterLight';
@@ -273,6 +275,14 @@ export const routes = [
   {
     path: `${process.env.PUBLIC_URL}/widgets/view-brand/:layout`,
     Component: <ViewBrands />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/add-story/:layout`,
+    Component: <AddStory />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/view-story/:layout`,
+    Component: <ViewStory />,
   },
   {
     path: `${process.env.PUBLIC_URL}/ui-kits/typography/:layout`,
