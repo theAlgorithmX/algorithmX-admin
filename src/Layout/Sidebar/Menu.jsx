@@ -137,6 +137,24 @@ export const MENUITEMS = [
           },
         ],
       },
+      {
+        title: "Manage-Impact-Stories",
+        icon: "widget",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/add-story`,
+            title: " Add Story",
+            type: "link",
+          },
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/view-story`,
+            title: "View Story",
+            type: "link",
+          },
+        ],
+      },
     ],
   },
 
