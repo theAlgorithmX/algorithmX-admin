@@ -5,6 +5,7 @@ import axiosHttp from "../../../../utils/httpConfig";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { classes } from "../../../../Data/Layouts";
+import { set } from "date-fns";
 
 const defaultLayoutObj = classes.find(
   (item) => Object.values(item).pop(1) === "compact-wrapper"
@@ -40,7 +41,7 @@ const AddClientForm = () => {
       brandLogo: "",
       brandImage: "",
       brandAboutDesc: "",
-      aboutImages: ["", ""],
+      aboutImages: ["", "", ""],
       solutionImage: "",
       solutionTitle: "",
       solutionDesc: "",
@@ -60,8 +61,8 @@ const AddClientForm = () => {
         { title: "", category: "", description: "" },
         { title: "", category: "", description: "" },
       ],
-      wireFrameImages: ["", ""],
-      prototypeImages: ["", ""],
+      wireFrameImages: ["", "", ""],
+      prototypeImages: ["", "", ""],
       techStackTitle: "",
       techstackImages: ["", ""],
       projectGoals: [
@@ -142,9 +143,9 @@ const AddClientForm = () => {
   // Update field arrays when product type changes
   React.useEffect(() => {
     if (productType === "Web") {
-      replaceAboutImg(["", ""]);
-      replaceWireFrame(["", ""]);
-      replacePrototype(["", ""]);
+      replaceAboutImg(["", "", ""]);
+      replaceWireFrame(["", "", ""]);
+      replacePrototype(["", "", ""]);
     } else {
       replaceAboutImg(["", "", "", ""]);
       replaceWireFrame(["", "", "", "", ""]);
@@ -442,17 +443,17 @@ const AddClientForm = () => {
       appendStoredFile("projectGoalImg", "projectGoalImage");
 
       // Append file arrays with same field names (no indices)
-      const aboutImgCount = productType === "Web" ? 2 : 4;
+      const aboutImgCount = productType === "Web" ? 3 : 4;
       appendStoredFileArray("aboutImages", aboutImgCount, "aboutImages");
 
-      const wireframeCount = productType === "Web" ? 2 : 5;
+      const wireframeCount = productType === "Web" ? 3 : 5;
       appendStoredFileArray(
         "wireFrameImages",
         wireframeCount,
         "wireFrameImages"
       );
 
-      const prototypeCount = productType === "Web" ? 2 : 5;
+      const prototypeCount = productType === "Web" ? 3 : 5;
       appendStoredFileArray(
         "prototypeImages",
         prototypeCount,
@@ -775,12 +776,18 @@ const AddClientForm = () => {
                 <input
                   type="color"
                   {...register("brandRGB")}
+                  onChange={(e) => {
+                    setValue("brandRGB", e.target.value);
+                  }}
                   className="w-16 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   {...register("brandRGB")}
                   placeholder="#000000"
+                  onChange={(e) => {
+                    setValue("brandRGB", e.target.value);
+                  }}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -819,7 +826,7 @@ const AddClientForm = () => {
             />
             <div>
               <h3 className="text-lg font-medium text-gray-700 mb-3">
-                About Images ({productType === "Web" ? "2" : "4"} images)
+                About Images ({productType === "Web" ? "3" : "4"} images)
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {aboutImgFields.map((field, index) => (
@@ -972,7 +979,7 @@ const AddClientForm = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="text-lg font-medium text-gray-700 mb-3">
-                Wireframes ({productType === "Web" ? "2" : "5"} files)
+                Wireframes ({productType === "Web" ? "3" : "5"} files)
               </h3>
               <div className="space-y-3">
                 {wireFrameFields.map((field, index) => (
@@ -987,7 +994,7 @@ const AddClientForm = () => {
             </div>
             <div>
               <h3 className="text-lg font-medium text-gray-700 mb-3">
-                Prototypes ({productType === "Web" ? "2" : "5"} files)
+                Prototypes ({productType === "Web" ? "3" : "5"} files)
               </h3>
               <div className="space-y-3">
                 {prototypeFields.map((field, index) => (
