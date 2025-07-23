@@ -41,7 +41,7 @@ const Profile = () => {
             <span>
               <span className='counter'>95.2</span>k
             </span>
-            <P>Follower </P>
+            <P>Follower</P>
           </LI>
         </UL>
       </div>
