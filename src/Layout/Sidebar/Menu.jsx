@@ -138,6 +138,60 @@ export const MENUITEMS = [
         ],
       },
       {
+        title: "Manage-Product-Audits",
+        icon: "widget",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/add-product`,
+            title: " Add Product",
+            type: "link",
+          },
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/view-product`,
+            title: "View Product",
+            type: "link",
+          },
+        ],
+      },
+      {
+        title: "Manage-Press-Release",
+        icon: "widget",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/add-press-release`,
+            title: " Add Press-Release",
+            type: "link",
+          },
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/view-press-release`,
+            title: "View Press-Release",
+            type: "link",
+          },
+        ],
+      },
+      {
+        title: "Manage-Guides",
+        icon: "widget",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/add-guide`,
+            title: " Add Guide",
+            type: "link",
+          },
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/view-guide`,
+            title: "View Guide",
+            type: "link",
+          },
+        ],
+      },
+      {
         title: "Manage-Impact-Stories",
         icon: "widget",
         type: "sub",

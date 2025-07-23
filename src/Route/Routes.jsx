@@ -193,6 +193,12 @@ import FormClipboardContain from "../Components/Forms/FormWidget/FormClipboard";
 import FAQContent from "../Components/FAQ";
 import AddBrands from "../Components/Widgets/Manage-Brand-Audits/Add-brands";
 import ViewBrands from "../Components/Widgets/Manage-Brand-Audits/View-brands";
+import AddProduct from "../Components/Widgets/Manage-Product-Audits/Add-product";
+import ViewProduct from "../Components/Widgets/Manage-Product-Audits/View-product";
+import { AddPressRelease } from "../Components/Widgets/Manage-Press-Release/Add-press-release";
+import { ViewPressRelease } from "../Components/Widgets/Manage-Press-Release/View-press-release";
+import { AddGuide } from "../Components/Widgets/Manage-Guides/Add-guides";
+import { ViewGuide } from "../Components/Widgets/Manage-Guides/View-guides";
 
 export const routes = [
   {
@@ -275,6 +281,30 @@ export const routes = [
   {
     path: `${process.env.PUBLIC_URL}/widgets/view-brand/:layout`,
     Component: <ViewBrands />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/add-product/:layout`,
+    Component: <AddProduct />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/view-product/:layout`,
+    Component: <ViewProduct />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/add-press-release/:layout`,
+    Component: <AddPressRelease />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/view-press-release/:layout`,
+    Component: <ViewPressRelease />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/add-guide/:layout`,
+    Component: <AddGuide />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/view-guide/:layout`,
+    Component: <ViewGuide />,
   },
   {
     path: `${process.env.PUBLIC_URL}/widgets/add-story/:layout`,
