@@ -34,22 +34,15 @@ export default function EbookForm({ onSubmit, ebookId: propEbookId }) {
 
   const getEbookById = async () => {
     try {
-      const response = await axiosHttp.get(`/ebooks/${ebookId}`);
+      // Use the correct endpoint as per user: '/ebook/:id'
+      const response = await axiosHttp.get(`/ebook/${ebookId}`);
       if (response?.status === 200) {
-        // Set edit mode to true
         setIsEditMode(true);
-
-        // Get ebook data from response
+        // The API response structure should match the list view
         const ebookData = response.data.data;
-        console.log("API Response:", response.data);
-        console.log("Ebook Data:", ebookData);
-
-        // Set current files
-        setCurrentCoverImage(ebookData.coverImage || null);
+        setCurrentCoverImage(ebookData.ebookCover || null);
         setCurrentFile(ebookData.file || null);
-        setCoverImagePreview(ebookData.coverImage || null);
-
-        // Reset form with all data
+        setCoverImagePreview(ebookData.ebookCover || null);
         reset({
           title: ebookData.title || "",
           description: ebookData.description || "",

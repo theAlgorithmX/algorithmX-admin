@@ -307,6 +307,10 @@ export const routes = [
     Component: <ViewGuide />,
   },
   {
+    path: `${process.env.PUBLIC_URL}/widgets/add-guides/default`,
+    Component: <AddGuide />,
+  },
+  {
     path: `${process.env.PUBLIC_URL}/widgets/add-story/:layout`,
     Component: <AddStory />,
   },

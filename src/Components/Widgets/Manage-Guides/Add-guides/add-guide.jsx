@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import WordEditor from "./editor";
-import axiosHttp from "../../../../utils/httpConfig";
 
-export default function ProductForm({ onSubmit, productId }) {
+export default function AddGuideForm({ onSubmit, guideId }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [initialEditorContent, setInitialEditorContent] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
@@ -19,8 +18,9 @@ export default function ProductForm({ onSubmit, productId }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
-      description: "",
+      title: "",
+      summary: "",
+      tag: "",
       content: "",
     },
   });
@@ -47,42 +47,33 @@ export default function ProductForm({ onSubmit, productId }) {
     }
   };
 
-  const getProductById = async () => {
-    try {
-      const response = await axiosHttp.get(`/product-audit/${productId}`);
-      if (response?.status === 200) {
-        setIsEditMode(true);
-        const productData = response.data.data;
-        setInitialEditorContent(productData.content || "");
-        if (productData.productAuditCover) {
-          setImagePreview(productData.productAuditCover); 
-        }
-        reset({
-          name: productData.title || "",
-          description: productData.description || "",
-          content: productData.content || "",
-        });
-      }
-    } catch (err) {
-      toast.warning(err?.response?.data?.message || "Failed to load product");
-    }
-  };
-
   useEffect(() => {
-    if (productId) {
-      getProductById();
+    if (guideId && typeof guideId === "object" && guideId.data) {
+      setIsEditMode(true);
+      const guide = guideId.data;
+      setInitialEditorContent(guide.content || "");
+      if (guide.guide_image) {
+        setImagePreview(guide.guide_image);
+      }
+      reset({
+        title: guide.title || "",
+        summary: guide.summary || "",
+        tag: guide.tag || "",
+        content: guide.content || "",
+      });
     } else {
       setIsEditMode(false);
       setInitialEditorContent("");
       setSelectedImage(null);
       setImagePreview("");
       reset({
-        name: "",
-        description: "",
+        title: "",
+        summary: "",
+        tag: "",
         content: "",
       });
     }
-  }, [productId]);
+  }, [guideId]);
 
   const handleFormKeyDown = (e) => {
     if (
@@ -110,7 +101,7 @@ export default function ProductForm({ onSubmit, productId }) {
         const finalData = {
           ...data,
           content: currentContent,
-          product_image: selectedImage,
+          guide_image: selectedImage,
         };
         if (!finalData.content || finalData.content.trim() === "") {
           toast.error("Content is required");
@@ -122,45 +113,61 @@ export default function ProductForm({ onSubmit, productId }) {
       className="space-y-6 max-w-5xl mx-auto px-6 py-4 bg-white"
     >
       <h1 className="text-[32px] font-semibold text-center">
-        {isEditMode ? "Update Product" : "Add Product"}
+        {isEditMode ? "Update Guide" : "Add Guide"}
       </h1>
-      {/* Name */}
+      {/* Title */}
       <div>
         <label className="block mb-1 font-medium">
-          Name <span className="text-red-500">*</span>
+          Title <span className="text-red-500">*</span>
         </label>
         <input
-          {...register("name", { required: "Name is required" })}
-          placeholder="Enter Product Name"
+          {...register("title", { required: "Title is required" })}
+          placeholder="Enter Guide Title"
           className={`w-full p-2 border rounded ${
-            errors.name ? "border-red-500" : "border-gray-300"
+            errors.title ? "border-red-500" : "border-gray-300"
           }`}
         />
-        {errors.name && (
-          <p className="text-red-500 text-sm">{errors.name.message}</p>
+        {errors.title && (
+          <p className="text-red-500 text-sm">{errors.title.message}</p>
         )}
       </div>
-      {/* Description */}
+      {/* Summary */}
       <div>
         <label className="block mb-1 font-medium">
-          Description <span className="text-red-500">*</span>
+          Summary <span className="text-red-500">*</span>
         </label>
         <textarea
-          {...register("description", { required: "Description is required" })}
-          placeholder="Enter a brief description of the product"
+          {...register("summary", { required: "Summary is required" })}
+          placeholder="Enter a brief summary"
           rows={3}
           className={`w-full p-2 border rounded ${
-            errors.description ? "border-red-500" : "border-gray-300"
+            errors.summary ? "border-red-500" : "border-gray-300"
           }`}
         />
-        {errors.description && (
-          <p className="text-red-500 text-sm">{errors.description.message}</p>
+        {errors.summary && (
+          <p className="text-red-500 text-sm">{errors.summary.message}</p>
         )}
       </div>
-      {/* Product Image Upload */}
+      {/* Tag */}
       <div>
         <label className="block mb-1 font-medium">
-          Product Image <span className="text-red-500">*</span>
+          Tag <span className="text-red-500">*</span>
+        </label>
+        <input
+          {...register("tag", { required: "Tag is required" })}
+          placeholder="Enter Tag"
+          className={`w-full p-2 border rounded ${
+            errors.tag ? "border-red-500" : "border-gray-300"
+          }`}
+        />
+        {errors.tag && (
+          <p className="text-red-500 text-sm">{errors.tag.message}</p>
+        )}
+      </div>
+      {/* Guide Image Upload */}
+      <div>
+        <label className="block mb-1 font-medium">
+          Guide Image <span className="text-red-500">*</span>
         </label>
         <input
           type="file"
@@ -172,7 +179,7 @@ export default function ProductForm({ onSubmit, productId }) {
           <div className="mt-2">
             <img
               src={imagePreview}
-              alt="Product preview"
+              alt="Guide preview"
               className="w-32 h-32 object-cover rounded border"
             />
           </div>
@@ -195,7 +202,7 @@ export default function ProductForm({ onSubmit, productId }) {
           type="submit"
           className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
         >
-          {isEditMode ? "Update Product" : "Submit Product"}
+          {isEditMode ? "Update Guide" : "Submit Guide"}
         </button>
       </div>
     </form>

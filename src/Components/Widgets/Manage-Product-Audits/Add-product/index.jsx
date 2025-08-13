@@ -16,7 +16,7 @@ const AddProduct = () => {
       formData.append("description", data.description);
       formData.append("content", data.content);
       if (data.product_image) {
-        formData.append("productAuditCover", data.product_image);
+        formData.append("product_audit_image", data.product_image);
       }
       let response;
       if (productId) {

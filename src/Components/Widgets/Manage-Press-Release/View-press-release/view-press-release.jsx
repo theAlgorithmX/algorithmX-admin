@@ -11,78 +11,65 @@ import {
 } from "lucide-react";
 import axiosHttp from "../../../../utils/httpConfig";
 import { toast } from "react-toastify";
-import { classes } from "../../../../Data/Layouts";
-const defaultLayoutObj = classes.find(
-  (item) => Object.values(item).pop(1) === "compact-wrapper"
-);
-const layout =
-  localStorage.getItem("layout") || Object.keys(defaultLayoutObj).pop();
 
-const ProductViewSection = () => {
-  const [productsData, setProductsData] = useState([]);
+const PressReleaseViewSection = () => {
+  const [pressData, setPressData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productToDelete, setProductToDelete] = useState(null); // NEW
-  const productsPerPage = 10;
+  const [selectedPress, setSelectedPress] = useState(null);
+  const [pressToDelete, setPressToDelete] = useState(null); // NEW
+  const pressPerPage = 10;
 
-  // Get current products
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productsData.slice(indexOfFirstProduct, indexOfLastProduct);
+  // Get current press releases
+  const indexOfLast = currentPage * pressPerPage;
+  const indexOfFirst = indexOfLast - pressPerPage;
+  const currentPress = pressData.slice(indexOfFirst, indexOfLast);
 
   // Change page
   const goToFirstPage = () => setCurrentPage(1);
-  const goToLastPage = () =>
-    setCurrentPage(Math.ceil(productsData.length / productsPerPage));
-  const goToPreviousPage = () =>
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const goToNextPage = () =>
-    setCurrentPage((prev) =>
-      Math.min(prev + 1, Math.ceil(productsData.length / productsPerPage))
-    );
+  const goToLastPage = () => setCurrentPage(Math.ceil(pressData.length / pressPerPage));
+  const goToPreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const goToNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(pressData.length / pressPerPage)));
 
   // Truncate text to specific length
   const truncateText = (text, maxLength) => {
     if (!text) return "";
-    return text.length > maxLength
-      ? text.substring(0, maxLength) + "..."
-      : text;
+    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
 
   const navigate = useNavigate();
   const handleEdit = (id) => {
     navigate(
-      `${process.env.PUBLIC_URL}/widgets/add-product/${layout}?productId=${id}`
+      `${process.env.PUBLIC_URL}/widgets/add-press-release/default?pressReleaseId=${id}`
     );
   };
 
   const handleDelete = async (id) => {
     try {
-      const response = await axiosHttp.delete(`/product-audit/${id}`);
+      const response = await axiosHttp.delete(`/press-release/${id}`);
       if (response?.status === 200) {
-        toast.success(response?.data?.message);
-        getProducts();
+        toast.success(response?.data?.message || "Deleted successfully");
+        getPressReleases();
       }
     } catch (err) {
       toast.warning(err?.response?.data?.message);
     }
   };
 
-  // View product details
-  const handleView = (product) => {
-    setSelectedProduct(product);
+  // View press release details
+  const handleView = (press) => {
+    setSelectedPress(press);
   };
 
   // Close modal
   const closeModal = () => {
-    setSelectedProduct(null);
+    setSelectedPress(null);
   };
 
-  const getProducts = async () => {
+  const getPressReleases = async () => {
     try {
-      const response = await axiosHttp.get("/product-audit/get-product-audits");
+      const response = await axiosHttp.get("/press-release/get-press-releases");
       if (response?.status === 200) {
-        setProductsData(response?.data?.data);
+        setPressData(response?.data?.data);
       }
     } catch (err) {
       toast.warning(err?.response?.data?.message);
@@ -90,7 +77,7 @@ const ProductViewSection = () => {
   };
 
   useEffect(() => {
-    getProducts();
+    getPressReleases();
   }, []);
 
   return (
@@ -100,30 +87,28 @@ const ProductViewSection = () => {
           <thead className="text-gray-700 bg-gray-50 border-b">
             <tr>
               <th className="py-4 px-6">ID</th>
-              <th className="py-4 px-6">Name</th>
-              <th className="py-4 px-6">Description</th>
-              <th className="py-4 px-6">Product Image</th>
+              <th className="py-4 px-6">Title</th>
+              <th className="py-4 px-6">Summary</th>
+              <th className="py-4 px-6">Tag</th>
+              <th className="py-4 px-6">Cover Image</th>
               <th className="py-4 px-6 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y">
-            {currentProducts?.length ? (
-              currentProducts?.map((product) => (
-                <tr key={product.id} className="bg-white hover:bg-gray-50">
-                  <td className="py-4 px-6">{product?.id}</td>
+            {currentPress?.length ? (
+              currentPress?.map((press) => (
+                <tr key={press.id} className="bg-white hover:bg-gray-50">
+                  <td className="py-4 px-6">{press?.id}</td>
                   <td className="py-4 px-6 font-medium">
-                    <div className="flex items-center gap-3">
-                      <span>{truncateText(product?.title, 30)}</span>
-                    </div>
+                    <span>{truncateText(press?.title, 30)}</span>
                   </td>
+                  <td className="py-4 px-6">{truncateText(press?.summary, 50)}</td>
+                  <td className="py-4 px-6">{press?.tag}</td>
                   <td className="py-4 px-6">
-                    {truncateText(product?.description, 50)}
-                  </td>
-                  <td className="py-4 px-6">
-                    {product?.productAuditCover && (
+                    {press?.cover_image && (
                       <img
-                        src={product.productAuditCover}
-                        alt={product.name}
+                        src={press.cover_image}
+                        alt={press.title}
                         className="w-12 h-12 object-cover rounded"
                       />
                     )}
@@ -131,20 +116,20 @@ const ProductViewSection = () => {
                   <td className="py-4 px-6 text-right">
                     <div className="flex justify-end space-x-2">
                       <button
-                        onClick={() => handleView(product)}
+                        onClick={() => handleView(press)}
                         className="p-2 text-green-600 hover:text-green-800"
-                        aria-label="View product details"
+                        aria-label="View press release details"
                       >
                         <Eye size={16} />
                       </button>
                       <button
-                        onClick={() => handleEdit(product.id)}
+                        onClick={() => handleEdit(press.id)}
                         className="p-2 text-blue-600 hover:text-blue-800"
                       >
                         <Edit size={16} />
                       </button>
                       <button
-                        onClick={() => setProductToDelete(product.id)}
+                        onClick={() => setPressToDelete(press.id)}
                         className="p-2 text-red-600 hover:text-red-800"
                       >
                         <Trash2 size={16} />
@@ -155,8 +140,8 @@ const ProductViewSection = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="text-center py-6 text-gray-500">
-                  No products found
+                <td colSpan={6} className="text-center py-6 text-gray-500">
+                  No press releases found
                 </td>
               </tr>
             )}
@@ -169,10 +154,10 @@ const ProductViewSection = () => {
           <div>
             <p className="text-sm text-gray-700">
               <span className="font-medium">
-                {indexOfFirstProduct + 1}-
-                {Math.min(indexOfLastProduct, productsData.length)}
+                {indexOfFirst + 1}-
+                {Math.min(indexOfLast, pressData.length)}
               </span>{" "}
-              of <span className="font-medium">{productsData.length}</span>
+              of <span className="font-medium">{pressData.length}</span>
             </p>
           </div>
           <div>
@@ -215,13 +200,13 @@ const ProductViewSection = () => {
           </div>
         </div>
       </div>
-      {/* Product Detail Modal */}
-      {selectedProduct && (
+      {/* Press Release Detail Modal */}
+      {selectedPress && (
         <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg max-w-4xl w-full max-h-screen overflow-auto">
             <div className="px-6 py-4 border-b flex justify-between items-center">
               <h3 className="text-xl font-semibold text-gray-900">
-                Product Details
+                Press Release Details
               </h3>
               <button
                 onClick={closeModal}
@@ -231,19 +216,23 @@ const ProductViewSection = () => {
               </button>
             </div>
             <div className="p-6">
-              {/* Product Details */}
+              {/* Press Release Details */}
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold">{selectedProduct.name}</h2>
+                <h2 className="text-2xl font-bold">{selectedPress.title}</h2>
                 <div>
-                  <h3 className="text-lg font-semibold">Description</h3>
-                  <p className="text-gray-700">{selectedProduct?.description}</p>
+                  <h3 className="text-lg font-semibold">Summary</h3>
+                  <p className="text-gray-700">{selectedPress?.summary}</p>
                 </div>
-                {selectedProduct?.product_image && (
+                <div>
+                  <h3 className="text-lg font-semibold">Tag</h3>
+                  <p className="text-gray-700">{selectedPress?.tag}</p>
+                </div>
+                {selectedPress?.cover_image && (
                   <div>
-                    <h3 className="text-lg font-semibold">Product Image</h3>
+                    <h3 className="text-lg font-semibold">Cover Image</h3>
                     <img
-                      src={selectedProduct.product_image}
-                      alt={selectedProduct.name}
+                      src={selectedPress.cover_image}
+                      alt={selectedPress.title}
                       className="w-48 h-48 object-cover rounded border"
                     />
                   </div>
@@ -252,7 +241,7 @@ const ProductViewSection = () => {
                   <h3 className="text-lg font-semibold">Content</h3>
                   <div
                     className="text-gray-700 prose prose-sm max-w-none"
-                    dangerouslySetInnerHTML={{ __html: selectedProduct?.content }}
+                    dangerouslySetInnerHTML={{ __html: selectedPress?.content }}
                   />
                 </div>
               </div>
@@ -269,7 +258,7 @@ const ProductViewSection = () => {
         </div>
       )}
       {/* Delete Confirmation Modal */}
-      {productToDelete && (
+      {pressToDelete && (
         <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg max-w-sm w-full overflow-auto">
             <div className="px-6 py-4 border-b flex justify-between items-center">
@@ -277,7 +266,7 @@ const ProductViewSection = () => {
                 Confirm Delete
               </h3>
               <button
-                onClick={() => setProductToDelete(null)}
+                onClick={() => setPressToDelete(null)}
                 className="text-gray-400 hover:text-gray-500"
               >
                 &times;
@@ -285,19 +274,19 @@ const ProductViewSection = () => {
             </div>
             <div className="p-6">
               <p className="text-gray-700 mb-4">
-                Are you sure you want to delete this product?
+                Are you sure you want to delete this press release?
               </p>
               <div className="flex justify-end gap-2">
                 <button
-                  onClick={() => setProductToDelete(null)}
+                  onClick={() => setPressToDelete(null)}
                   className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
                 >
                   No
                 </button>
                 <button
                   onClick={async () => {
-                    await handleDelete(productToDelete);
-                    setProductToDelete(null);
+                    await handleDelete(pressToDelete);
+                    setPressToDelete(null);
                   }}
                   className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
                 >
@@ -312,4 +301,4 @@ const ProductViewSection = () => {
   );
 };
 
-export default ProductViewSection; 
+export default PressReleaseViewSection; 

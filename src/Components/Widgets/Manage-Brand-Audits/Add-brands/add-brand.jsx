@@ -9,8 +9,8 @@ export default function BrandForm({ onSubmit, brandId }) {
   console.log(brandId, "brandId");
   const [isEditMode, setIsEditMode] = useState(false);
   const [initialEditorContent, setInitialEditorContent] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState("");
+  const [selectedBrandAuditCover, setSelectedBrandAuditCover] = useState(null);
+  const [brandAuditCoverPreview, setBrandAuditCoverPreview] = useState("");
 
   const {
     register,
@@ -37,13 +37,13 @@ export default function BrandForm({ onSubmit, brandId }) {
     });
   };
 
-  const handleImageChange = (e) => {
+  const handleBrandAuditCoverChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setSelectedImage(file);
+      setSelectedBrandAuditCover(file);
       const reader = new FileReader();
       reader.onload = () => {
-        setImagePreview(reader.result);
+        setBrandAuditCoverPreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -51,7 +51,7 @@ export default function BrandForm({ onSubmit, brandId }) {
 
   const getBrandById = async () => {
     try {
-      const response = await axiosHttp.get(`/brands/${brandId}`);
+      const response = await axiosHttp.get(`/brand-audit/${brandId}`);
       if (response?.status === 200) {
         // Set edit mode to true
         setIsEditMode(true);
@@ -65,8 +65,8 @@ export default function BrandForm({ onSubmit, brandId }) {
         setInitialEditorContent(brandData.content || "");
 
         // Set image preview if exists
-        if (brandData.image) {
-          setImagePreview(brandData.image);
+        if (brandData.brandAuditCover) {
+          setBrandAuditCoverPreview(brandData.brandAuditCover);
         }
 
         // Then reset form with all data
@@ -89,8 +89,8 @@ export default function BrandForm({ onSubmit, brandId }) {
       // Make sure we're in add mode when no brandId is present
       setIsEditMode(false);
       setInitialEditorContent("");
-      setSelectedImage(null);
-      setImagePreview("");
+      setSelectedBrandAuditCover(null);
+      setBrandAuditCoverPreview("");
 
       // Reset form to default values when switching to add mode
       reset({
@@ -133,7 +133,7 @@ export default function BrandForm({ onSubmit, brandId }) {
         const finalData = {
           ...data,
           content: currentContent,
-          image: selectedImage,
+          brandAuditCover: selectedBrandAuditCover,
         };
 
         if (!finalData.content || finalData.content.trim() === "") {
@@ -183,8 +183,8 @@ export default function BrandForm({ onSubmit, brandId }) {
           <p className="text-red-500 text-sm">{errors.description.message}</p>
         )}
       </div>
-
-      {/* Image Upload */}
+ 
+      {/* Brand Audit Cover Upload */}
       <div>
         <label className="block mb-1 font-medium">
           Brand Image <span className="text-red-500">*</span>
@@ -192,13 +192,13 @@ export default function BrandForm({ onSubmit, brandId }) {
         <input
           type="file"
           accept="image/*"
-          onChange={handleImageChange}
+          onChange={handleBrandAuditCoverChange}
           className="w-full p-2 border border-gray-300 rounded"
         />
-        {imagePreview && (
+        {brandAuditCoverPreview && (
           <div className="mt-2">
             <img
-              src={imagePreview}
+              src={brandAuditCoverPreview}
               alt="Brand preview"
               className="w-32 h-32 object-cover rounded border"
             />

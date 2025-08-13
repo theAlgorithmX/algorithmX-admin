@@ -23,6 +23,7 @@ const BrandViewSection = () => {
   const [brandsData, setBrandsData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedBrand, setSelectedBrand] = useState(null);
+  const [brandToDelete, setBrandToDelete] = useState(null); // NEW
   const brandsPerPage = 10;
 
   // Get current brands
@@ -52,13 +53,13 @@ const BrandViewSection = () => {
   const navigate = useNavigate();
   const handleEdit = (id) => {
     navigate(
-      `${process.env.PUBLIC_URL}/widgets/managebrands/${layout}?BrandId=${id}`
+      `${process.env.PUBLIC_URL}/widgets/add-brand/${layout}?brandId=${id}`
     );
   };
 
   const handleDelete = async (id) => {
     try {
-      const response = await axiosHttp.delete(`/brands/${id}`);
+      const response = await axiosHttp.delete(`/brand-audit/${id}`);
       if (response?.status === 200) {
         toast.success(response?.data?.message);
         getBrands();
@@ -80,7 +81,7 @@ const BrandViewSection = () => {
 
   const getBrands = async () => {
     try {
-      const response = await axiosHttp.get("/brands");
+      const response = await axiosHttp.get("/brand-audit/get-brand-audits");
       if (response?.status === 200) {
         setBrandsData(response?.data?.data);
       }
@@ -108,7 +109,7 @@ const BrandViewSection = () => {
           </thead>
           <tbody className="divide-y">
             {currentBrands?.length ? (
-              currentBrands?.map((brand, index) => (
+              currentBrands?.map((brand) => (
                 <tr key={brand.id} className="bg-white hover:bg-gray-50">
                   <td className="py-4 px-6">{brand?.id}</td>
                   <td className="py-4 px-6 font-medium">
@@ -120,9 +121,9 @@ const BrandViewSection = () => {
                     {truncateText(brand?.description, 50)}
                   </td>
                   <td className="py-4 px-6">
-                    {brand?.image && (
+                    {brand?.brandAuditCover && (
                       <img
-                        src={brand.image}
+                        src={brand.brandAuditCover}
                         alt={brand.title}
                         className="w-12 h-12 object-cover rounded"
                       />
@@ -144,7 +145,7 @@ const BrandViewSection = () => {
                         <Edit size={16} />
                       </button>
                       <button
-                        onClick={() => handleDelete(brand.id)}
+                        onClick={() => setBrandToDelete(brand.id)}
                         className="p-2 text-red-600 hover:text-red-800"
                       >
                         <Trash2 size={16} />
@@ -243,11 +244,11 @@ const BrandViewSection = () => {
                   <p className="text-gray-700">{selectedBrand?.description}</p>
                 </div>
 
-                {selectedBrand?.image && (
+                {selectedBrand?.brandAuditCover && (
                   <div>
                     <h3 className="text-lg font-semibold">Brand Image</h3>
                     <img
-                      src={selectedBrand.image}
+                      src={selectedBrand.brandAuditCover}
                       alt={selectedBrand.title}
                       className="w-48 h-48 object-cover rounded border"
                     />
@@ -270,6 +271,46 @@ const BrandViewSection = () => {
               >
                 Close
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Delete Confirmation Modal */}
+      {brandToDelete && (
+        <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-sm w-full overflow-auto">
+            <div className="px-6 py-4 border-b flex justify-between items-center">
+              <h3 className="text-lg font-semibold text-gray-900">
+                Confirm Delete
+              </h3>
+              <button
+                onClick={() => setBrandToDelete(null)}
+                className="text-gray-400 hover:text-gray-500"
+              >
+                &times;
+              </button>
+            </div>
+            <div className="p-6">
+              <p className="text-gray-700 mb-4">
+                Are you sure you want to delete this brand?
+              </p>
+              <div className="flex justify-end gap-2">
+                <button
+                  onClick={() => setBrandToDelete(null)}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                >
+                  No
+                </button>
+                <button
+                  onClick={async () => {
+                    await handleDelete(brandToDelete);
+                    setBrandToDelete(null);
+                  }}
+                  className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                >
+                  Yes, Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
