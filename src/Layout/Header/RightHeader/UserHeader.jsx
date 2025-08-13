@@ -21,13 +21,10 @@ const UserHeader = () => {
   }, []);
 
   const Logout = () => {
-    localStorage.removeItem("profileURL");
-    localStorage.removeItem("token");
-    localStorage.removeItem("auth0_profile");
-    localStorage.removeItem("Name");
-    localStorage.setItem("authenticated", false);
+    localStorage.clear(); // call the method to clear storage
     history(`${process.env.PUBLIC_URL}/login`);
   };
+  
 
   const UserMenuRedirect = (redirect) => {
     history(redirect);
