@@ -199,6 +199,9 @@ import { AddPressRelease } from "../Components/Widgets/Manage-Press-Release/Add-
 import { ViewPressRelease } from "../Components/Widgets/Manage-Press-Release/View-press-release";
 import { AddGuide } from "../Components/Widgets/Manage-Guides/Add-guides";
 import { ViewGuide } from "../Components/Widgets/Manage-Guides/View-guides";
+import ViewForm from "../Components/Widgets/View-Form";
+import RBAC from "../Components/Widgets/RBAC";
+import RBACPage from "../Components/Widgets/RBAC/rbac";
 
 export const routes = [
   {
@@ -229,6 +232,10 @@ export const routes = [
   {
     path: `${process.env.PUBLIC_URL}/widgets/chart/:layout`,
     Component: <Chart />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/rbac/:layout`,
+    Component: <RBACPage/>,   
   },
   {
     path: `${process.env.PUBLIC_URL}/widgets/addblog/:layout`,
@@ -309,6 +316,10 @@ export const routes = [
   {
     path: `${process.env.PUBLIC_URL}/widgets/add-guides/default`,
     Component: <AddGuide />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/viewform/:layout`,
+    Component: <ViewForm />,
   },
   {
     path: `${process.env.PUBLIC_URL}/widgets/add-story/:layout`,

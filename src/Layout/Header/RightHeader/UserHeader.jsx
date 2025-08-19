@@ -10,7 +10,7 @@ import { Account, Admin, Inbox, LogOut, Taskboard } from "../../../Constant";
 const UserHeader = () => {
   const history = useNavigate();
   const [profile, setProfile] = useState("");
-  const [name, setName] = useState("Emay Walter");
+  const [name, setName] = useState("AlgorithmX");
   const { layoutURL } = useContext(CustomizerContext);
   const authenticated = JSON.parse(localStorage.getItem("authenticated"));
   const auth0_profile = JSON.parse(localStorage.getItem("auth0_profile"));

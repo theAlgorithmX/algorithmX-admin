@@ -25,7 +25,8 @@ const MangeCategory = () => {
 
     try {
       const response = await axiosHttp.post('/blog-categories/', {
-        title : newCategoryName.trim()
+        title : newCategoryName.trim(),
+        page : "blogs"
       });
       console.log("response",response);
 

@@ -24,7 +24,12 @@ export const MENUITEMS = [
       //      */
       //   ],
       // },
-
+      {
+        path: `${process.env.PUBLIC_URL}/widgets/rbac`,
+        title: "RBAC",
+        icon: "widget",
+        type: "link",
+      },
       {
         title: "Manage Blogs",
         icon: "widget",
@@ -208,6 +213,12 @@ export const MENUITEMS = [
             type: "link",
           },
         ],
+      },
+      {
+        path: `${process.env.PUBLIC_URL}/widgets/viewform`,
+        title: "View Form",
+        icon: "widget",
+        type: "link",
       },
     ],
   },
