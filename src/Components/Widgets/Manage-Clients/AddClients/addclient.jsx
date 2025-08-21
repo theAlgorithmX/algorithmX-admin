@@ -81,11 +81,17 @@ const AddClientForm = () => {
       ],
       metrices: {
         avgRatings: "",
+        avgRatingsDescription: "",
         conversionRate: "",
+        conversionRateDescription: "",
         totalOrders: "",
+        totalOrdersDescription: "",
         repeatPurchases: "",
+        repeatPurchasesDescription: "",
         orderFulfilledPerDay: "",
+        orderFulfilledDescription: "",
         sessionRevenueUplift: "",
+        sessionRevenueDescription: "",
       },
     },
   });
@@ -204,24 +210,48 @@ const AddClientForm = () => {
                 clientData.metrices.avgRatings || ""
               );
               setValue(
+                "metrices.avgRatingsDescription",
+                clientData.metrices.avgRatingsDescription || ""
+              );
+              setValue(
                 "metrices.conversionRate",
                 clientData.metrices.conversionRate || ""
+              );
+              setValue(
+                "metrices.conversionRateDescription",
+                clientData.metrices.conversionRateDescription || ""
               );
               setValue(
                 "metrices.totalOrders",
                 clientData.metrices.totalOrders || ""
               );
               setValue(
+                "metrices.totalOrdersDescription",
+                clientData.metrices.totalOrdersDescription || ""
+              );
+              setValue(
                 "metrices.repeatPurchases",
                 clientData.metrices.repeatPurchases || ""
+              );
+              setValue(
+                "metrices.repeatPurchasesDescription",
+                clientData.metrices.repeatPurchasesDescription || ""
               );
               setValue(
                 "metrices.orderFulfilledPerDay",
                 clientData.metrices.orderFulfilledPerDay || ""
               );
               setValue(
+                "metrices.orderFulfilledDescription",
+                clientData.metrices.orderFulfilledDescription || ""
+              );
+              setValue(
                 "metrices.sessionRevenueUplift",
                 clientData.metrices.sessionRevenueUplift || ""
+              );
+              setValue(
+                "metrices.sessionRevenueDescription",
+                clientData.metrices.sessionRevenueDescription || ""
               );
             }
 
@@ -491,26 +521,60 @@ const AddClientForm = () => {
 
       // Send each metric field separately
       formData.append("avgRatings", data.metrices.avgRatings || "");
+      formData.append(
+        "avgRatingsDescription",
+        data.metrices.avgRatingsDescription || ""
+      );
       formData.append("conversionRate", data.metrices.conversionRate || "");
+      formData.append(
+        "conversionRateDescription",
+        data.metrices.conversionRateDescription || ""
+      );
       formData.append("totalOrders", data.metrices.totalOrders || "");
+      formData.append(
+        "totalOrdersDescription",
+        data.metrices.totalOrdersDescription || ""
+      );
       formData.append("repeatPurchases", data.metrices.repeatPurchases || "");
+      formData.append(
+        "repeatPurchasesDescription",
+        data.metrices.repeatPurchasesDescription || ""
+      );
       formData.append(
         "orderFulfilledPerDay",
         data.metrices.orderFulfilledPerDay || ""
       );
       formData.append(
+        "orderFulfilledDescription",
+        data.metrices.orderFulfilledDescription || ""
+      );
+      formData.append(
         "sessionRevenueUplift",
         data.metrices.sessionRevenueUplift || ""
+      );
+      formData.append(
+        "sessionRevenueDescription",
+        data.metrices.sessionRevenueDescription || ""
       );
 
       // Also send the full metrices object as JSON string
       const metricesObject = {
         avgRatings: data.metrices.avgRatings || "",
+        avgRatingsDescription: data.metrices.avgRatingsDescription || "",
         conversionRate: data.metrices.conversionRate || "",
+        conversionRateDescription:
+          data.metrices.conversionRateDescription || "",
         totalOrders: data.metrices.totalOrders || "",
+        totalOrdersDescription: data.metrices.totalOrdersDescription || "",
         repeatPurchases: data.metrices.repeatPurchases || "",
+        repeatPurchasesDescription:
+          data.metrices.repeatPurchasesDescription || "",
         orderFulfilledPerDay: data.metrices.orderFulfilledPerDay || "",
+        orderFulfilledDescription:
+          data.metrices.orderFulfilledDescription || "",
         sessionRevenueUplift: data.metrices.sessionRevenueUplift || "",
+        sessionRevenueDescription:
+          data.metrices.sessionRevenueDescription || "",
       };
 
       // In edit mode, include the id
@@ -528,11 +592,17 @@ const AddClientForm = () => {
       // Log metrics data being sent
       console.log("Metrics data being sent:", {
         avgRatings: formData.get("avgRatings"),
+        avgRatingsDescription: formData.get("avgRatingsDescription"),
         conversionRate: formData.get("conversionRate"),
+        conversionRateDescription: formData.get("conversionRateDescription"),
         totalOrders: formData.get("totalOrders"),
+        totalOrdersDescription: formData.get("totalOrdersDescription"),
         repeatPurchases: formData.get("repeatPurchases"),
+        repeatPurchasesDescription: formData.get("repeatPurchasesDescription"),
         orderFulfilledPerDay: formData.get("orderFulfilledPerDay"),
+        orderFulfilledDescription: formData.get("orderFulfilledDescription"),
         sessionRevenueUplift: formData.get("sessionRevenueUplift"),
+        sessionRevenueDescription: formData.get("sessionRevenueDescription"),
       });
 
       // Result pointers
@@ -1183,6 +1253,12 @@ const AddClientForm = () => {
                 required
                 placeholder="e.g., 4.9"
               />
+              <InputField
+                label="Average Ratings Description"
+                name="metrices.avgRatingsDescription"
+                type="textarea"
+                placeholder="Describe the ratings context"
+              />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
               <InputField
@@ -1190,6 +1266,12 @@ const AddClientForm = () => {
                 name="metrices.conversionRate"
                 required
                 placeholder="e.g., 22%"
+              />
+              <InputField
+                label="Conversion Rate Description"
+                name="metrices.conversionRateDescription"
+                type="textarea"
+                placeholder="Describe how conversion rate was measured"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
@@ -1199,6 +1281,12 @@ const AddClientForm = () => {
                 required
                 placeholder="e.g., 50%"
               />
+              <InputField
+                label="Total Orders Description"
+                name="metrices.totalOrdersDescription"
+                type="textarea"
+                placeholder="Describe timeframe and scope for orders"
+              />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
               <InputField
@@ -1206,6 +1294,12 @@ const AddClientForm = () => {
                 name="metrices.repeatPurchases"
                 required
                 placeholder="e.g., 60%"
+              />
+              <InputField
+                label="Repeat Purchases Description"
+                name="metrices.repeatPurchasesDescription"
+                type="textarea"
+                placeholder="Add details about repeat customer behavior"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
@@ -1215,6 +1309,12 @@ const AddClientForm = () => {
                 required
                 placeholder="e.g., 30,000+"
               />
+              <InputField
+                label="Orders Fulfilled Per Day Description"
+                name="metrices.orderFulfilledDescription"
+                type="textarea"
+                placeholder="Explain fulfillment capacity and assumptions"
+              />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-gray-200 rounded-md">
               <InputField
@@ -1222,6 +1322,12 @@ const AddClientForm = () => {
                 name="metrices.sessionRevenueUplift"
                 required
                 placeholder="e.g., 100%"
+              />
+              <InputField
+                label="Session Revenue Uplift Description"
+                name="metrices.sessionRevenueDescription"
+                type="textarea"
+                placeholder="Describe experiment or comparison baseline"
               />
             </div>
           </div>
