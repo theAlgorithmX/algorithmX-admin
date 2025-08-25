@@ -148,6 +148,9 @@ const AddClientForm = () => {
 
   // Update field arrays when product type changes
   React.useEffect(() => {
+    // In edit mode with loaded clientData, do not auto-reset counts here;
+    // the fetch handler will set and pad arrays to the correct lengths.
+    if (isEditMode && clientData) return;
     if (productType === "Web") {
       replaceAboutImg(["", "", ""]);
       replaceWireFrame(["", "", ""]);
@@ -157,7 +160,14 @@ const AddClientForm = () => {
       replaceWireFrame(["", "", "", "", ""]);
       replacePrototype(["", "", "", "", ""]);
     }
-  }, [productType, replaceAboutImg, replaceWireFrame, replacePrototype]);
+  }, [
+    productType,
+    replaceAboutImg,
+    replaceWireFrame,
+    replacePrototype,
+    isEditMode,
+    clientData,
+  ]);
 
   // Store file when selected
   // Update the handleFileChange function
@@ -255,17 +265,42 @@ const AddClientForm = () => {
               );
             }
 
-            // About Images
-            if (clientData.aboutImgURLs) {
-              replaceAboutImg(clientData.aboutImgURLs);
+            // About Images (pad to required count based on product type)
+            {
+              const desiredAboutCount =
+                clientData.productType === "web" ? 3 : 4;
+              const urls = clientData.aboutImgURLs || [];
+              const padded = [
+                ...urls,
+                ...Array(Math.max(0, desiredAboutCount - urls.length)).fill(""),
+              ];
+              replaceAboutImg(padded);
             }
-            // Wireframes
-            if (clientData.wireFrameURLs) {
-              replaceWireFrame(clientData.wireFrameURLs);
+            // Wireframes (pad to required count based on product type)
+            {
+              const desiredWireframeCount =
+                clientData.productType === "web" ? 3 : 5;
+              const urls = clientData.wireFrameURLs || [];
+              const padded = [
+                ...urls,
+                ...Array(Math.max(0, desiredWireframeCount - urls.length)).fill(
+                  ""
+                ),
+              ];
+              replaceWireFrame(padded);
             }
-            // Prototypes
-            if (clientData.prototypeURLs) {
-              replacePrototype(clientData.prototypeURLs);
+            // Prototypes (pad to required count based on product type)
+            {
+              const desiredPrototypeCount =
+                clientData.productType === "web" ? 3 : 5;
+              const urls = clientData.prototypeURLs || [];
+              const padded = [
+                ...urls,
+                ...Array(Math.max(0, desiredPrototypeCount - urls.length)).fill(
+                  ""
+                ),
+              ];
+              replacePrototype(padded);
             }
             // Tech stack images
             if (clientData.techStackURLs) {
@@ -435,9 +470,22 @@ const AddClientForm = () => {
       // Helper function to append multiple files with same name (no indices)
       const appendStoredFileArray = (fieldNamePrefix, count, formDataKey) => {
         for (let i = 0; i < count; i++) {
-          const file = fileStorage[`${fieldNamePrefix}.${i}`];
-          if (file) {
-            formData.append(formDataKey, file); // Remove the [${i}] part
+          const stored = fileStorage[`${fieldNamePrefix}.${i}`];
+          if (stored) {
+            // If a new file is selected, append the File. Otherwise, in edit mode, append the existing URL string
+            if (stored instanceof File) {
+              formData.append(formDataKey, stored);
+            } else if (
+              isEditMode &&
+              typeof stored === "string" &&
+              stored.length > 0
+            ) {
+              formData.append(formDataKey, stored);
+            }
+          } else if (isEditMode) {
+            // In edit mode, ensure we send placeholders for remaining slots using empty strings,
+            // so backend can maintain positional mapping if required.
+            formData.append(formDataKey, "");
           }
         }
       };
@@ -685,13 +733,13 @@ const AddClientForm = () => {
     ...props
   }) => (
     <div className={className}>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+      <label className="block text-sm font-medium text-white mb-2">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {type === "textarea" ? (
         <textarea
           {...register(name, { required: required && `${label} is required` })}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/10 backdrop-blur-sm text-white placeholder-white/70"
           rows={4}
           {...props}
         />
@@ -699,14 +747,14 @@ const AddClientForm = () => {
         <input
           type="color"
           {...register(name, { required: required && `${label} is required` })}
-          className="w-full h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full h-10 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/10 backdrop-blur-sm"
           {...props}
         />
       ) : (
         <input
           type={type}
           {...register(name, { required: required && `${label} is required` })}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/10 backdrop-blur-sm text-white placeholder-white/70"
           {...props}
         />
       )}
@@ -740,7 +788,7 @@ const AddClientForm = () => {
 
       return (
         <div className={className}>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-white mb-2">
             {label} {required && <span className="text-red-500">*</span>}
           </label>
           <input
@@ -752,7 +800,7 @@ const AddClientForm = () => {
                 setValue(name, files[0]);
               }
             }}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent      text-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white file:backdrop-blur-sm file:border-white/20"
             accept={
               name.includes("brandVideo")
                 ? "image/*,video/*"
@@ -789,41 +837,41 @@ const AddClientForm = () => {
   );
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-white">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">
+    <div className="max-w-6xl mx-auto p-6">
+      <h1 className="text-3xl font-bold text-white mb-8">
         Portfolio Project Form
       </h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         {/* Product Type Selection */}
-        <div className="bg-blue-50 p-4 rounded-lg">
-          <label className="block text-sm font-medium text-gray-700 mb-3">
+        <div className="bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm   p-4 rounded-lg">
+          <label className="block text-sm font-medium text-white mb-3 text-white">
             Product Type <span className="text-red-500">*</span>
           </label>
           <div className="flex space-x-4">
-            <label className="flex items-center">
+            <label className="flex items-center text-white">
               <input
                 type="radio"
                 value="Web"
                 {...register("productType")}
-                className="mr-2"
+                className="mr-2 text-white"
               />
               Web Project
             </label>
-            <label className="flex items-center">
+            <label className="flex items-center text-white">
               <input
                 type="radio"
                 value="App"
                 {...register("productType")}
-                className="mr-2"
+                className="mr-2 text-white"
               />
               App Project
             </label>
           </div>
         </div>
         {/* Brand Media Section */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className=" p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             Brand Media
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -839,7 +887,7 @@ const AddClientForm = () => {
             />
             <InputField label="Brand Video Title" name="brandVideoTitle" />
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Brand RGB Color
               </label>
               <div className="flex gap-2">
@@ -865,8 +913,8 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* Business Info */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className="C   p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             Business Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -883,8 +931,8 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* About Section */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className="     p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             About Section
           </h2>
           <div className="grid grid-cols-1 gap-6">
@@ -895,7 +943,7 @@ const AddClientForm = () => {
               required
             />
             <div>
-              <h3 className="text-lg font-medium text-gray-700 mb-3">
+              <h3 className="text-lg font-medium text-white mb-3">
                 About Images ({productType === "Web" ? "3" : "4"} images)
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -912,8 +960,8 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* Solution Section */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className="      p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             Solution Section
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -934,8 +982,8 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* Client Section */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className="      p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             Client Section
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -961,15 +1009,15 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* Result Section */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className="      p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             Result Section
           </h2>
           <div className="grid grid-cols-1 gap-6">
             <InputField label="Result Title" name="resultTitle" required />
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-medium text-gray-700">
+                <h3 className="text-lg font-medium text-white">
                   Result Pointers (Min: 3, Max: 4)
                 </h3>
                 <button
@@ -1014,8 +1062,8 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* Business Process Section */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className="      p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             Business Process (4 Steps)
           </h2>
           <div className="space-y-4">
@@ -1042,13 +1090,13 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* Wireframes & Prototypes */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className="      p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             Wireframes & Prototypes
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="text-lg font-medium text-gray-700 mb-3">
+              <h3 className="text-lg font-medium text-white mb-3">
                 Wireframes ({productType === "Web" ? "3" : "5"} files)
               </h3>
               <div className="space-y-3">
@@ -1063,7 +1111,7 @@ const AddClientForm = () => {
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-medium text-gray-700 mb-3">
+              <h3 className="text-lg font-medium text-white mb-3">
                 Prototypes ({productType === "Web" ? "3" : "5"} files)
               </h3>
               <div className="space-y-3">
@@ -1080,10 +1128,8 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* Tech Stack */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Tech Stack
-          </h2>
+        <section className="      p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">Tech Stack</h2>
           <div className="grid grid-cols-1 gap-6">
             <InputField
               label="Tech Stack Title"
@@ -1092,7 +1138,7 @@ const AddClientForm = () => {
             />
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-medium text-gray-700">
+                <h3 className="text-lg font-medium text-white">
                   Tech Stack Images (Min: 2, Max: 7)
                 </h3>
                 <button
@@ -1130,8 +1176,8 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* Project Goals */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className="      p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             Project Goals (4 Goals)
           </h2>
           <div className="grid grid-cols-1 gap-6">
@@ -1164,8 +1210,8 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* Optimization Section */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className="      p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             Optimization Section
           </h2>
           <div className="grid grid-cols-1 gap-6">
@@ -1182,7 +1228,7 @@ const AddClientForm = () => {
             />
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-medium text-gray-700">
+                <h3 className="text-lg font-medium text-white">
                   Optimization Pointers (Min: 3, Max: 4)
                 </h3>
                 <button
@@ -1241,8 +1287,8 @@ const AddClientForm = () => {
           </div>
         </section>
         {/* Metrices Section */}
-        <section className="bg-gray-50 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <section className="      p-6 rounded-lg">
+          <h2 className="text-xl font-semibold  text-white mb-4">
             Project Metrics
           </h2>
           <div className="space-y-4">
