@@ -46,12 +46,12 @@ const TagInput = ({ value = [], onChange, placeholder }) => {
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="flex-1 p-2 border border-gray-300 rounded"
+          className="flex-1 p-2 border border-white/20 rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70"
         />
         <button
           type="button"
           onClick={handleAddTag}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm hover:bg-white/20 text-white px-4 py-2 rounded"
         >
           Add
         </button>
@@ -230,22 +230,22 @@ export default function BlogForm({ onSubmit, blogId }) {
     <form
       onSubmit={handleSubmit(onSubmit)}
       onKeyDown={handleFormKeyDown}
-      className="space-y-6 max-w-5xl mx-auto px-6 py-4 bg-white"
+      className="space-y-6 max-w-5xl mx-auto px-6 py-4 "
     >
-      <h1 className="text-[32px] font-semibold text-center">
+      <h1 className="text-[32px] font-semibold text-center text-white">
         {isEditMode ? "Update Blog" : "Add Blog"}
       </h1>
 
       {/* Title */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Title <span className="text-red-500">*</span>
         </label>
         <input
           {...register("title", { required: "Title is required" })}
           placeholder="Enter blog title"
-          className={`w-full p-2 border rounded ${
-            errors.title ? "border-red-500" : "border-gray-300"
+          className={`w-full p-2 border rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70 ${
+            errors.title ? "border-red-500" : "border-white/20"
           }`}
         />
         {errors.title && (
@@ -254,7 +254,7 @@ export default function BlogForm({ onSubmit, blogId }) {
       </div>
 
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Category <span className="text-red-500">*</span>
         </label>
         <Controller
@@ -273,6 +273,76 @@ export default function BlogForm({ onSubmit, blogId }) {
                 categoryOptions.find((opt) => opt.id === field.value) || null
               }
               placeholder="Select a category"
+              styles={{
+                container: (base) => ({
+                  ...base,
+                  width: "100%",
+                }),
+                control: (base, state) => ({
+                  ...base,
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  backdropFilter: "blur(6px)",
+                  WebkitBackdropFilter: "blur(6px)",
+                  borderColor: "#D1D5DB",
+                  boxShadow:
+                    "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
+                  color: "#000000",
+                  minHeight: 40,
+                  borderRadius: 6,
+                  ":hover": {
+                    borderColor: "#D1D5DB",
+                  },
+                }),
+                valueContainer: (base) => ({
+                  ...base,
+                  color: "#000000",
+                }),
+                singleValue: (base) => ({
+                  ...base,
+                  color: "#000000",
+                }),
+                input: (base) => ({
+                  ...base,
+                  color: "#000000",
+                }),
+                placeholder: (base) => ({
+                  ...base,
+                  color: "rgba(0,0,0,0.6)",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "rgba(255,255,255,0.9)",
+                  backdropFilter: "blur(6px)",
+                  WebkitBackdropFilter: "blur(6px)",
+                  border: "1px solid rgba(209,213,219,1)",
+                  boxShadow:
+                    "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  color: "#000000",
+                  backgroundColor: state.isFocused
+                    ? "rgba(255,255,255,0.6)"
+                    : "transparent",
+                  ":active": {
+                    backgroundColor: "rgba(255,255,255,0.75)",
+                  },
+                }),
+                dropdownIndicator: (base) => ({
+                  ...base,
+                  color: "#000000",
+                  ":hover": { color: "#000000" },
+                }),
+                indicatorSeparator: (base) => ({
+                  ...base,
+                  backgroundColor: "#D1D5DB",
+                }),
+                clearIndicator: (base) => ({
+                  ...base,
+                  color: "#000000",
+                  ":hover": { color: "#000000" },
+                }),
+              }}
             />
           )}
         />
@@ -283,7 +353,7 @@ export default function BlogForm({ onSubmit, blogId }) {
 
       {/* Status */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Status <span className="text-red-500">*</span>
         </label>
         <select
@@ -292,7 +362,7 @@ export default function BlogForm({ onSubmit, blogId }) {
             ${
               isEditMode && watch("status") === "published"
                 ? "bg-gray-100 text-gray-500 border-gray-300 cursor-not-allowed"
-                : "bg-white text-black border-gray-300"
+                : "bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm text-black border-gray-300"
             }
           `}
           disabled={isEditMode && watch("status") === "published"}
@@ -311,12 +381,12 @@ export default function BlogForm({ onSubmit, blogId }) {
       {/* Featured */}
       <div className="flex items-center gap-2">
         <input type="checkbox" {...register("isFeatured")} />
-        <label>Featured post</label>
+        <label className="text-white">Featured post</label>
       </div>
 
       {/* Meta Description */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Meta Description <span className="text-red-500">*</span>
         </label>
         <textarea
@@ -325,8 +395,8 @@ export default function BlogForm({ onSubmit, blogId }) {
           })}
           placeholder="Enter meta description (150-160 characters recommended)"
           rows={3}
-          className={`w-full p-2 border rounded ${
-            errors.metaDescription ? "border-red-500" : "border-gray-300"
+          className={`w-full p-2 border rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70 ${
+            errors.metaDescription ? "border-red-500" : "border-white/20"
           }`}
         />
         <p className="text-sm text-gray-500">
@@ -341,7 +411,9 @@ export default function BlogForm({ onSubmit, blogId }) {
 
       {/* Meta Keywords - Using Controller with custom TagInput component */}
       <div>
-        <label className="block mb-1 font-medium">Meta Keywords</label>
+        <label className="block mb-1 font-medium text-white">
+          Meta Keywords
+        </label>
         <Controller
           name="metaKeywords"
           control={control}
@@ -360,15 +432,15 @@ export default function BlogForm({ onSubmit, blogId }) {
 
       {/* Summary */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Summary <span className="text-red-500">*</span>
         </label>
         <textarea
           {...register("summary", { required: "Summary is required" })}
           placeholder="Enter a brief summary of the blog post"
           rows={3}
-          className={`w-full p-2 border rounded ${
-            errors.summary ? "border-red-500" : "border-gray-300"
+          className={`w-full p-2 border rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70 ${
+            errors.metaDescription ? "border-red-500" : "border-white/20"
           }`}
         />
         {errors.summary && (
@@ -378,7 +450,7 @@ export default function BlogForm({ onSubmit, blogId }) {
 
       {/* Tags - Using Controller with custom TagInput component */}
       <div>
-        <label className="block mb-1 font-medium">Tags</label>
+        <label className="block mb-1 font-medium text-white">Tags</label>
         <Controller
           name="tags"
           control={control}
@@ -395,7 +467,7 @@ export default function BlogForm({ onSubmit, blogId }) {
 
       {/* Meta Tags - Using Controller with custom TagInput component */}
       <div>
-        <label className="block mb-1 font-medium">Meta Tags</label>
+        <label className="block mb-1 font-medium text-white">Meta Tags</label>
         <Controller
           name="metaTags"
           control={control}
@@ -414,7 +486,7 @@ export default function BlogForm({ onSubmit, blogId }) {
 
       {/* Upload Image */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           {isEditMode ? "Replace Image" : "Upload Image"}{" "}
           {!isEditMode && <span className="text-red-500">*</span>}
         </label>
@@ -441,11 +513,13 @@ export default function BlogForm({ onSubmit, blogId }) {
 
       {/* Image Alt Text */}
       <div>
-        <label className="block mb-1 font-medium">Image Alt Text</label>
+        <label className="block mb-1 font-medium text-white">
+          Image Alt Text
+        </label>
         <input
           {...register("imageAltText")}
           placeholder="Describe the image for accessibility"
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-white/20 rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70"
         />
       </div>
 
@@ -464,7 +538,7 @@ export default function BlogForm({ onSubmit, blogId }) {
       <div className="text-center mt-6">
         <button
           type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+          className="bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm hover:bg-white/20 text-white px-6 py-2 rounded "
         >
           {isEditMode ? "Update Blog" : "Submit Blog"}
         </button>

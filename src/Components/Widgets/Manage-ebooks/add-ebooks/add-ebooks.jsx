@@ -167,19 +167,21 @@ export default function EbookForm({ onSubmit, ebookId: propEbookId }) {
     <form
       onSubmit={handleSubmit(onFormSubmit)}
       onKeyDown={handleFormKeyDown}
-      className="space-y-6 max-w-5xl mx-auto px-6 py-4 bg-white"
+      className="space-y-6 max-w-5xl mx-auto px-6 py-4 "
     >
-      <h1 className="text-[32px] font-semibold text-center">
+      <h1 className="text-[32px] font-semibold text-center text-white">
         {isEditMode ? "Update Ebook" : "Add Ebook"}
       </h1>
 
       {/* Title */}
       <div>
-        <label className="block mb-1 font-medium">Title</label>
+        <label className="block mb-1 font-medium text-white">Title</label>
         <input
           {...register("title", { required: "Title is required" })}
           placeholder="Enter Title"
-          className={`w-full p-2 border rounded border-gray-300`}
+          className="w-full p-3 rounded-lg bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm 
+               text-white caret-white placeholder:text-white/70 
+               focus:outline-none border border-white/20"
         />
         {errors.title && (
           <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
@@ -188,64 +190,43 @@ export default function EbookForm({ onSubmit, ebookId: propEbookId }) {
 
       {/* Description */}
       <div>
-        <label className="block mb-1 font-medium">Description</label>
+        <label className="block mb-1 font-medium text-white">Description</label>
         <textarea
           {...register("description")}
           placeholder="Enter description"
           rows={4}
-          className={`w-full p-2 border rounded border-gray-300`}
+          className="w-full p-3 rounded-lg bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm 
+               text-white caret-white placeholder:text-white/70 
+               focus:outline-none border border-white/20"
         />
       </div>
 
       {/* Cover Image */}
       <div>
-        <label className="block mb-1 font-medium">Cover Icons</label>
+        <label className="block mb-1 font-medium text-white">Cover Icons</label>
         <input
           type="file"
           accept="image/*"
           onChange={handleCoverImageChange}
-          className={`w-full p-2 border rounded border-gray-300`}
+          className="w-full p-3 rounded-lg bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm 
+               text-white caret-white placeholder:text-white/70 
+               file:text-white file:bg-transparent 
+               focus:outline-none border border-white/20 cursor-pointer"
         />
-        {/* Image Preview */}
-        {coverImagePreview && (
-          <div className="mt-2">
-            <img
-              src={coverImagePreview}
-              alt="Cover preview"
-              className="max-w-xs max-h-48 object-cover rounded border"
-            />
-          </div>
-        )}
-        {/* Current image indicator for edit mode */}
-        {isEditMode && currentCoverImage && !coverImagePreview && (
-          <div className="mt-2">
-            <img
-              src={currentCoverImage}
-              alt="Current cover"
-              className="max-w-xs max-h-48 object-cover rounded border"
-            />
-            <p className="text-sm text-gray-600 mt-1">Current cover image</p>
-          </div>
-        )}
       </div>
 
       {/* File Upload */}
       <div>
-        <label className="block mb-1 font-medium">Upload File</label>
+        <label className="block mb-1 font-medium text-white">Upload File</label>
         <input
           type="file"
           accept=".pdf"
           onChange={handleFileChange}
-          className={`w-full p-2 border rounded border-gray-300`}
+          className="w-full p-3 rounded-lg bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm 
+               text-white caret-white placeholder:text-white/70 
+               file:text-white file:bg-transparent 
+               focus:outline-none border border-white/20 cursor-pointer"
         />
-        {/* Current file indicator for edit mode */}
-        {isEditMode && currentFile && (
-          <div className="mt-2">
-            <p className="text-sm text-gray-600">
-              Current file: {currentFile.split("/").pop() || "File attached"}
-            </p>
-          </div>
-        )}
       </div>
 
       <div className="text-center mt-6">

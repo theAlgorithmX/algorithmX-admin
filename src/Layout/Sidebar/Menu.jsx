@@ -1,6 +1,6 @@
 export const MENUITEMS = [
   {
-    menutitle: "General",
+    menutitle: "",
     menucontent: "Dashboards,Widgets",
     Items: [
       // {
@@ -26,31 +26,35 @@ export const MENUITEMS = [
       // },
       {
         path: `${process.env.PUBLIC_URL}/widgets/rbac`,
-        title: "RBAC",
+        title: "User Management",
         icon: "widget",
         type: "link",
+        permissionKey: "user-management",
+      },
+      {
+        path: `${process.env.PUBLIC_URL}/widgets/onboard-users`,
+        title: "Onboard User",
+        icon: "widget",
+        type: "link",
+        permissionKey: "onboarduser",
       },
       {
         title: "Manage Blogs",
         icon: "widget",
         type: "sub",
+        permissionKey: "blogs",
         active: false,
         children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/blog-categories`,
+            title: "Blog Category",
+            type: "link",
+          },
           {
             path: `${process.env.PUBLIC_URL}/widgets/addblog`,
             title: " Add Blog",
             type: "link",
           },
-          // {
-          //   path: `${process.env.PUBLIC_URL}/widgets/general`,
-          //   title: "View Blog",
-          //   type: "link",
-          // },
-          // {
-          //   path: `${process.env.PUBLIC_URL}/widgets/chart`,
-          //   title: "View Blog",
-          //   type: "link",
-          // },
           {
             path: `${process.env.PUBLIC_URL}/widgets/viewblog`,
             title: "View Blog",
@@ -58,18 +62,25 @@ export const MENUITEMS = [
           },
         ],
       },
-      {
-        path: `${process.env.PUBLIC_URL}/widgets/managecategories`,
-        title: "Manage Category",
-        icon: "widget",
-        type: "link",
-      },
+      // {
+      //   path: `${process.env.PUBLIC_URL}/widgets/managecategories`,
+      //   title: "Manage Category",
+      //   icon: "widget",
+      //   type: "link",
+      //   permissionKey: "manage-categories",
+      // },
       {
         title: "Manage Glossary",
         icon: "widget",
         type: "sub",
+        permissionKey: "glossary",
         active: false,
         children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/glossary-categories`,
+            title: "Glossary Category",
+            type: "link",
+          },
           {
             path: `${process.env.PUBLIC_URL}/widgets/manageglossary`,
             title: " Add Glossary",
@@ -92,6 +103,7 @@ export const MENUITEMS = [
         title: "Manage-Clients",
         icon: "widget",
         type: "sub",
+        permissionKey: "clients",
         active: false,
         children: [
           {
@@ -110,8 +122,14 @@ export const MENUITEMS = [
         title: "Manage-Ebooks",
         icon: "widget",
         type: "sub",
+        permissionKey: "ebooks",
         active: false,
         children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/ebooks-categories`,
+            title: "Ebooks Category",
+            type: "link",
+          },
           {
             path: `${process.env.PUBLIC_URL}/widgets/add-ebooks`,
             title: " Add Ebooks",
@@ -128,8 +146,14 @@ export const MENUITEMS = [
         title: "Manage-Brand-Audits",
         icon: "widget",
         type: "sub",
+        permissionKey: "brand-audits",
         active: false,
         children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/brand-audits-categories`,
+            title: "Brand Category",
+            type: "link",
+          },
           {
             path: `${process.env.PUBLIC_URL}/widgets/add-brand`,
             title: " Add Brands",
@@ -146,8 +170,14 @@ export const MENUITEMS = [
         title: "Manage-Product-Audits",
         icon: "widget",
         type: "sub",
+        permissionKey: "product-audits",
         active: false,
         children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/product-audits-categories`,
+            title: "Product Category",
+            type: "link",
+          },
           {
             path: `${process.env.PUBLIC_URL}/widgets/add-product`,
             title: " Add Product",
@@ -164,8 +194,14 @@ export const MENUITEMS = [
         title: "Manage-Press-Release",
         icon: "widget",
         type: "sub",
+        permissionKey: "press-release",
         active: false,
         children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/press-release-categories`,
+            title: "Press Release Category",
+            type: "link",
+          },
           {
             path: `${process.env.PUBLIC_URL}/widgets/add-press-release`,
             title: " Add Press-Release",
@@ -182,8 +218,14 @@ export const MENUITEMS = [
         title: "Manage-Guides",
         icon: "widget",
         type: "sub",
+        permissionKey: "guides",
         active: false,
         children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/guides-categories`,
+            title: "Guides Category",
+            type: "link",
+          },
           {
             path: `${process.env.PUBLIC_URL}/widgets/add-guide`,
             title: " Add Guide",
@@ -200,8 +242,14 @@ export const MENUITEMS = [
         title: "Manage-Impact-Stories",
         icon: "widget",
         type: "sub",
+        permissionKey: "impact-stories",
         active: false,
         children: [
+          {
+            path: `${process.env.PUBLIC_URL}/widgets/impact-stories-categories`,
+            title: "Impact Stories Category",
+            type: "link",
+          },
           {
             path: `${process.env.PUBLIC_URL}/widgets/add-story`,
             title: " Add Story",
@@ -219,6 +267,7 @@ export const MENUITEMS = [
         title: "View Form",
         icon: "widget",
         type: "link",
+        permissionKey: "view-form",
       },
     ],
   },

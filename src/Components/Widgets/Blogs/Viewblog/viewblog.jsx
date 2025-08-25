@@ -132,10 +132,14 @@ const BlogViewSection = () => {
   }, []);
 
   return (
-    <div className="w-full bg-white rounded-lg shadow">
+    <div className="w-full  rounded-lg">
       <div className="overflow-x-auto">
+        {/* Header */}
+        <div className=" px-6 py-4 border-b border-white/20 text-center">
+          <h2 className="text-2xl font-bold text-white">View Blogs</h2>
+        </div>
         <table className="w-full text-sm text-left">
-          <thead className="text-gray-700 bg-gray-50 border-b">
+          <thead className="text-white bg-white/20 shadow-lg shadow-black/10 backdrop-blur-sm border-b">
             <tr>
               <th className="py-4 px-6">Blog ID.</th>
               <th className="py-4 px-6">Title</th>
@@ -152,8 +156,14 @@ const BlogViewSection = () => {
           <tbody className="divide-y">
             {currentBlogs?.length ? (
               currentBlogs?.map((blog, index) => (
-                <tr key={blog.id} className="bg-white hover:bg-gray-50">
-                  <td className="py-4 px-6">{blog?.id}</td>
+                <tr
+                  key={blog.id}
+                  className="bg-gradient-to-br from-white/10 to-white/5 
+                backdrop-blur-xl 
+                border border-white/20 
+                shadow-xl shadow-black/40 "
+                >
+                  <td className="py-4 px-6 text-white">{blog?.id}</td>
                   <td className="py-4 px-6 font-medium">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full overflow-hidden ">
@@ -163,17 +173,19 @@ const BlogViewSection = () => {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <span>{truncateText(blog?.title, 30)}</span>
+                      <span className="text-white">
+                        {truncateText(blog?.title, 30)}
+                      </span>
                     </div>
                   </td>
-                  <td className="py-4 px-6">{blog?.post_date}</td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 text-white">{blog?.post_date}</td>
+                  <td className="py-4 px-6 text-white">
                     {truncateText(blog?.category?.title, 20)}
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 text-white">
                     {truncateText(formatArrayItems(blog.tags), 25)}
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 text-white">
                     {truncateText(blog.meta_description, 40)}
                   </td>
                   <td className="py-4 px-6">
@@ -201,7 +213,7 @@ const BlogViewSection = () => {
                     </span>
                   </td>
 
-                  <td className="py-4 px-6 text-center">
+                  <td className="py-4 px-6 text-center text-white">
                     <span>{blog.views}</span>
                   </td>
                   <td className="py-4 px-6 text-right">
@@ -241,7 +253,7 @@ const BlogViewSection = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <div className="flex items-center justify-between border-t border-gray-200 bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm px-4 py-3 sm:px-6">
         <div className="flex flex-1 items-center justify-between">
           {/* <div>
             <p className="text-sm text-gray-700">
@@ -264,14 +276,14 @@ const BlogViewSection = () => {
             >
               <button
                 onClick={goToFirstPage}
-                className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300   focus:z-20 focus:outline-offset-0"
               >
                 <span className="sr-only">First</span>
                 <ChevronsLeft className="h-5 w-5" />
               </button>
               <button
                 onClick={goToPreviousPage}
-                className="relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className="relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300   focus:z-20 focus:outline-offset-0"
               >
                 <span className="sr-only">Previous</span>
                 <ChevronLeft className="h-5 w-5" />
@@ -284,14 +296,14 @@ const BlogViewSection = () => {
 
               <button
                 onClick={goToNextPage}
-                className="relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className="relative inline-flex items-center px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300   focus:z-20 focus:outline-offset-0"
               >
                 <span className="sr-only">Next</span>
                 <ChevronRight className="h-5 w-5" />
               </button>
               <button
                 onClick={goToLastPage}
-                className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300   focus:z-20 focus:outline-offset-0"
               >
                 <span className="sr-only">Last</span>
                 <ChevronsRight className="h-5 w-5" />
@@ -304,7 +316,7 @@ const BlogViewSection = () => {
       {/* Blog Detail Modal */}
       {selectedBlog && (
         <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-screen overflow-auto">
+          <div className="bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm rounded-lg max-w-4xl w-full max-h-screen overflow-auto">
             <div className="px-6 py-4 border-b flex justify-between items-center">
               <h3 className="text-xl font-semibold text-gray-900">
                 Blog Details
@@ -431,7 +443,7 @@ const BlogViewSection = () => {
       {/* Delete Confirmation Modal */}
       {blogToDelete && (
         <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-sm w-full overflow-auto">
+          <div className="bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm rounded-lg max-w-sm w-full overflow-auto">
             <div className="px-6 py-4 border-b flex justify-between items-center">
               <h3 className="text-lg font-semibold text-gray-900">
                 Confirm Delete

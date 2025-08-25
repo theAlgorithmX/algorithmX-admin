@@ -74,38 +74,38 @@ export default function ViewEbooks({ onEdit }) {
       <div className="max-w-7xl mx-auto px-6 py-4">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-[32px] font-semibold">View Ebooks</h1>
+          <h1 className="text-[32px] font-semibold text-white">View Ebooks</h1>
         </div>
         {/* Table */}
-        <div className="overflow-x-auto bg-white rounded-lg shadow">
+        <div className="overflow-x-auto  rounded-lg shadow">
           <table className="w-full table-auto">
-            <thead className="bg-gray-50">
+            <thead className="text-white bg-white/20 shadow-lg shadow-black/10 backdrop-blur-sm border-b border-white/30">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Sr. No.
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Cover Image
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Title
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Description
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   File
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white/5 backdrop-blur-sm divide-y divide-white/20">
               {ebooks.length > 0 ? (
                 ebooks.map((ebook, index) => (
                   <tr key={ebook.id || ebook._id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                       {ebook.id}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -117,16 +117,16 @@ export default function ViewEbooks({ onEdit }) {
                         />
                       ) : (
                         <div className="h-16 w-16 bg-gray-200 rounded flex items-center justify-center">
-                          <span className="text-gray-500 text-xs">No Image</span>
+                          <span className="text-white text-xs">No Image</span>
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-900">
+                    <td className="px-6 py-4 text-sm text-white">
                       <div className="max-w-xs truncate" title={ebook.title}>
                         {ebook.title}
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-900">
+                    <td className="px-6 py-4 text-sm text-white">
                       <div
                         className="max-w-sm truncate"
                         title={ebook.description}
@@ -138,7 +138,7 @@ export default function ViewEbooks({ onEdit }) {
                       {/* Download anchor added */}
                       {ebook.file ? (
                         <div className="flex items-center space-x-2">
-                          <span className="text-gray-500 text-sm"></span>
+                          <span className="text-white text-sm"></span>
                           <a
                             href={ebook.file}
                             target="_blank"
@@ -150,21 +150,27 @@ export default function ViewEbooks({ onEdit }) {
                           </a>
                         </div>
                       ) : (
-                        <span className="text-gray-500 text-sm">No file</span>
+                        <span className="text-white text-sm">No file</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
                         <button
                           onClick={() =>
-                            navigate(`/widgets/add-ebooks/default?id=${ebook.id || ebook._id}`)
+                            navigate(
+                              `/widgets/add-ebooks/default?id=${
+                                ebook.id || ebook._id
+                              }`
+                            )
                           }
                           className="text-blue-600 hover:text-blue-800"
                         >
                           Edit
                         </button>
                         <button
-                          onClick={() => setEbookToDelete(ebook.id || ebook._id)}
+                          onClick={() =>
+                            setEbookToDelete(ebook.id || ebook._id)
+                          }
                           className="text-red-600 hover:text-red-800"
                         >
                           Delete
@@ -175,7 +181,7 @@ export default function ViewEbooks({ onEdit }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan="6" className="px-6 py-4 text-center text-white">
                     No ebooks found
                   </td>
                 </tr>
@@ -189,12 +195,12 @@ export default function ViewEbooks({ onEdit }) {
         <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg max-w-sm w-full overflow-auto">
             <div className="px-6 py-4 border-b flex justify-between items-center">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-white">
                 Confirm Delete
               </h3>
               <button
                 onClick={() => setEbookToDelete(null)}
-                className="text-gray-400 hover:text-gray-500"
+                className="text-gray-400 hover:text-white"
               >
                 &times;
               </button>

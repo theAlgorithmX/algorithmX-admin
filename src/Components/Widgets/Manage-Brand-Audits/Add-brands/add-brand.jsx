@@ -143,24 +143,25 @@ export default function BrandForm({ onSubmit, brandId }) {
         onSubmit(finalData);
       })}
       onKeyDown={handleFormKeyDown}
-      className="space-y-6 max-w-5xl mx-auto px-6 py-4 bg-white"
+      className="space-y-6 max-w-5xl mx-auto px-6 py-4 "
     >
-      <h1 className="text-[32px] font-semibold text-center">
+      <h1 className="text-[32px] font-semibold text-center text-white">
         {isEditMode ? "Update Brand" : "Add Brand"}
       </h1>
 
       {/* Title */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Title <span className="text-red-500">*</span>
         </label>
         <input
           {...register("title", { required: "Title is required" })}
           placeholder="Enter Brand Title"
-          className={`w-full p-2 border rounded ${
-            errors.title ? "border-red-500" : "border-gray-300"
-          }`}
+          className="w-full p-3 rounded-lg bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm 
+               text-white caret-white placeholder:text-white/70 
+               focus:outline-none border border-white/20"
         />
+
         {errors.title && (
           <p className="text-red-500 text-sm">{errors.title.message}</p>
         )}
@@ -168,32 +169,35 @@ export default function BrandForm({ onSubmit, brandId }) {
 
       {/* Description */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Description <span className="text-red-500">*</span>
         </label>
         <textarea
           {...register("description", { required: "Description is required" })}
           placeholder="Enter a brief description of the brand"
           rows={3}
-          className={`w-full p-2 border rounded ${
-            errors.description ? "border-red-500" : "border-gray-300"
-          }`}
+          className="w-full p-3 rounded-lg bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm 
+               text-white caret-white placeholder:text-white/70 
+               focus:outline-none border border-white/20"
         />
         {errors.description && (
           <p className="text-red-500 text-sm">{errors.description.message}</p>
         )}
       </div>
- 
+
       {/* Brand Audit Cover Upload */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Brand Image <span className="text-red-500">*</span>
         </label>
         <input
           type="file"
           accept="image/*"
           onChange={handleBrandAuditCoverChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-3 rounded-lg bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm 
+               text-white caret-white placeholder:text-white/70 
+               file:text-white file:bg-transparent 
+               focus:outline-none border border-white/20 cursor-pointer"
         />
         {brandAuditCoverPreview && (
           <div className="mt-2">

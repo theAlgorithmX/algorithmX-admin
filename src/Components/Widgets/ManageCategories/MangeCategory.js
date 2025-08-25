@@ -1,16 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, CheckCircle, AlertTriangle, X, Check } from 'lucide-react';
-import axiosHttp from '../../../utils/httpConfig';
+import React, { useState, useEffect } from "react";
+import {
+  Plus,
+  Edit2,
+  Trash2,
+  CheckCircle,
+  AlertTriangle,
+  X,
+  Check,
+} from "lucide-react";
+import axiosHttp from "../../../utils/httpConfig";
+import { useLocation } from "react-router";
 
 const MangeCategory = () => {
   const [categories, setCategories] = useState([]);
-  const [newCategoryName, setNewCategoryName] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [newCategoryName, setNewCategoryName] = useState("");
   const [editingId, setEditingId] = useState(null);
-  const [editingName, setEditingName] = useState('');
+  const [editingName, setEditingName] = useState("");
   const [toast, setToast] = useState(null);
+  const location = useLocation();
+  console.log("location", location);
 
   // Show toast notification
-  const showToast = (message, type = 'success') => {
+  const showToast = (message, type = "success") => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 2000);
   };
@@ -19,26 +31,24 @@ const MangeCategory = () => {
   const handleAddCategory = async (e) => {
     e.preventDefault();
     if (!newCategoryName.trim()) {
-      showToast('Category name is required', 'error');
+      showToast("Category name is required", "error");
       return;
     }
 
     try {
-      const response = await axiosHttp.post('/blog-categories/', {
-        title : newCategoryName.trim(),
-        page : "blogs"
+      const response = await axiosHttp.post("/blog-categories/", {
+        title: newCategoryName.trim(),
+        page: location.pathname,
       });
-      console.log("response",response);
+      console.log("response", response);
 
-      if ( response.status === 201) {
-
-          await getCategories();
-          setNewCategoryName('');
-          showToast(response.data.message);
-        }
-      
+      if (response.status === 201) {
+        await getCategories();
+        setNewCategoryName("");
+        showToast(response.data.message);
+      }
     } catch (error) {
-      console.error('Error adding category:', error);
+      console.error("Error adding category:", error);
       showToast(error.response.data.message);
     }
   };
@@ -52,81 +62,84 @@ const MangeCategory = () => {
   // Save edited category
   const saveEdit = async () => {
     if (!editingName.trim()) {
-      showToast('Category name is required', 'error');
+      showToast("Category name is required", "error");
       return;
     }
 
     try {
       const response = await axiosHttp.put(`/blog-categories/${editingId}`, {
-        title: editingName.trim()
+        title: editingName.trim(),
       });
 
       if (response.status === 200 || response.status === 201) {
-        setCategories(prev => prev.map(cat => 
-          cat.id === editingId 
-            ? { ...cat, title: editingName.trim() }
-            : cat
-        ));
-        
+        setCategories((prev) =>
+          prev.map((cat) =>
+            cat.id === editingId ? { ...cat, title: editingName.trim() } : cat
+          )
+        );
+
         setEditingId(null);
-        setEditingName('');
-        showToast('Category updated successfully!');
+        setEditingName("");
+        showToast("Category updated successfully!");
       }
     } catch (error) {
-      console.error('Error updating category:', error);
-      showToast('Failed to update category. Please try again.', 'error');
+      console.error("Error updating category:", error);
+      showToast("Failed to update category. Please try again.", "error");
       setEditingId(null);
-      setEditingName('');
+      setEditingName("");
     }
   };
 
   // Cancel editing
   const cancelEdit = () => {
     setEditingId(null);
-    setEditingName('');
+    setEditingName("");
   };
 
   // Delete category
   const deleteCategory = async (id, categoryName) => {
     try {
       const response = await axiosHttp.delete(`/blog-categories/${id}`);
-      
+
       if (response.status === 200 || response.status === 204) {
-        setCategories(prev => prev.filter(cat => cat.id !== id));
+        setCategories((prev) => prev.filter((cat) => cat.id !== id));
         showToast(`"${categoryName}" category deleted successfully!`);
       }
     } catch (error) {
-      console.error('Error deleting category:', error);
-      showToast('Failed to delete category. Please try again.', 'error');
+      console.error("Error deleting category:", error);
+      showToast("Failed to delete category. Please try again.", "error");
     }
   };
 
   // Handle Enter key press for adding
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleAddCategory(e);
     }
   };
 
   // Handle Enter key press for editing
   const handleEditKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       saveEdit();
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       cancelEdit();
     }
   };
 
   // Get categories from API
   const getCategories = async () => {
+    setLoading(true);
     try {
-      const response = await axiosHttp.get('/blog-categories');
+      const response = await axiosHttp.get("/blog-categories");
       if (response.status === 200) {
         setCategories(response.data.data);
       }
     } catch (error) {
-      console.error('Error fetching categories:', error);
-      showToast('Failed to fetch categories', 'error');
+      console.error("Error fetching categories:", error);
+      showToast("Failed to fetch categories", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -135,9 +148,11 @@ const MangeCategory = () => {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white">
+    <div className="max-w-4xl mx-auto p-6 ">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Category Management</h1>
+        <h1 className="text-3xl font-bold text-white mb-2">
+          Category Management
+        </h1>
         <p className="text-gray-600">Manage your categories with ease</p>
       </div>
 
@@ -151,12 +166,12 @@ const MangeCategory = () => {
               onChange={(e) => setNewCategoryName(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Enter category name and press Enter"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm  border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
           <button
             type="submit"
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-sm"
+            className="inline-flex items-center px-4 py-2 bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm hover:bg-white/20 text-white  rounded-lg"
           >
             <Plus className="w-4 h-4 mr-2" />
             Add
@@ -165,30 +180,47 @@ const MangeCategory = () => {
       </div>
 
       {/* Categories Table */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className=" rounded-lg shadow-md overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-black/10 shadow-lg shadow-white/10 backdrop-blur-sm">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className=" text-white px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ID
+                </th>
+                <th className="text-white px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Category Name
+                </th>
+                <th className="text-white px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {categories.length === 0 ? (
+            <tbody className="bg-white/20 shadow-lg shadow-black/10 backdrop-blur-sm divide-y divide-gray-200">
+              {loading ? (
                 <tr>
-                  <td colSpan="3" className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan="3" className="px-6 py-12 text-center">
+                    <div className="flex justify-center">
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                    </div>
+                  </td>
+                </tr>
+              ) : categories.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="3"
+                    className="px-6 py-8 text-center text-gray-500"
+                  >
                     No categories found. Add a category to get started.
                   </td>
                 </tr>
               ) : (
                 categories.map((category) => (
-                  <tr key={category.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <tr key={category.id} className="hover:bg-black/10">
+                    <td className="px-6 py-4 text-white whitespace-nowrap text-sm text-gray-900">
                       #{category.id}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap text-white">
                       {editingId === category.id ? (
                         <div className="flex items-center gap-2">
                           <input
@@ -212,7 +244,9 @@ const MangeCategory = () => {
                           </button>
                         </div>
                       ) : (
-                        <div className="text-sm font-medium text-gray-900">{category.title}</div>
+                        <div className="text-sm font-medium text-gray-900 text-white">
+                          {category.title}
+                        </div>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -225,7 +259,9 @@ const MangeCategory = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => deleteCategory(category.id, category.title)}
+                          onClick={() =>
+                            deleteCategory(category.id, category.title)
+                          }
                           className="inline-flex items-center px-3 py-1 bg-red-100 text-red-700 rounded-md hover:bg-red-200 transition-colors duration-200"
                         >
                           <Trash2 className="w-3 h-3 mr-1" />
@@ -244,12 +280,14 @@ const MangeCategory = () => {
       {/* Toast Notification */}
       {toast && (
         <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-top duration-300">
-          <div className={`flex items-center px-4 py-3 rounded-lg shadow-lg max-w-sm ${
-            toast.type === 'success' 
-              ? 'bg-green-50 border border-green-200 text-green-800' 
-              : 'bg-red-50 border border-red-200 text-red-800'
-          }`}>
-            {toast.type === 'success' ? (
+          <div
+            className={`flex items-center px-4 py-3 rounded-lg shadow-lg max-w-sm ${
+              toast.type === "success"
+                ? "bg-green-50 border border-green-200 text-green-800"
+                : "bg-red-50 border border-red-200 text-red-800"
+            }`}
+          >
+            {toast.type === "success" ? (
               <CheckCircle className="w-5 h-5 mr-3 text-green-500" />
             ) : (
               <AlertTriangle className="w-5 h-5 mr-3 text-red-500" />

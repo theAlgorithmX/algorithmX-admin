@@ -28,7 +28,10 @@ const ProductViewSection = () => {
   // Get current products
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productsData.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = productsData.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   // Change page
   const goToFirstPage = () => setCurrentPage(1);
@@ -94,32 +97,35 @@ const ProductViewSection = () => {
   }, []);
 
   return (
-    <div className="w-full bg-white rounded-lg shadow">
+    <div className="w-full  rounded-lg shadow">
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left">
-          <thead className="text-gray-700 bg-gray-50 border-b">
+          <thead className="bg-white/20 shadow-lg shadow-black/10 backdrop-blur-sm border-b border-white/30">
             <tr>
-              <th className="py-4 px-6">ID</th>
-              <th className="py-4 px-6">Name</th>
-              <th className="py-4 px-6">Description</th>
-              <th className="py-4 px-6">Product Image</th>
-              <th className="py-4 px-6 text-right">Actions</th>
+              <th className="py-4 px-6 text-white">ID</th>
+              <th className="py-4 px-6 text-white">Name</th>
+              <th className="py-4 px-6 text-white">Description</th>
+              <th className="py-4 px-6 text-white">Product Image</th>
+              <th className="py-4 px-6 text-white text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y">
             {currentProducts?.length ? (
               currentProducts?.map((product) => (
-                <tr key={product.id} className="bg-white hover:bg-gray-50">
-                  <td className="py-4 px-6">{product?.id}</td>
+                <tr
+                  key={product.id}
+                  className="bg-white/5 backdrop-blur-sm divide-y divide-white/20 "
+                >
+                  <td className="py-4 px-6 text-white">{product?.id}</td>
                   <td className="py-4 px-6 font-medium">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 text-white">
                       <span>{truncateText(product?.title, 30)}</span>
                     </div>
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 text-white">
                     {truncateText(product?.description, 50)}
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 text-white">
                     {product?.productAuditCover && (
                       <img
                         src={product.productAuditCover}
@@ -128,7 +134,7 @@ const ProductViewSection = () => {
                       />
                     )}
                   </td>
-                  <td className="py-4 px-6 text-right">
+                  <td className="py-4 px-6 text-right text-white">
                     <div className="flex justify-end space-x-2">
                       <button
                         onClick={() => handleView(product)}
@@ -155,7 +161,7 @@ const ProductViewSection = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="text-center py-6 text-gray-500">
+                <td colSpan={5} className="text-center py-6 text-white">
                   No products found
                 </td>
               </tr>
@@ -164,10 +170,10 @@ const ProductViewSection = () => {
         </table>
       </div>
       {/* Pagination */}
-      <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <div className="flex items-center justify-between border-t border-gray-200 bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm px-4 py-3 sm:px-6">
         <div className="flex flex-1 items-center justify-between">
           <div>
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-white">
               <span className="font-medium">
                 {indexOfFirstProduct + 1}-
                 {Math.min(indexOfLastProduct, productsData.length)}
@@ -236,7 +242,7 @@ const ProductViewSection = () => {
                 <h2 className="text-2xl font-bold">{selectedProduct.name}</h2>
                 <div>
                   <h3 className="text-lg font-semibold">Description</h3>
-                  <p className="text-gray-700">{selectedProduct?.description}</p>
+                  <p className="text-white">{selectedProduct?.description}</p>
                 </div>
                 {selectedProduct?.product_image && (
                   <div>
@@ -251,8 +257,10 @@ const ProductViewSection = () => {
                 <div>
                   <h3 className="text-lg font-semibold">Content</h3>
                   <div
-                    className="text-gray-700 prose prose-sm max-w-none"
-                    dangerouslySetInnerHTML={{ __html: selectedProduct?.content }}
+                    className="text-white prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{
+                      __html: selectedProduct?.content,
+                    }}
                   />
                 </div>
               </div>
@@ -284,7 +292,7 @@ const ProductViewSection = () => {
               </button>
             </div>
             <div className="p-6">
-              <p className="text-gray-700 mb-4">
+              <p className="text-white mb-4">
                 Are you sure you want to delete this product?
               </p>
               <div className="flex justify-end gap-2">
@@ -312,4 +320,4 @@ const ProductViewSection = () => {
   );
 };
 
-export default ProductViewSection; 
+export default ProductViewSection;

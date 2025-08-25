@@ -26,14 +26,21 @@ const PressReleaseViewSection = () => {
 
   // Change page
   const goToFirstPage = () => setCurrentPage(1);
-  const goToLastPage = () => setCurrentPage(Math.ceil(pressData.length / pressPerPage));
-  const goToPreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const goToNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(pressData.length / pressPerPage)));
+  const goToLastPage = () =>
+    setCurrentPage(Math.ceil(pressData.length / pressPerPage));
+  const goToPreviousPage = () =>
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const goToNextPage = () =>
+    setCurrentPage((prev) =>
+      Math.min(prev + 1, Math.ceil(pressData.length / pressPerPage))
+    );
 
   // Truncate text to specific length
   const truncateText = (text, maxLength) => {
     if (!text) return "";
-    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    return text.length > maxLength
+      ? text.substring(0, maxLength) + "..."
+      : text;
   };
 
   const navigate = useNavigate();
@@ -81,10 +88,10 @@ const PressReleaseViewSection = () => {
   }, []);
 
   return (
-    <div className="w-full bg-white rounded-lg shadow">
+    <div className="w-full  rounded-lg shadow">
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left">
-          <thead className="text-gray-700 bg-gray-50 border-b">
+          <thead className="bg-white/20 shadow-lg shadow-black/10 backdrop-blur-sm border-b border-white/30 text-white">
             <tr>
               <th className="py-4 px-6">ID</th>
               <th className="py-4 px-6">Title</th>
@@ -97,13 +104,18 @@ const PressReleaseViewSection = () => {
           <tbody className="divide-y">
             {currentPress?.length ? (
               currentPress?.map((press) => (
-                <tr key={press.id} className="bg-white hover:bg-gray-50">
-                  <td className="py-4 px-6">{press?.id}</td>
-                  <td className="py-4 px-6 font-medium">
+                <tr
+                  key={press.id}
+                  className="bg-white/5 backdrop-blur-sm divide-y divide-white/20"
+                >
+                  <td className="py-4 px-6 text-white">{press?.id}</td>
+                  <td className="py-4 px-6 font-medium text-white">
                     <span>{truncateText(press?.title, 30)}</span>
                   </td>
-                  <td className="py-4 px-6">{truncateText(press?.summary, 50)}</td>
-                  <td className="py-4 px-6">{press?.tag}</td>
+                  <td className="py-4 px-6 text-white">
+                    {truncateText(press?.summary, 50)}
+                  </td>
+                  <td className="py-4 px-6 text-white">{press?.tag}</td>
                   <td className="py-4 px-6">
                     {press?.cover_image && (
                       <img
@@ -149,13 +161,12 @@ const PressReleaseViewSection = () => {
         </table>
       </div>
       {/* Pagination */}
-      <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <div className="flex items-center justify-between border-t border-gray-200 bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm px-4 py-3 sm:px-6">
         <div className="flex flex-1 items-center justify-between">
           <div>
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-white">
               <span className="font-medium">
-                {indexOfFirst + 1}-
-                {Math.min(indexOfLast, pressData.length)}
+                {indexOfFirst + 1}-{Math.min(indexOfLast, pressData.length)}
               </span>{" "}
               of <span className="font-medium">{pressData.length}</span>
             </p>
@@ -221,11 +232,11 @@ const PressReleaseViewSection = () => {
                 <h2 className="text-2xl font-bold">{selectedPress.title}</h2>
                 <div>
                   <h3 className="text-lg font-semibold">Summary</h3>
-                  <p className="text-gray-700">{selectedPress?.summary}</p>
+                  <p className="text-white">{selectedPress?.summary}</p>
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold">Tag</h3>
-                  <p className="text-gray-700">{selectedPress?.tag}</p>
+                  <p className="text-white">{selectedPress?.tag}</p>
                 </div>
                 {selectedPress?.cover_image && (
                   <div>
@@ -240,7 +251,7 @@ const PressReleaseViewSection = () => {
                 <div>
                   <h3 className="text-lg font-semibold">Content</h3>
                   <div
-                    className="text-gray-700 prose prose-sm max-w-none"
+                    className="text-white prose prose-sm max-w-none"
                     dangerouslySetInnerHTML={{ __html: selectedPress?.content }}
                   />
                 </div>
@@ -273,7 +284,7 @@ const PressReleaseViewSection = () => {
               </button>
             </div>
             <div className="p-6">
-              <p className="text-gray-700 mb-4">
+              <p className="text-white mb-4">
                 Are you sure you want to delete this press release?
               </p>
               <div className="flex justify-end gap-2">
@@ -301,4 +312,4 @@ const PressReleaseViewSection = () => {
   );
 };
 
-export default PressReleaseViewSection; 
+export default PressReleaseViewSection;

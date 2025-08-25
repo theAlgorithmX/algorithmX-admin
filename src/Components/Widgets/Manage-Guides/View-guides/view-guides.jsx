@@ -88,10 +88,10 @@ const GuideViewSection = () => {
   }, []);
 
   return (
-    <div className="w-full bg-white rounded-lg shadow">
+    <div className="w-full rounded-lg shadow">
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left">
-          <thead className="text-gray-700 bg-gray-50 border-b">
+          <thead className="text-white bg-white/20 shadow-lg shadow-black/10 backdrop-blur-sm border-b border-white/30 border-b">
             <tr>
               <th className="py-4 px-6">ID</th>
               <th className="py-4 px-6">Title</th>
@@ -104,13 +104,18 @@ const GuideViewSection = () => {
           <tbody className="divide-y">
             {currentGuides?.length ? (
               currentGuides?.map((guide) => (
-                <tr key={guide.id} className="bg-white hover:bg-gray-50">
-                  <td className="py-4 px-6">{guide?.id}</td>
-                  <td className="py-4 px-6 font-medium">
+                <tr
+                  key={guide.id}
+                  className="bg-white/5 backdrop-blur-sm divide-y divide-white/20"
+                >
+                  <td className="py-4 px-6 text-white">{guide?.id}</td>
+                  <td className="py-4 px-6 text-white font-medium">
                     <span>{truncateText(guide?.title, 30)}</span>
                   </td>
-                  <td className="py-4 px-6">{truncateText(guide?.summary, 50)}</td>
-                  <td className="py-4 px-6">{guide?.tag}</td>
+                  <td className="py-4 px-6 text-white">
+                    {truncateText(guide?.summary, 50)}
+                  </td>
+                  <td className="py-4 px-6 text-white">{guide?.tag}</td>
                   <td className="py-4 px-6">
                     {guide?.cover_image && (
                       <img
@@ -147,7 +152,7 @@ const GuideViewSection = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="text-center py-6 text-gray-500">
+                <td colSpan={6} className="text-center py-6 text-white">
                   No guides found
                 </td>
               </tr>
@@ -156,10 +161,10 @@ const GuideViewSection = () => {
         </table>
       </div>
       {/* Pagination */}
-      <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <div className="flex items-center justify-between border-t border-gray-200 bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm px-4 py-3 sm:px-6">
         <div className="flex flex-1 items-center justify-between">
           <div>
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-white">
               <span className="font-medium">
                 {indexOfFirstGuide + 1}-
                 {Math.min(indexOfLastGuide, guidesData.length)}
@@ -228,11 +233,11 @@ const GuideViewSection = () => {
                 <h2 className="text-2xl font-bold">{selectedGuide.title}</h2>
                 <div>
                   <h3 className="text-lg font-semibold">Summary</h3>
-                  <p className="text-gray-700">{selectedGuide?.summary}</p>
+                  <p className="text-white">{selectedGuide?.summary}</p>
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold">Tag</h3>
-                  <p className="text-gray-700">{selectedGuide?.tag}</p>
+                  <p className="text-white">{selectedGuide?.tag}</p>
                 </div>
                 {selectedGuide?.cover_image && (
                   <div>
@@ -247,7 +252,7 @@ const GuideViewSection = () => {
                 <div>
                   <h3 className="text-lg font-semibold">Content</h3>
                   <div
-                    className="text-gray-700 prose prose-sm max-w-none"
+                    className="text-white prose prose-sm max-w-none"
                     dangerouslySetInnerHTML={{ __html: selectedGuide?.content }}
                   />
                 </div>
@@ -280,7 +285,7 @@ const GuideViewSection = () => {
               </button>
             </div>
             <div className="p-6">
-              <p className="text-gray-700 mb-4">
+              <p className="text-white mb-4">
                 Are you sure you want to delete this guide?
               </p>
               <div className="flex justify-end gap-2">
@@ -308,4 +313,4 @@ const GuideViewSection = () => {
   );
 };
 
-export default GuideViewSection; 
+export default GuideViewSection;

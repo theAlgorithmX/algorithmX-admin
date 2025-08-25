@@ -51,12 +51,10 @@ const WordEditor = forwardRef(({ updateContent, initialContent = "" }, ref) => {
   );
 
   return (
-    <div className="bg-white py-10">
-      <div className="rounded-lg shadow-lg p-4 max-w-7xl mx-auto">
+    <div className=" py-10">
+      <div className="rounded-lg p-4 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-800">
-            Brand Content Editor
-          </h2>
+          <h2 className="text-xl font-bold text-white">Brand Content Editor</h2>
         </div>
         <Editor
           apiKey="jnwzo6x0ch3vfi76ixspm2353f8kmb7rp87xiqlaksgesnxh"

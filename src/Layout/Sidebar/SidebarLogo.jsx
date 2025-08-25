@@ -21,7 +21,7 @@ const SidebarLogo = () => {
         <Image
           attrImage={{
             className: "img-fluid d-inline h-[50px] w-[50px] mb-[5px]",
-            src: `${process.env.PUBLIC_URL}/images/AlgorithmX black-01.png`,
+            src: `${process.env.PUBLIC_URL}/images/logo5.webp`,
             alt: "AlgorithmX logo",
           }}
         />

@@ -94,10 +94,14 @@ const GlossaryViewSection = () => {
   }, []);
 
   return (
-    <div className="w-full bg-white rounded-lg shadow">
+    <div className="w-full rounded-lg shadow">
       <div className="overflow-x-auto">
+        {/* Header */}
+        <div className=" px-6 py-4 border-b border-white/20 text-center">
+          <h2 className="text-2xl font-bold text-white">View Glossary</h2>
+        </div>
         <table className="w-full text-sm text-left">
-          <thead className="text-gray-700 bg-gray-50 border-b">
+          <thead className="text-white bg-white/20 shadow-lg shadow-black/10 backdrop-blur-sm border-b">
             <tr>
               <th className="py-4 px-6">ID</th>
               <th className="py-4 px-6">Keyword</th>
@@ -108,14 +112,20 @@ const GlossaryViewSection = () => {
           <tbody className="divide-y">
             {currentBlogs?.length ? (
               currentBlogs?.map((blog, index) => (
-                <tr key={blog.id} className="bg-white hover:bg-gray-50">
-                  <td className="py-4 px-6">{blog?.id}</td>
-                  <td className="py-4 px-6 font-medium">
-                    <div className="flex items-center gap-3">
+                <tr
+                  key={blog.id}
+                  className="bg-gradient-to-br from-white/10 to-white/5 
+                backdrop-blur-xl 
+                border border-white/20 
+                shadow-xl shadow-black/40 "
+                >
+                  <td className="py-4 px-6 text-white">{blog?.id}</td>
+                  <td className="py-4 px-6 text-white">
+                    <div className="flex items-center gap-3 text-white">
                       <span>{truncateText(blog?.keyword, 30)}</span>
                     </div>
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 text-white">
                     {truncateText(blog?.summary, 50)}
                   </td>
                   <td className="py-4 px-6 text-right">
@@ -145,7 +155,7 @@ const GlossaryViewSection = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={4} className="text-center py-6 text-gray-500">
+                <td colSpan={4} className="text-center py-6 text-white">
                   No blogs found
                 </td>
               </tr>
@@ -154,7 +164,7 @@ const GlossaryViewSection = () => {
         </table>
       </div>
       {/* Pagination */}
-      <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <div className="flex items-center justify-between border-t border-gray-200 bg-transparent px-4 py-3 sm:px-6">
         <div className="flex flex-1 items-center justify-between">
           {/* <div>
             <p className="text-sm text-gray-700">
@@ -216,7 +226,7 @@ const GlossaryViewSection = () => {
       {/* Blog Detail Modal */}
       {selectedBlog && (
         <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-screen overflow-auto">
+          <div className="bg-transparent rounded-lg max-w-4xl w-full max-h-screen overflow-auto">
             <div className="px-6 py-4 border-b flex justify-between items-center">
               <h3 className="text-xl font-semibold text-gray-900">
                 Glossary Details

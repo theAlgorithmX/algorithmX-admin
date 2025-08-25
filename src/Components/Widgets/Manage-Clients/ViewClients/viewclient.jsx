@@ -4,6 +4,19 @@ import axiosHttp from "../../../../utils/httpConfig";
 import { useNavigate } from "react-router-dom";
 import { classes } from "../../../../Data/Layouts";
 
+// Add CSS to prevent flickering
+const tableStyles = {
+  WebkitOverflowScrolling: "touch",
+  scrollbarWidth: "thin",
+  scrollbarColor: "rgba(255, 255, 255, 0.3) transparent",
+};
+
+const rowStyles = {
+  willChange: "auto",
+  transform: "translateZ(0)",
+  backfaceVisibility: "hidden",
+};
+
 const defaultLayoutObj = classes.find(
   (item) => Object.values(item).pop(1) === "compact-wrapper"
 );
@@ -109,49 +122,49 @@ const ClientsTable = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="rounded-lg overflow-hidden ">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+        <div className=" px-6 py-4 border-b border-white/20 text-center">
           <h2 className="text-2xl font-bold text-white">Clients Management</h2>
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" style={tableStyles}>
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="text-white bg-white/20 shadow-lg shadow-black/10 backdrop-blur-sm border-b border-white/30">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium  text-white uppercase tracking-wider">
                   ID
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium  text-white uppercase tracking-wider">
                   Logo
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium  text-white uppercase tracking-wider">
                   Brand Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium  text-white uppercase tracking-wider">
                   Industry
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium  text-white uppercase tracking-wider">
                   Services
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium  text-white uppercase tracking-wider">
                   Type
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium  text-white uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium  text-white uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white/5 backdrop-blur-sm divide-y divide-white/20">
               {clients.length === 0 ? (
                 <tr>
                   <td
                     colSpan="8"
-                    className="px-6 py-12 text-center text-gray-500"
+                    className="px-6 py-12 text-center  text-white"
                   >
                     <div className="flex flex-col items-center">
                       <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-4">
@@ -168,9 +181,10 @@ const ClientsTable = () => {
                 clients.map((client) => (
                   <tr
                     key={client.id}
-                    className="hover:bg-gray-50 transition-colors"
+                    className="bg-white/5 hover:bg-white/10 transition-all duration-200 ease-in-out border-b border-white/10"
+                    style={rowStyles}
                   >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium  text-white">
                       #{client.id}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -192,20 +206,20 @@ const ClientsTable = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
+                      <div className="text-sm font-medium  text-white">
                         {client.brandName}
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm  text-white">
                         {client.productType}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm  text-white">
                       {client.brandIndustry}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm  text-white">
                       {client.brandServices}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm  text-white">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                         {client.brandType}
                       </span>
@@ -225,21 +239,21 @@ const ClientsTable = () => {
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={() => handleView(client)}
-                          className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50 transition-colors"
+                          className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50 transition-all duration-200 ease-in-out hover:scale-110"
                           title="View Details"
                         >
                           <Eye size={16} />
                         </button>
                         <button
                           onClick={() => handleEdit(client.id)}
-                          className="text-green-600 hover:text-green-900 p-1 rounded-md hover:bg-green-50 transition-colors"
+                          className="text-green-600 hover:text-green-900 p-1 rounded-md hover:bg-green-50 transition-all duration-200 ease-in-out hover:scale-110"
                           title="Edit Client"
                         >
                           <Edit size={16} />
                         </button>
                         <button
                           onClick={() => handleDelete(client.id)}
-                          className="text-red-600 hover:text-red-900 p-1 rounded-md hover:bg-red-50 transition-colors"
+                          className="text-red-600 hover:text-red-900 p-1 rounded-md hover:bg-red-50 transition-all duration-200 ease-in-out hover:scale-110"
                           title="Delete Client"
                         >
                           <Trash2 size={16} />
@@ -260,7 +274,7 @@ const ClientsTable = () => {
               <div className="text-sm text-gray-700">
                 Showing {clients.length} client{clients.length !== 1 ? "s" : ""}
               </div>
-              <div className="text-sm text-gray-500">
+              <div className="text-sm  text-white">
                 Last updated: {new Date().toLocaleDateString()}
               </div>
             </div>
@@ -290,58 +304,54 @@ const ClientsTable = () => {
               {/* Basic Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Basic Information
                   </h4>
                   <div className="space-y-3">
                     <div>
-                      <label className="text-sm font-medium text-gray-500">
+                      <label className="text-sm font-medium  text-white">
                         ID
                       </label>
-                      <p className="text-gray-900">#{selectedClient.id}</p>
+                      <p className=" text-white">#{selectedClient.id}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-500">
+                      <label className="text-sm font-medium  text-white">
                         Brand Name
                       </label>
-                      <p className="text-gray-900">
-                        {selectedClient.brandName}
-                      </p>
+                      <p className=" text-white">{selectedClient.brandName}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-500">
+                      <label className="text-sm font-medium  text-white">
                         Product Type
                       </label>
-                      <p className="text-gray-900">
+                      <p className=" text-white">
                         {selectedClient.productType}
                       </p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-500">
+                      <label className="text-sm font-medium  text-white">
                         Industry
                       </label>
-                      <p className="text-gray-900">
+                      <p className=" text-white">
                         {selectedClient.brandIndustry}
                       </p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-500">
+                      <label className="text-sm font-medium  text-white">
                         Services
                       </label>
-                      <p className="text-gray-900">
+                      <p className=" text-white">
                         {selectedClient.brandServices}
                       </p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-500">
+                      <label className="text-sm font-medium  text-white">
                         Brand Type
                       </label>
-                      <p className="text-gray-900">
-                        {selectedClient.brandType}
-                      </p>
+                      <p className=" text-white">{selectedClient.brandType}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-500">
+                      <label className="text-sm font-medium  text-white">
                         Brand RGB
                       </label>
                       <div className="flex items-center gap-2">
@@ -349,13 +359,11 @@ const ClientsTable = () => {
                           className="w-6 h-6 rounded border"
                           style={{ backgroundColor: selectedClient.brandRGB }}
                         ></div>
-                        <p className="text-gray-900">
-                          {selectedClient.brandRGB}
-                        </p>
+                        <p className=" text-white">{selectedClient.brandRGB}</p>
                       </div>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-500">
+                      <label className="text-sm font-medium  text-white">
                         Status
                       </label>
                       <span
@@ -372,13 +380,13 @@ const ClientsTable = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Media
                   </h4>
                   <div className="space-y-4">
                     {selectedClient.brandLogoURL && (
                       <div>
-                        <label className="text-sm font-medium text-gray-500">
+                        <label className="text-sm font-medium  text-white">
                           Brand Logo
                         </label>
                         <img
@@ -390,7 +398,7 @@ const ClientsTable = () => {
                     )}
                     {selectedClient.brandImageURL && (
                       <div>
-                        <label className="text-sm font-medium text-gray-500">
+                        <label className="text-sm font-medium  text-white">
                           Brand Image
                         </label>
                         <img
@@ -402,7 +410,7 @@ const ClientsTable = () => {
                     )}
                     {selectedClient.brandVideoURL && (
                       <div>
-                        <label className="text-sm font-medium text-gray-500">
+                        <label className="text-sm font-medium  text-white">
                           Brand Video
                         </label>
                         <div className="mt-1">
@@ -421,10 +429,10 @@ const ClientsTable = () => {
               {/* Video Title */}
               {selectedClient.brandVideoTitle && (
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Video Title
                   </h4>
-                  <p className="mt-2 text-gray-900">
+                  <p className="mt-2  text-white">
                     {selectedClient.brandVideoTitle}
                   </p>
                 </div>
@@ -433,7 +441,7 @@ const ClientsTable = () => {
               {/* About Description */}
               {selectedClient.brandAboutDesc && (
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     About Description
                   </h4>
                   <p className="mt-2 text-gray-700 leading-relaxed">
@@ -446,7 +454,7 @@ const ClientsTable = () => {
               {selectedClient.aboutImgURLs &&
                 selectedClient.aboutImgURLs.length > 0 && (
                   <div>
-                    <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                    <h4 className="text-lg font-semibold  text-white border-b pb-2">
                       About Images
                     </h4>
                     <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -465,23 +473,23 @@ const ClientsTable = () => {
               {/* Solution */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Solution
                   </h4>
                   <div className="mt-2 space-y-3">
                     {selectedClient.solutionTitle && (
                       <div>
-                        <label className="text-sm font-medium text-gray-500">
+                        <label className="text-sm font-medium  text-white">
                           Title
                         </label>
-                        <p className="text-gray-900">
+                        <p className=" text-white">
                           {selectedClient.solutionTitle}
                         </p>
                       </div>
                     )}
                     {selectedClient.solutionDesc && (
                       <div>
-                        <label className="text-sm font-medium text-gray-500">
+                        <label className="text-sm font-medium  text-white">
                           Description
                         </label>
                         <p className="text-gray-700 text-sm leading-relaxed">
@@ -493,7 +501,7 @@ const ClientsTable = () => {
                 </div>
                 {selectedClient.solutionImgURL && (
                   <div>
-                    <label className="text-sm font-medium text-gray-500">
+                    <label className="text-sm font-medium  text-white">
                       Solution Image
                     </label>
                     <img
@@ -508,33 +516,33 @@ const ClientsTable = () => {
               {/* Client Testimonial */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Client Testimonial
                   </h4>
                   <div className="mt-2 space-y-3">
                     {selectedClient.clientName && (
                       <div>
-                        <label className="text-sm font-medium text-gray-500">
+                        <label className="text-sm font-medium  text-white">
                           Client Name
                         </label>
-                        <p className="text-gray-900">
+                        <p className=" text-white">
                           {selectedClient.clientName}
                         </p>
                       </div>
                     )}
                     {selectedClient.clientDesignation && (
                       <div>
-                        <label className="text-sm font-medium text-gray-500">
+                        <label className="text-sm font-medium  text-white">
                           Designation
                         </label>
-                        <p className="text-gray-900">
+                        <p className=" text-white">
                           {selectedClient.clientDesignation}
                         </p>
                       </div>
                     )}
                     {selectedClient.clientTestimonial && (
                       <div>
-                        <label className="text-sm font-medium text-gray-500">
+                        <label className="text-sm font-medium  text-white">
                           Testimonial
                         </label>
                         <p className="text-gray-700 text-sm leading-relaxed italic bg-gray-50 p-3 rounded">
@@ -546,7 +554,7 @@ const ClientsTable = () => {
                 </div>
                 {selectedClient.clientImgURL && (
                   <div>
-                    <label className="text-sm font-medium text-gray-500">
+                    <label className="text-sm font-medium  text-white">
                       Client Image
                     </label>
                     <img
@@ -561,7 +569,7 @@ const ClientsTable = () => {
               {/* Tech Stack */}
               {selectedClient.techStackTitle && (
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Tech Stack
                   </h4>
                   <p className="mt-2 text-gray-700">
@@ -587,7 +595,7 @@ const ClientsTable = () => {
               {selectedClient.wireFrameURLs &&
                 selectedClient.wireFrameURLs.length > 0 && (
                   <div>
-                    <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                    <h4 className="text-lg font-semibold  text-white border-b pb-2">
                       Wireframes
                     </h4>
                     <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -607,7 +615,7 @@ const ClientsTable = () => {
               {selectedClient.prototypeURLs &&
                 selectedClient.prototypeURLs.length > 0 && (
                   <div>
-                    <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                    <h4 className="text-lg font-semibold  text-white border-b pb-2">
                       Prototypes
                     </h4>
                     <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -626,7 +634,7 @@ const ClientsTable = () => {
               {/* Result Pointers */}
               {selectedClient.resultPointers && (
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Result Pointers
                   </h4>
                   {selectedClient.resultTitle && (
@@ -650,14 +658,14 @@ const ClientsTable = () => {
                                 className="w-full h-32 object-cover rounded border mb-3"
                               />
                             )}
-                            <h5 className="font-medium text-gray-900">
+                            <h5 className="font-medium  text-white">
                               {pointer.title || "No Title"}
                             </h5>
                           </div>
                         )
                       )
                     ) : (
-                      <p className="text-gray-500 col-span-2">
+                      <p className=" text-white col-span-2">
                         No result pointers data available
                       </p>
                     )}
@@ -668,7 +676,7 @@ const ClientsTable = () => {
               {/* Optimization */}
               {selectedClient.optimizationPointers && (
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Optimization
                   </h4>
                   {selectedClient.optimizationTitle && (
@@ -697,14 +705,14 @@ const ClientsTable = () => {
                                 className="w-full h-32 object-cover rounded border mb-3"
                               />
                             )}
-                            <h5 className="font-medium text-gray-900">
+                            <h5 className="font-medium  text-white">
                               {optimization.title || "No Title"}
                             </h5>
                           </div>
                         )
                       )
                     ) : (
-                      <p className="text-gray-500 col-span-3">
+                      <p className=" text-white col-span-3">
                         No optimization data available
                       </p>
                     )}
@@ -715,7 +723,7 @@ const ClientsTable = () => {
               {/* Business Process */}
               {selectedClient.businessProcess && (
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Business Process
                   </h4>
                   <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -727,7 +735,7 @@ const ClientsTable = () => {
                             key={process.id || index}
                             className="bg-gray-50 p-4 rounded-lg"
                           >
-                            <h5 className="font-medium text-gray-900">
+                            <h5 className="font-medium  text-white">
                               {process.title || "No Title"}
                             </h5>
                             <p className="text-sm text-gray-600 mt-1">
@@ -737,7 +745,7 @@ const ClientsTable = () => {
                         )
                       )
                     ) : (
-                      <p className="text-gray-500 col-span-2">
+                      <p className=" text-white col-span-2">
                         No business process data available
                       </p>
                     )}
@@ -748,7 +756,7 @@ const ClientsTable = () => {
               {/* Project Goals */}
               {selectedClient.projectGoals && (
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Project Goals
                   </h4>
                   <div className="mt-2 space-y-4">
@@ -768,7 +776,7 @@ const ClientsTable = () => {
                               key={goal.id || index}
                               className="bg-gray-50 p-4 rounded-lg"
                             >
-                              <h5 className="font-medium text-gray-900">
+                              <h5 className="font-medium  text-white">
                                 {goal.title || "No Title"}
                               </h5>
                               <p className="text-sm text-gray-600 mt-1">
@@ -778,7 +786,7 @@ const ClientsTable = () => {
                           )
                         )
                       ) : (
-                        <p className="text-gray-500 col-span-2">
+                        <p className=" text-white col-span-2">
                           No project goals data available
                         </p>
                       )}
@@ -790,7 +798,7 @@ const ClientsTable = () => {
               {/* Metrics */}
               {selectedClient.metrices && (
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h4 className="text-lg font-semibold  text-white border-b pb-2">
                     Metrics
                   </h4>
                   <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -836,7 +844,7 @@ const ClientsTable = () => {
 
               {/* Timestamps */}
               <div className="border-t pt-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-500">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm  text-white">
                   <div>
                     <label className="font-medium">Created At</label>
                     <p>{new Date(selectedClient.createdAt).toLocaleString()}</p>

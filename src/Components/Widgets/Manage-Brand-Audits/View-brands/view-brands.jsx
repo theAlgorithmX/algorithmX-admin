@@ -95,10 +95,10 @@ const BrandViewSection = () => {
   }, []);
 
   return (
-    <div className="w-full bg-white rounded-lg shadow">
+    <div className="w-full rounded-lg shadow">
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left">
-          <thead className="text-gray-700 bg-gray-50 border-b">
+          <thead className="text-white bg-white/20 shadow-lg shadow-black/10 backdrop-blur-sm border-b border-white/30">
             <tr>
               <th className="py-4 px-6">ID</th>
               <th className="py-4 px-6">Title</th>
@@ -107,20 +107,20 @@ const BrandViewSection = () => {
               <th className="py-4 px-6 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y">
+          <tbody className="bg-white/5 backdrop-blur-sm divide-y divide-white/20">
             {currentBrands?.length ? (
               currentBrands?.map((brand) => (
-                <tr key={brand.id} className="bg-white hover:bg-gray-50">
-                  <td className="py-4 px-6">{brand?.id}</td>
+                <tr key={brand.id} className="">
+                  <td className="py-4 px-6 text-white">{brand?.id}</td>
                   <td className="py-4 px-6 font-medium">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 text-white">
                       <span>{truncateText(brand?.title, 30)}</span>
                     </div>
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 text-white ">
                     {truncateText(brand?.description, 50)}
                   </td>
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 text-white">
                     {brand?.brandAuditCover && (
                       <img
                         src={brand.brandAuditCover}
@@ -129,7 +129,7 @@ const BrandViewSection = () => {
                       />
                     )}
                   </td>
-                  <td className="py-4 px-6 text-right">
+                  <td className="py-4 px-6 text-right text-white">
                     <div className="flex justify-end space-x-2">
                       <button
                         onClick={() => handleView(brand)}
@@ -165,10 +165,10 @@ const BrandViewSection = () => {
         </table>
       </div>
       {/* Pagination */}
-      <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <div className="flex items-center justify-between border-t border-gray-200 bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm px-4 py-3 sm:px-6">
         <div className="flex flex-1 items-center justify-between">
           <div>
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-white">
               <span className="font-medium">
                 {indexOfFirstBrand + 1}-
                 {Math.min(indexOfLastBrand, brandsData.length)}
@@ -241,7 +241,7 @@ const BrandViewSection = () => {
 
                 <div>
                   <h3 className="text-lg font-semibold">Description</h3>
-                  <p className="text-gray-700">{selectedBrand?.description}</p>
+                  <p className="text-white">{selectedBrand?.description}</p>
                 </div>
 
                 {selectedBrand?.brandAuditCover && (
@@ -258,7 +258,7 @@ const BrandViewSection = () => {
                 <div>
                   <h3 className="text-lg font-semibold">Content</h3>
                   <div
-                    className="text-gray-700 prose prose-sm max-w-none"
+                    className="text-white prose prose-sm max-w-none"
                     dangerouslySetInnerHTML={{ __html: selectedBrand?.content }}
                   />
                 </div>
@@ -291,7 +291,7 @@ const BrandViewSection = () => {
               </button>
             </div>
             <div className="p-6">
-              <p className="text-gray-700 mb-4">
+              <p className="text-white mb-4">
                 Are you sure you want to delete this brand?
               </p>
               <div className="flex justify-end gap-2">

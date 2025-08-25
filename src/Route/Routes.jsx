@@ -199,9 +199,17 @@ import { AddPressRelease } from "../Components/Widgets/Manage-Press-Release/Add-
 import { ViewPressRelease } from "../Components/Widgets/Manage-Press-Release/View-press-release";
 import { AddGuide } from "../Components/Widgets/Manage-Guides/Add-guides";
 import { ViewGuide } from "../Components/Widgets/Manage-Guides/View-guides";
+import BlogCategories from "../Components/Widgets/Blogs/blog-categories";
+import GlossaryCategories from "../Components/Widgets/Glossary/glossary-categories";
+import BrandAuditsCategories from "../Components/Widgets/Manage-Brand-Audits/brand-audits-categories";
+import EbooksCategories from "../Components/Widgets/Manage-ebooks/Ebooks-categories";
+import GuidesCategories from "../Components/Widgets/Manage-Guides/Guides-categories";
+import ImapctStoriesCategories from "../Components/Widgets/Manage-Impact-Stories/Impact-stories-categories";
+import PressReleaseCategories from "../Components/Widgets/Manage-Press-Release/press-release-categories";
+import ProductCategories from "../Components/Widgets/Manage-Product-Audits/product-categories";
 import ViewForm from "../Components/Widgets/View-Form";
-import RBAC from "../Components/Widgets/RBAC";
 import RBACPage from "../Components/Widgets/RBAC/rbac";
+import ViewUsers from "../Components/Widgets/Onboard-users";
 
 export const routes = [
   {
@@ -235,7 +243,11 @@ export const routes = [
   },
   {
     path: `${process.env.PUBLIC_URL}/widgets/rbac/:layout`,
-    Component: <RBACPage/>,   
+    Component: <RBACPage />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/onboard-users/:layout`,
+    Component: <ViewUsers />,
   },
   {
     path: `${process.env.PUBLIC_URL}/widgets/addblog/:layout`,
@@ -245,6 +257,39 @@ export const routes = [
     path: `${process.env.PUBLIC_URL}/widgets/viewblog/:layout`,
     Component: <ViewBlogComponent />,
   },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/blog-categories/:layout`,
+    Component: <BlogCategories />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/glossary-categories/:layout`,
+    Component: <GlossaryCategories />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/brand-audits-categories/:layout`,
+    Component: <BrandAuditsCategories />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/ebooks-categories/:layout`,
+    Component: <EbooksCategories />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/guides-categories/:layout`,
+    Component: <GuidesCategories />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/impact-stories-categories/:layout`,
+    Component: <ImapctStoriesCategories />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/press-release-categories/:layout`,
+    Component: <PressReleaseCategories />,
+  },
+  {
+    path: `${process.env.PUBLIC_URL}/widgets/product-audits-categories/:layout`,
+    Component: <ProductCategories />,
+  },
+
   {
     path: `${process.env.PUBLIC_URL}/widgets/managecategories/:layout`,
     Component: <ManageCategories />,

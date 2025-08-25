@@ -25,9 +25,11 @@ const Sidebar = (props) => {
       //   customizer.settings.sidebar.type.split(' ').pop() ===
       //   'advance-layout'
       // )
-      document.querySelector(".sidebar-main").className = "sidebar-main hovered";
+      document.querySelector(".sidebar-main").className =
+        "sidebar-main hovered";
     } else {
-      if (document.getElementById("sidebar-main")) document.querySelector(".sidebar-main").className = "sidebar-main";
+      if (document.getElementById("sidebar-main"))
+        document.querySelector(".sidebar-main").className = "sidebar-main";
     }
   };
 
@@ -115,12 +117,22 @@ const Sidebar = (props) => {
         className="bg-overlay1"
         onClick={() => {
           closeOverlay();
-        }}></div>
-      <div className={`sidebar-wrapper ${toggleIcon ? "close_icon" : ""}`} sidebar-layout="stroke-svg">
+        }}
+      ></div>
+      <div
+        className={`sidebar-wrapper ${toggleIcon ? "close_icon" : ""}`}
+        sidebar-layout="stroke-svg"
+      >
         <SidebarIcon />
         <SidebarLogo />
         {/* sidebartoogle={sidebartoogle} */}
-        <SidebarMenu setMainMenu={setMainMenu} props={props} setNavActive={setNavActive} activeClass={activeClass} width={width} />
+        <SidebarMenu
+          setMainMenu={setMainMenu}
+          props={props}
+          setNavActive={setNavActive}
+          activeClass={activeClass}
+          width={width}
+        />
       </div>
     </Fragment>
   );

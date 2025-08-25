@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import CustomizerContext from "../_helper/Customizer";
 import { ToastContainer, toast } from "react-toastify";
 import CryptoJS from "crypto-js";
-import axios from "axios";
 import axiosHttp from "../utils/httpConfig";
 
 const Signin = ({ selected }) => {
@@ -61,17 +60,22 @@ const Signin = ({ selected }) => {
       // Encrypt the password before sending
       const encryptedPassword = encryptPassword(password);
 
-      const response = await axiosHttp.post(
-        "/auth/sign-in",
-        {
-          email,
-          password: encryptedPassword,
-        }
-      );
+      const response = await axiosHttp.post("/auth/sign-in", {
+        email,
+        password: encryptedPassword,
+      });
 
       if (response.status === 200) {
         localStorage.setItem("login", JSON.stringify(true));
         localStorage.setItem("token", response?.data?.data?.token);
+
+        // Store user details and permissions for sidebar filtering
+        const userData = response?.data?.data || {};
+        if (Array.isArray(userData?.role?.permissions))
+          localStorage.setItem(
+            "permissions",
+            JSON.stringify(userData.role.permissions)
+          );
 
         toast.success("Successfully logged in!");
         navigate(`${process.env.PUBLIC_URL}/dashboard/default/${layoutURL}`);

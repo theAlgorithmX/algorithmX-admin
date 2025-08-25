@@ -50,7 +50,7 @@ const TagInput = ({ value = [], onChange, placeholder }) => {
         <button
           type="button"
           onClick={handleAddTag}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-white/20 shadow-lg shadow-black/10 backdrop-blur-sm border-b border-white/300 text-white px-4 py-2 rounded"
         >
           Add
         </button>
@@ -123,7 +123,9 @@ export default function StoryForm({ onSubmit }) {
       }
     } catch (err) {
       console.error("Error fetching impact story:", err);
-      toast.warning(err?.response?.data?.message || "Failed to load impact story");
+      toast.warning(
+        err?.response?.data?.message || "Failed to load impact story"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -167,23 +169,23 @@ export default function StoryForm({ onSubmit }) {
     <form
       onSubmit={handleSubmit((data) => onSubmit(data, storyId, isEditMode))}
       onKeyDown={handleFormKeyDown}
-      className="space-y-6 max-w-5xl mx-auto px-6 py-4 bg-white"
+      className="space-y-6 max-w-5xl mx-auto px-6 py-4 "
     >
-      <h1 className="text-[32px] font-semibold text-center">
+      <h1 className="text-[32px] font-semibold text-center text-white">
         {isEditMode ? "Update Story" : "Add Story"}
       </h1>
 
       {/* Title */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Title <span className="text-red-500">*</span>
         </label>
         <input
           {...register("title", { required: "Title is required" })}
           placeholder="Enter story title"
-          className={`w-full p-2 border rounded ${
-            errors.title ? "border-red-500" : "border-gray-300"
-          }`}
+          className="w-full p-3 rounded-lg bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm 
+               text-white caret-white placeholder:text-white/70 
+               focus:outline-none border border-white/20"
         />
         {errors.title && (
           <p className="text-red-500 text-sm">{errors.title.message}</p>
@@ -192,7 +194,7 @@ export default function StoryForm({ onSubmit }) {
 
       {/* Tags - Using Controller with custom TagInput component */}
       <div>
-        <label className="block mb-1 font-medium">Tags</label>
+        <label className="block mb-1 font-medium text-white">Tags</label>
         <Controller
           name="tags"
           control={control}
@@ -204,12 +206,14 @@ export default function StoryForm({ onSubmit }) {
             />
           )}
         />
-        <p className="text-sm text-gray-500 mt-1">Press Enter after each tag</p>
+        <p className="text-sm text-gray-500 mt-1 text-white">
+          Press Enter after each tag
+        </p>
       </div>
 
       {/* Upload Media */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           {isEditMode ? "Replace Media" : "Upload Media"}{" "}
           {!isEditMode && <span className="text-red-500">*</span>}
         </label>
@@ -219,22 +223,33 @@ export default function StoryForm({ onSubmit }) {
           {...register("impact_story_media", {
             required: isEditMode ? false : "Media is required",
           })}
-          className="w-full"
+          className="w-full p-3 rounded-lg bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm 
+               text-white caret-white placeholder:text-white/70 
+               file:text-white file:bg-transparent 
+               focus:outline-none border border-white/20 cursor-pointer"
         />
+
         <p className="text-sm text-gray-500">
           {isEditMode
             ? "(Leave empty to keep current media)"
             : "(Only image or video files are allowed)"}
         </p>
         {errors.impact_story_media && (
-          <p className="text-red-500 text-sm">{errors.impact_story_media.message}</p>
+          <p className="text-red-500 text-sm">
+            {errors.impact_story_media.message}
+          </p>
         )}
 
         {isEditMode && typeof currentMedia === "string" && (
           <div className="mt-3">
             <p className="text-sm text-gray-600 mb-2">Current media:</p>
             {currentMedia.match(/\.(jpeg|jpg|png|gif)$/i) ? (
-              <img src={currentMedia} alt="media-preview" height={100} width={100} />
+              <img
+                src={currentMedia}
+                alt="media-preview"
+                height={100}
+                width={100}
+              />
             ) : (
               <video src={currentMedia} controls height={100} width={100} />
             )}

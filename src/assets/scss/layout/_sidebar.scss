@@ -101,15 +101,20 @@
     top: $main-header-top;
     z-index: $main-header-z-index;
     transition: $sidebar-transition;
-    background-color: $white;
-    box-shadow: $main-header-shadow-1;
+    // background-color: $white;
+    // box-shadow: $main-header-shadow-1;
+    background: linear-gradient(135deg, #ec407a 0%, #122044 25%, #122044 100%);
+
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
     .header-wrapper {
       width: 100%;
       align-items: center;
-      padding: $header-wrapper-padding;
+      padding: 26px 30px;
       position: relative;
       @media (max-width: 1399px) {
-        padding: 22px 20px;
+        padding: 24px 26px;
       }
       .search-full {
         background-color: $white;
@@ -215,12 +220,13 @@
 
                   span {
                     font-weight: 500;
+                    color: white;
                   }
 
                   p {
                     font-size: 12px;
                     line-height: 1;
-                    color: rgba($theme-body-font-color, 0.7);
+                    color: white;
                   }
                 }
               }
@@ -673,7 +679,11 @@
   }
 
   .page-body-wrapper {
-    background-color: $main-body-color;
+    background: linear-gradient(135deg, #ec407a 0%, #122044 25%, #122044 100%);
+
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
 
     .page-body {
       min-height: calc(100vh - #{$header-size});
@@ -690,7 +700,7 @@
     .page-title {
       padding: $page-title-padding;
       margin: 0 -27px 30px;
-      background-color: $white;
+      background: transparent;
       > .row {
         margin: 0;
         .col-6 {
@@ -702,6 +712,7 @@
         align-items: center;
 
         h3 {
+          color: white;
           font-size: $page-title-font-size;
           margin-bottom: $page-title-margin-bottom;
           text-transform: $page-title-text-tranform;
@@ -1227,8 +1238,8 @@
   // left sidebar css
   &.compact-wrapper {
     .page-header {
-      margin-left: $sidebar-compact-width;
-      width: calc(100% - #{$sidebar-compact-width});
+      // margin-left: $sidebar-compact-width;
+      width: 100%;
 
       &.close_icon {
         margin-left: 90px;
@@ -1254,11 +1265,13 @@
           z-index: 9;
           height: auto;
           line-height: inherit;
-          background: $white;
+          // background: $white;
           width: $sidebar-compact-width;
           text-align: left;
           transition: 0.3s;
           box-shadow: 0 0 21px 0 rgba($semi-dark, 0.1);
+          background: rgba(255, 255, 255, 0.08) !important;
+          backdrop-filter: blur(10px) !important;
 
           .logo-wrapper,
           .logo-icon-wrapper {
@@ -1455,7 +1468,7 @@
                   span {
                     letter-spacing: 0.7px;
                     text-transform: capitalize;
-                    color: rgba($theme-body-sub-title-color, 0.8);
+                    color: white;
                   }
 
                   &.link-nav {
@@ -1656,7 +1669,7 @@
                     a {
                       padding: 7px 25px;
                       font-size: 14px;
-                      color: rgba($theme-body-font-color, 0.6);
+                      color: whitesmoke;
                       display: block;
                       position: relative;
                       letter-spacing: 0.06em;
@@ -1830,7 +1843,13 @@
                     transition: all 0.5s ease;
                     position: relative;
                     margin-bottom: 10px;
-                    background-color: lighten($primary-color, 27%);
+                    background: rgba(
+                      255,
+                      255,
+                      255,
+                      0.25
+                    ) !important; /* stronger glass */
+                    backdrop-filter: blur(16px) !important;
                     &::after {
                       opacity: 1;
                       visibility: visible;
@@ -1848,7 +1867,7 @@
                     }
 
                     span {
-                      color: var(--theme-default);
+                      color: black;
                       transition: all 0.3s ease;
                     }
                   }
@@ -2273,7 +2292,8 @@
                       left: 20px;
                       top: 48%;
                       width: 8px;
-                      border-top: 2px solid rgba($theme-body-sub-title-color, 0.4);
+                      border-top: 2px solid
+                        rgba($theme-body-sub-title-color, 0.4);
                     }
                   }
                 }

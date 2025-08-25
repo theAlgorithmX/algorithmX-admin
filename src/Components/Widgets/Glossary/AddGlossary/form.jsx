@@ -1,4 +1,4 @@
-// BlogForm.jsx
+// Glossary.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -121,22 +121,22 @@ export default function BlogForm({ onSubmit, blogId }) {
         onSubmit(finalData);
       })}
       onKeyDown={handleFormKeyDown}
-      className="space-y-6 max-w-5xl mx-auto px-6 py-4 bg-white"
+      className="space-y-6 max-w-5xl mx-auto px-6 py-4 "
     >
-      <h1 className="text-[32px] font-semibold text-center">
+      <h1 className="text-[32px] font-semibold text-center text-white">
         {isEditMode ? "Update Glossary" : "Add Glossary"}
       </h1>
 
       {/* Title */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Keyword <span className="text-red-500">*</span>
         </label>
         <input
           {...register("keyword", { required: "Keyword is required" })}
           placeholder="Enter Keyword "
-          className={`w-full p-2 border rounded ${
-            errors.keyword ? "border-red-500" : "border-gray-300"
+          className={`w-full p-2 border rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70 ${
+            errors.title ? "border-red-500" : "border-white/20"
           }`}
         />
         {errors.keyword && (
@@ -146,15 +146,15 @@ export default function BlogForm({ onSubmit, blogId }) {
 
       {/* Summary */}
       <div>
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1 font-medium text-white">
           Summary <span className="text-red-500">*</span>
         </label>
         <textarea
           {...register("summary", { required: "Summary is required" })}
           placeholder="Enter a brief summary of the blog post"
           rows={3}
-          className={`w-full p-2 border rounded ${
-            errors.summary ? "border-red-500" : "border-gray-300"
+          className={`w-full p-2 border rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70 ${
+            errors.title ? "border-red-500" : "border-white/20"
           }`}
         />
         {errors.summary && (
@@ -178,7 +178,7 @@ export default function BlogForm({ onSubmit, blogId }) {
       <div className="text-center mt-6">
         <button
           type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+          className="bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm hover:bg-white/20 text-white px-6 py-2 rounded "
         >
           {isEditMode ? "Update Glossary" : "Submit Glossary"}
         </button>
