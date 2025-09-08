@@ -97,25 +97,6 @@ const WordEditor = forwardRef(({ updateContent, initialContent = "" }, ref) => {
             ],
             toolbar:
               "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat",
-            content_css: false, // disable default CSS
-            content_style: `
-                body {
-                  background: rgba(255, 255, 255, 0.08) !important;
-                  backdrop-filter: blur(10px) !important;
-                  -webkit-backdrop-filter: blur(10px) !important;
-                  color: white !important;
-                  font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-                  font-size: 14px;
-                  line-height: 1.6;
-                  padding: 1rem;
-                }
-                p {
-                  color: white !important;
-                }
-                ::selection {
-                  background: rgba(255,255,255,0.3);
-                }
-              `,
 
             branding: false,
             promotion: false,
