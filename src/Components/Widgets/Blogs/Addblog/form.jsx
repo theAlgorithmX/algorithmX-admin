@@ -203,7 +203,7 @@ export default function BlogForm({ onSubmit, blogId }) {
       // Reset form to default values when switching to add mode
       reset({
         title: "",
-        slug: "", // <-- Add slug here
+        slug: "",
         category: "",
         status: "draft",
         isFeatured: false,
