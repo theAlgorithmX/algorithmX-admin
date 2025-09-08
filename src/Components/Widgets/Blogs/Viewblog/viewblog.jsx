@@ -316,7 +316,7 @@ const BlogViewSection = () => {
       {/* Blog Detail Modal */}
       {selectedBlog && (
         <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm rounded-lg max-w-4xl w-full max-h-screen overflow-auto">
+          <div className="bg-white shadow-lg rounded-lg max-w-4xl w-full max-h-screen overflow-auto">
             <div className="px-6 py-4 border-b flex justify-between items-center">
               <h3 className="text-xl font-semibold text-gray-900">
                 Blog Details
@@ -443,7 +443,7 @@ const BlogViewSection = () => {
       {/* Delete Confirmation Modal */}
       {blogToDelete && (
         <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white/10 shadow-lg shadow-black/10 backdrop-blur-sm rounded-lg max-w-sm w-full overflow-auto">
+          <div className="bg-white shadow-lg rounded-lg max-w-sm w-full overflow-auto">
             <div className="px-6 py-4 border-b flex justify-between items-center">
               <h3 className="text-lg font-semibold text-gray-900">
                 Confirm Delete

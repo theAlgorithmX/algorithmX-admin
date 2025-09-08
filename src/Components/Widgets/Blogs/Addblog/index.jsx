@@ -44,7 +44,7 @@ const AddBlogComponent = () => {
       formData.append("author_ip", "");
       formData.append("status", data.status);
       formData.append("is_featured", data.isFeatured);
-      formData.append("slug", "2");
+      formData.append("slug", data.slug);
 
       if (imageFile) {
         formData.append("blog_image", imageFile);

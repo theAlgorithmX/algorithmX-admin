@@ -94,6 +94,7 @@ export default function BlogForm({ onSubmit, blogId }) {
   } = useForm({
     defaultValues: {
       title: "",
+      slug: "", // <-- Add slug here
       category: "",
       status: "draft",
       isFeatured: "",
@@ -163,6 +164,7 @@ export default function BlogForm({ onSubmit, blogId }) {
         // Then reset the form
         reset({
           title: blogData.title || "",
+          slug: blogData.slug || "", // <-- Add slug here
           category: blogData.category?.id || "",
           status: blogData.status || "draft",
           isFeatured: blogData.is_featured,
@@ -201,6 +203,7 @@ export default function BlogForm({ onSubmit, blogId }) {
       // Reset form to default values when switching to add mode
       reset({
         title: "",
+        slug: "", // <-- Add slug here
         category: "",
         status: "draft",
         isFeatured: false,
@@ -250,6 +253,23 @@ export default function BlogForm({ onSubmit, blogId }) {
         />
         {errors.title && (
           <p className="text-red-500 text-sm">{errors.title.message}</p>
+        )}
+      </div>
+
+      {/* Slug */}
+      <div>
+        <label className="block mb-1 font-medium text-white">
+          Slug <span className="text-red-500">*</span>
+        </label>
+        <input
+          {...register("slug", { required: "Slug is required" })}
+          placeholder="Enter blog slug (e.g. my-awesome-blog)"
+          className={`w-full p-2 border rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70 ${
+            errors.slug ? "border-red-500" : "border-white/20"
+          }`}
+        />
+        {errors.slug && (
+          <p className="text-red-500 text-sm">{errors.slug.message}</p>
         )}
       </div>
 
