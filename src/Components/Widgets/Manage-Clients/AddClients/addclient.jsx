@@ -1,17 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import axiosHttp from "../../../../utils/httpConfig";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { classes } from "../../../../Data/Layouts";
-import { set } from "date-fns";
-
-const defaultLayoutObj = classes.find(
-  (item) => Object.values(item).pop(1) === "compact-wrapper",
-);
-const layout =
-  localStorage.getItem("layout") || Object.keys(defaultLayoutObj).pop();
 
 const AddClientForm = () => {
   const location = useLocation();
@@ -27,7 +19,6 @@ const AddClientForm = () => {
     watch,
     formState: { errors },
     setValue,
-    getValues,
   } = useForm({
     defaultValues: {
       productType: "Web",

@@ -3,7 +3,6 @@ import React from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import { H5 } from "../../../AbstractElements";
 import { MonthlyProfitsGrowth, MonthlyProfitsTitle } from "../../../Constant";
-import { MonthlyProfitsChartData } from "../../../Data/Ecommerce/Chart";
 
 const MonthlyProfits = () => {
   return (

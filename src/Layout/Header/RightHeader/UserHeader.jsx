@@ -1,32 +1,23 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FileText, LogIn, Mail, User } from "react-feather";
-import man from "../../../assets/images/dashboard/profile.png";
+import { LogIn } from "react-feather";
 
-import { LI, UL, Image, P } from "../../../AbstractElements";
-import CustomizerContext from "../../../_helper/Customizer";
-import { Account, Admin, Inbox, LogOut, Taskboard } from "../../../Constant";
+import { LI, UL, P } from "../../../AbstractElements";
+import { Admin, LogOut } from "../../../Constant";
 
 const UserHeader = () => {
   const history = useNavigate();
-  const [profile, setProfile] = useState("");
   const [name, setName] = useState("AlgorithmX");
-  const { layoutURL } = useContext(CustomizerContext);
   const authenticated = JSON.parse(localStorage.getItem("authenticated"));
   const auth0_profile = JSON.parse(localStorage.getItem("auth0_profile"));
 
   useEffect(() => {
-    setProfile(localStorage.getItem("profileURL") || man);
     setName(localStorage.getItem("Name") ? localStorage.getItem("Name") : name);
   }, []);
 
   const Logout = () => {
     localStorage.clear(); // call the method to clear storage
     history(`${process.env.PUBLIC_URL}/login`);
-  };
-
-  const UserMenuRedirect = (redirect) => {
-    history(redirect);
   };
 
   return (

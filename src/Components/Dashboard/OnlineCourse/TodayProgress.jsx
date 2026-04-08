@@ -3,7 +3,6 @@ import React from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import { H5 } from "../../../AbstractElements";
 import { TodayProgressMessage, TodayProgressTitle } from "../../../Constant";
-import { todayProgressData } from "../../../Data/OnlineCourse/ChartData";
 
 const TodayProgress = () => {
   return (

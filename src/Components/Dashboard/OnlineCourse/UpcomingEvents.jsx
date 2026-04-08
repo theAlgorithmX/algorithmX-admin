@@ -3,7 +3,6 @@ import React from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import { H5 } from "../../../AbstractElements";
 import { DailyDropdown, UpcomingEventsTitle } from "../../../Constant";
-import { UpcomingOptionsChartData } from "../../../Data/OnlineCourse/ChartData";
 import DropdownCommon from "../../Common/Dropdown";
 
 const UpcomingEvents = () => {

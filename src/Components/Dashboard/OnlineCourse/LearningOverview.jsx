@@ -7,7 +7,6 @@ import {
   LearningOverviewGrowth,
   LearningOverviewTitle,
 } from "../../../Constant";
-import { LearningOverviewChartData } from "../../../Data/OnlineCourse/ChartData";
 import DropdownCommon from "../../Common/Dropdown";
 
 const LearningOverview = () => {

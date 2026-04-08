@@ -2,21 +2,18 @@ import React, {
   forwardRef,
   useImperativeHandle,
   useRef,
-  useCallback,
   useEffect,
 } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
 const WordEditor = forwardRef(({ updateContent, initialContent = "" }, ref) => {
   const editorRef = useRef(null);
-  const [content, setContent] = React.useState(initialContent);
 
   // Add useEffect to handle initialContent changes
   useEffect(() => {
     console.log("Editor received initialContent:", initialContent);
     if (initialContent && editorRef.current) {
       console.log("Setting editor content to:", initialContent);
-      setContent(initialContent);
       editorRef.current.setContent(initialContent);
     }
   }, [initialContent]);
@@ -34,21 +31,6 @@ const WordEditor = forwardRef(({ updateContent, initialContent = "" }, ref) => {
       editorRef.current?.focus();
     },
   }));
-
-  // Debounced content update to prevent excessive re-renders
-  const debouncedUpdateContent = useCallback(
-    (newContent) => {
-      let timeoutId;
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setContent(newContent);
-        if (updateContent) {
-          updateContent(newContent);
-        }
-      }, 100);
-    },
-    [updateContent]
-  );
 
   return (
     <div className=" py-10">
