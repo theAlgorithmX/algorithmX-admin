@@ -1034,7 +1034,7 @@ const AddClientForm = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <InputField label="Brand Name" name="brandName" required />
-            <InputField label="URL Slug" name="slug" required placeholder="" />
+            {/* <InputField label="URL Slug" name="slug" required placeholder="" /> */}
             <InputField label="Brand Industry" name="brandIndustry" required />
             <InputField label="Brand Services" name="brandServices" required />
             <InputField label="Brand Type" name="brandType" required />
