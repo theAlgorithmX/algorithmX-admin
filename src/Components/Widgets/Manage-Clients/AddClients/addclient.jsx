@@ -8,7 +8,7 @@ import { classes } from "../../../../Data/Layouts";
 import { set } from "date-fns";
 
 const defaultLayoutObj = classes.find(
-  (item) => Object.values(item).pop(1) === "compact-wrapper"
+  (item) => Object.values(item).pop(1) === "compact-wrapper",
 );
 const layout =
   localStorage.getItem("layout") || Object.keys(defaultLayoutObj).pop();
@@ -31,6 +31,7 @@ const AddClientForm = () => {
   } = useForm({
     defaultValues: {
       productType: "Web",
+      slug: "",
       brandName: "",
       brandVideoURL: "",
       brandRGB: "#000000",
@@ -145,6 +146,8 @@ const AddClientForm = () => {
   const [fileStorage, setFileStorage] = React.useState({});
   // Store client data for edit mode
   const [clientData, setClientData] = React.useState(null);
+  // Prevent fetch after successful submit
+  const isMountedRef = React.useRef(true);
 
   // Update field arrays when product type changes
   React.useEffect(() => {
@@ -181,21 +184,30 @@ const AddClientForm = () => {
     }
   };
 
+  // Cleanup mounted ref on unmount
+  React.useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
   // Fetch client data if in edit mode
   useEffect(() => {
+    let isFetching = true;
     const fetchClientData = async () => {
-      if (isEditMode && clientId) {
+      if (isEditMode && clientId && isMountedRef.current && isFetching) {
         try {
           const response = await axiosHttp.get(`/clients/${clientId}`);
-          if (response?.status === 200) {
+          if (response?.status === 200 && isMountedRef.current && isFetching) {
             const clientData = response.data.data;
             setClientData(clientData); // Store client data in state
 
             setValue(
               "productType",
-              clientData.productType === "web" ? "Web" : "App"
+              clientData.productType === "web" ? "Web" : "App",
             );
             setValue("brandName", clientData.brandName || "");
+            setValue("slug", clientData.slug || "");
             setValue("brandVideoURL", clientData.brandVideoURL || "");
             setValue("brandRGB", clientData.brandRGB || "#000000");
             setValue("brandVideoTitle", clientData.brandVideoTitle || "");
@@ -217,94 +229,149 @@ const AddClientForm = () => {
             if (clientData.metrices) {
               setValue(
                 "metrices.avgRatings",
-                clientData.metrices.avgRatings || ""
+                clientData.metrices.avgRatings || "",
               );
               setValue(
                 "metrices.avgRatingsDescription",
-                clientData.metrices.avgRatingsDescription || ""
+                clientData.metrices.avgRatingsDescription || "",
               );
               setValue(
                 "metrices.conversionRate",
-                clientData.metrices.conversionRate || ""
+                clientData.metrices.conversionRate || "",
               );
               setValue(
                 "metrices.conversionRateDescription",
-                clientData.metrices.conversionRateDescription || ""
+                clientData.metrices.conversionRateDescription || "",
               );
               setValue(
                 "metrices.totalOrders",
-                clientData.metrices.totalOrders || ""
+                clientData.metrices.totalOrders || "",
               );
               setValue(
                 "metrices.totalOrdersDescription",
-                clientData.metrices.totalOrdersDescription || ""
+                clientData.metrices.totalOrdersDescription || "",
               );
               setValue(
                 "metrices.repeatPurchases",
-                clientData.metrices.repeatPurchases || ""
+                clientData.metrices.repeatPurchases || "",
               );
               setValue(
                 "metrices.repeatPurchasesDescription",
-                clientData.metrices.repeatPurchasesDescription || ""
+                clientData.metrices.repeatPurchasesDescription || "",
               );
               setValue(
                 "metrices.orderFulfilledPerDay",
-                clientData.metrices.orderFulfilledPerDay || ""
+                clientData.metrices.orderFulfilledPerDay || "",
               );
               setValue(
                 "metrices.orderFulfilledDescription",
-                clientData.metrices.orderFulfilledDescription || ""
+                clientData.metrices.orderFulfilledDescription || "",
               );
               setValue(
                 "metrices.sessionRevenueUplift",
-                clientData.metrices.sessionRevenueUplift || ""
+                clientData.metrices.sessionRevenueUplift || "",
               );
               setValue(
                 "metrices.sessionRevenueDescription",
-                clientData.metrices.sessionRevenueDescription || ""
+                clientData.metrices.sessionRevenueDescription || "",
               );
             }
 
-            // About Images (pad to required count based on product type)
+            // About Images (pad/truncate to required count based on product type)
             {
               const desiredAboutCount =
                 clientData.productType === "web" ? 3 : 4;
-              const urls = clientData.aboutImgURLs || [];
+              let urls = [];
+              try {
+                urls =
+                  typeof clientData.aboutImgURLs === "string"
+                    ? JSON.parse(clientData.aboutImgURLs)
+                    : clientData.aboutImgURLs || [];
+              } catch (e) {
+                urls = [];
+              }
+              const slicedUrls = (Array.isArray(urls) ? urls : []).slice(
+                0,
+                desiredAboutCount,
+              );
               const padded = [
-                ...urls,
-                ...Array(Math.max(0, desiredAboutCount - urls.length)).fill(""),
+                ...slicedUrls,
+                ...Array(
+                  Math.max(0, desiredAboutCount - slicedUrls.length),
+                ).fill(""),
               ];
-              replaceAboutImg(padded);
+              if (isMountedRef.current) {
+                replaceAboutImg(padded);
+              }
             }
-            // Wireframes (pad to required count based on product type)
+            // Wireframes (pad/truncate to required count based on product type)
             {
               const desiredWireframeCount =
                 clientData.productType === "web" ? 3 : 5;
-              const urls = clientData.wireFrameURLs || [];
+              let urls = [];
+              try {
+                urls =
+                  typeof clientData.wireFrameURLs === "string"
+                    ? JSON.parse(clientData.wireFrameURLs)
+                    : clientData.wireFrameURLs || [];
+              } catch (e) {
+                urls = [];
+              }
+              const slicedUrls = (Array.isArray(urls) ? urls : []).slice(
+                0,
+                desiredWireframeCount,
+              );
               const padded = [
-                ...urls,
-                ...Array(Math.max(0, desiredWireframeCount - urls.length)).fill(
-                  ""
-                ),
+                ...slicedUrls,
+                ...Array(
+                  Math.max(0, desiredWireframeCount - slicedUrls.length),
+                ).fill(""),
               ];
-              replaceWireFrame(padded);
+              if (isMountedRef.current) {
+                replaceWireFrame(padded);
+              }
             }
-            // Prototypes (pad to required count based on product type)
+            // Prototypes (pad/truncate to required count based on product type)
             {
               const desiredPrototypeCount =
                 clientData.productType === "web" ? 3 : 5;
-              const urls = clientData.prototypeURLs || [];
+              let urls = [];
+              try {
+                urls =
+                  typeof clientData.prototypeURLs === "string"
+                    ? JSON.parse(clientData.prototypeURLs)
+                    : clientData.prototypeURLs || [];
+              } catch (e) {
+                urls = [];
+              }
+              const slicedUrls = (Array.isArray(urls) ? urls : []).slice(
+                0,
+                desiredPrototypeCount,
+              );
               const padded = [
-                ...urls,
-                ...Array(Math.max(0, desiredPrototypeCount - urls.length)).fill(
-                  ""
-                ),
+                ...slicedUrls,
+                ...Array(
+                  Math.max(0, desiredPrototypeCount - slicedUrls.length),
+                ).fill(""),
               ];
-              replacePrototype(padded);
+              if (isMountedRef.current) {
+                replacePrototype(padded);
+              }
             }
-            // Tech stack images
-            if (clientData.techStackURLs) {
-              replaceTechStack(clientData.techStackURLs);
+            // Tech stack images - parse if JSON string
+            if (clientData.techStackURLs && isMountedRef.current) {
+              let techUrls = clientData.techStackURLs;
+              try {
+                techUrls =
+                  typeof clientData.techStackURLs === "string"
+                    ? JSON.parse(clientData.techStackURLs)
+                    : clientData.techStackURLs;
+              } catch (e) {
+                techUrls = [];
+              }
+              if (Array.isArray(techUrls)) {
+                replaceTechStack(techUrls);
+              }
             }
 
             // Result pointers (parse JSON)
@@ -323,7 +390,7 @@ const AddClientForm = () => {
                 parsedProcess = JSON.parse(
                   typeof clientData.businessProcess === "string"
                     ? JSON.parse(clientData.businessProcess)
-                    : clientData.businessProcess
+                    : clientData.businessProcess,
                 );
               } catch (e) {
                 try {
@@ -348,7 +415,7 @@ const AddClientForm = () => {
                 parsedGoals = JSON.parse(
                   typeof clientData.projectGoals === "string"
                     ? JSON.parse(clientData.projectGoals)
-                    : clientData.projectGoals
+                    : clientData.projectGoals,
                 );
               } catch (e) {
                 try {
@@ -370,7 +437,7 @@ const AddClientForm = () => {
               let parsedOptimization = [];
               try {
                 parsedOptimization = JSON.parse(
-                  clientData.optimizationPointers
+                  clientData.optimizationPointers,
                 );
               } catch (e) {}
               setValue("optimizationPointers", parsedOptimization);
@@ -385,79 +452,119 @@ const AddClientForm = () => {
               clientImage: clientData.clientImgURL,
               projectGoalImg: clientData.projectGoalImgURL,
             };
-            // About images
+            // About images - parse if JSON string
             if (clientData.aboutImgURLs) {
-              clientData.aboutImgURLs.forEach((url, idx) => {
-                existingFiles[`aboutImages.${idx}`] = url;
-              });
-            }
-            // Wireframes
-            if (clientData.wireFrameURLs) {
-              clientData.wireFrameURLs.forEach((url, idx) => {
-                existingFiles[`wireFrameImages.${idx}`] = url;
-              });
-            }
-            // Prototypes
-            if (clientData.prototypeURLs) {
-              clientData.prototypeURLs.forEach((url, idx) => {
-                existingFiles[`prototypeImages.${idx}`] = url;
-              });
-            }
-            // Tech stack images
-            if (clientData.techStackURLs) {
-              clientData.techStackURLs.forEach((url, idx) => {
-                existingFiles[`techstackImages.${idx}`] = url;
-              });
-            }
-            // Result pointer images
-            if (clientData.resultPointers) {
               try {
-                const pointers = JSON.parse(clientData.resultPointers);
-                pointers.forEach((pointer, idx) => {
-                  if (pointer.img) {
-                    existingFiles[`resultPointers.${idx}.image`] = pointer.img;
-                  }
-                });
+                const aboutUrls =
+                  typeof clientData.aboutImgURLs === "string"
+                    ? JSON.parse(clientData.aboutImgURLs)
+                    : clientData.aboutImgURLs;
+                if (Array.isArray(aboutUrls)) {
+                  aboutUrls.forEach((url, idx) => {
+                    existingFiles[`aboutImages.${idx}`] = url;
+                  });
+                }
               } catch (e) {}
             }
-            // Optimization pointer images
+            // Wireframes - parse if JSON string
+            if (clientData.wireFrameURLs) {
+              try {
+                const wireframeUrls =
+                  typeof clientData.wireFrameURLs === "string"
+                    ? JSON.parse(clientData.wireFrameURLs)
+                    : clientData.wireFrameURLs;
+                if (Array.isArray(wireframeUrls)) {
+                  wireframeUrls.forEach((url, idx) => {
+                    existingFiles[`wireFrameImages.${idx}`] = url;
+                  });
+                }
+              } catch (e) {}
+            }
+            // Prototypes - parse if JSON string
+            if (clientData.prototypeURLs) {
+              try {
+                const prototypeUrls =
+                  typeof clientData.prototypeURLs === "string"
+                    ? JSON.parse(clientData.prototypeURLs)
+                    : clientData.prototypeURLs;
+                if (Array.isArray(prototypeUrls)) {
+                  prototypeUrls.forEach((url, idx) => {
+                    existingFiles[`prototypeImages.${idx}`] = url;
+                  });
+                }
+              } catch (e) {}
+            }
+            // Tech stack images - parse if JSON string
+            if (clientData.techStackURLs) {
+              try {
+                const techUrls =
+                  typeof clientData.techStackURLs === "string"
+                    ? JSON.parse(clientData.techStackURLs)
+                    : clientData.techStackURLs;
+                if (Array.isArray(techUrls)) {
+                  techUrls.forEach((url, idx) => {
+                    existingFiles[`techstackImages.${idx}`] = url;
+                  });
+                }
+              } catch (e) {}
+            }
+            // Result pointer images - parse if JSON string
+            if (clientData.resultPointers) {
+              try {
+                const pointers =
+                  typeof clientData.resultPointers === "string"
+                    ? JSON.parse(clientData.resultPointers)
+                    : clientData.resultPointers;
+                if (Array.isArray(pointers)) {
+                  pointers.forEach((pointer, idx) => {
+                    if (pointer.img) {
+                      existingFiles[`resultPointers.${idx}.image`] =
+                        pointer.img;
+                    }
+                  });
+                }
+              } catch (e) {}
+            }
+            // Optimization pointer images - parse if JSON string
             if (clientData.optimizationPointers) {
               try {
-                const optimizations = JSON.parse(
-                  clientData.optimizationPointers
-                );
-                optimizations.forEach((opt, idx) => {
-                  if (opt.img) {
-                    existingFiles[`optimizationPointers.${idx}.image`] =
-                      opt.img;
-                  }
-                });
+                const optimizations =
+                  typeof clientData.optimizationPointers === "string"
+                    ? JSON.parse(clientData.optimizationPointers)
+                    : clientData.optimizationPointers;
+                if (Array.isArray(optimizations)) {
+                  optimizations.forEach((opt, idx) => {
+                    if (opt.img) {
+                      existingFiles[`optimizationPointers.${idx}.image`] =
+                        opt.img;
+                    }
+                  });
+                }
               } catch (e) {}
             }
             setFileStorage(existingFiles);
           }
         } catch (error) {
-          console.error("Error fetching client data:", error);
-          toast.error("Failed to fetch client data");
+          if (isMountedRef.current && isFetching) {
+            console.error("Error fetching client data:", error);
+            toast.error("Failed to fetch client data");
+          }
         }
       }
     };
     fetchClientData();
-  }, [
-    clientId,
-    isEditMode,
-    setValue,
-    replaceAboutImg,
-    replaceWireFrame,
-    replacePrototype,
-    replaceTechStack,
-  ]);
+    return () => {
+      isFetching = false;
+    };
+  }, [clientId, isEditMode]);
 
   const onSubmit = async (data) => {
     try {
       console.log("Complete Form Data:", data);
-
       const formData = new FormData();
+
+      // Add slug to FormData
+      formData.append("slug", data.slug || "");
 
       // Helper function to append files from storage
       const appendStoredFile = (fieldName, formDataKey = fieldName) => {
@@ -528,14 +635,14 @@ const AddClientForm = () => {
       appendStoredFileArray(
         "wireFrameImages",
         wireframeCount,
-        "wireFrameImages"
+        "wireFrameImages",
       );
 
       const prototypeCount = productType === "Web" ? 3 : 5;
       appendStoredFileArray(
         "prototypeImages",
         prototypeCount,
-        "prototypeImages"
+        "prototypeImages",
       );
 
       // Tech stack images - same field name for all
@@ -552,7 +659,7 @@ const AddClientForm = () => {
           id: index + 1,
           title: process.title,
           desc: process.description, // Changed from description to desc
-        })
+        }),
       );
       formData.append("businessProcess", JSON.stringify(businessProcessData));
 
@@ -571,38 +678,38 @@ const AddClientForm = () => {
       formData.append("avgRatings", data.metrices.avgRatings || "");
       formData.append(
         "avgRatingsDescription",
-        data.metrices.avgRatingsDescription || ""
+        data.metrices.avgRatingsDescription || "",
       );
       formData.append("conversionRate", data.metrices.conversionRate || "");
       formData.append(
         "conversionRateDescription",
-        data.metrices.conversionRateDescription || ""
+        data.metrices.conversionRateDescription || "",
       );
       formData.append("totalOrders", data.metrices.totalOrders || "");
       formData.append(
         "totalOrdersDescription",
-        data.metrices.totalOrdersDescription || ""
+        data.metrices.totalOrdersDescription || "",
       );
       formData.append("repeatPurchases", data.metrices.repeatPurchases || "");
       formData.append(
         "repeatPurchasesDescription",
-        data.metrices.repeatPurchasesDescription || ""
+        data.metrices.repeatPurchasesDescription || "",
       );
       formData.append(
         "orderFulfilledPerDay",
-        data.metrices.orderFulfilledPerDay || ""
+        data.metrices.orderFulfilledPerDay || "",
       );
       formData.append(
         "orderFulfilledDescription",
-        data.metrices.orderFulfilledDescription || ""
+        data.metrices.orderFulfilledDescription || "",
       );
       formData.append(
         "sessionRevenueUplift",
-        data.metrices.sessionRevenueUplift || ""
+        data.metrices.sessionRevenueUplift || "",
       );
       formData.append(
         "sessionRevenueDescription",
-        data.metrices.sessionRevenueDescription || ""
+        data.metrices.sessionRevenueDescription || "",
       );
 
       // Also send the full metrices object as JSON string
@@ -674,11 +781,11 @@ const AddClientForm = () => {
           id: index + 1,
           title: pointer.title,
           description: pointer.description, // Add description field
-        })
+        }),
       );
       formData.append(
         "optimizationPointers",
-        JSON.stringify(optimizationPointersData)
+        JSON.stringify(optimizationPointersData),
       );
 
       // Optimization pointer images - same field name for all
@@ -698,7 +805,7 @@ const AddClientForm = () => {
       if (isEditMode) {
         console.log(
           "Complete FormData being sent:",
-          Object.fromEntries(formData)
+          Object.fromEntries(formData),
         );
         await axiosHttp.put(`/clients/${clientId}`, formData, {
           headers: {
@@ -709,7 +816,7 @@ const AddClientForm = () => {
       } else {
         console.log(
           "Complete FormData being sent:",
-          Object.fromEntries(formData)
+          Object.fromEntries(formData),
         );
         await axiosHttp.post("/clients/", formData, {
           headers: {
@@ -719,8 +826,25 @@ const AddClientForm = () => {
         toast.success("Client added successfully!");
       }
     } catch (error) {
-      console.error("Form submission error:", error);
-      toast.error("Error submitting form. Please try again.");
+      console.error("Error details:", error);
+
+      // Handle different types of error responses
+      let errorMessage = "An error occurred while processing your request";
+
+      if (error.response) {
+        // Server responded with error status
+        errorMessage =
+          error.response.data?.message ||
+          `Server error: ${error.response.status}`;
+      } else if (error.request) {
+        // Request was made but no response received
+        errorMessage = "No response from server. Please check your connection.";
+      } else if (error.message) {
+        // Something else happened
+        errorMessage = error.message;
+      }
+
+      toast.error(errorMessage);
     }
   };
 
@@ -805,8 +929,8 @@ const AddClientForm = () => {
               name.includes("brandVideo")
                 ? "image/*,video/*"
                 : name.includes("Video")
-                ? "video/*"
-                : "image/*"
+                  ? "video/*"
+                  : "image/*"
             }
           />
           {/* Preview for existing or selected file */}
@@ -833,7 +957,7 @@ const AddClientForm = () => {
           )}
         </div>
       );
-    }
+    },
   );
 
   return (
@@ -919,6 +1043,7 @@ const AddClientForm = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <InputField label="Brand Name" name="brandName" required />
+            <InputField label="URL Slug" name="slug" required placeholder="" />
             <InputField label="Brand Industry" name="brandIndustry" required />
             <InputField label="Brand Services" name="brandServices" required />
             <InputField label="Brand Type" name="brandType" required />

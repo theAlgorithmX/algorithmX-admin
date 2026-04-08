@@ -18,7 +18,7 @@ const rowStyles = {
 };
 
 const defaultLayoutObj = classes.find(
-  (item) => Object.values(item).pop(1) === "compact-wrapper"
+  (item) => Object.values(item).pop(1) === "compact-wrapper",
 );
 const layout =
   localStorage.getItem("layout") || Object.keys(defaultLayoutObj).pop();
@@ -47,7 +47,7 @@ const ClientsTable = () => {
 
       setError(null);
     } catch (err) {
-      setError("Failed to fetch clients data");
+      setError("Failed to fetch client data");
       console.error("Error fetching clients:", err);
     } finally {
       setLoading(false);
@@ -61,7 +61,7 @@ const ClientsTable = () => {
 
   const handleEdit = (clientId) => {
     navigate(
-      `${process.env.PUBLIC_URL}/widgets/addclients/${layout}?clientId=${clientId}`
+      `${process.env.PUBLIC_URL}/widgets/addclients/${layout}?clientId=${clientId}`,
     );
   };
 
@@ -452,20 +452,22 @@ const ClientsTable = () => {
 
               {/* About Images */}
               {selectedClient.aboutImgURLs &&
-                selectedClient.aboutImgURLs.length > 0 && (
+                parseJSONString(selectedClient.aboutImgURLs).length > 0 && (
                   <div>
                     <h4 className="text-lg font-semibold  text-white border-b pb-2">
                       About Images
                     </h4>
                     <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-4">
-                      {selectedClient.aboutImgURLs.map((url, index) => (
-                        <img
-                          key={index}
-                          src={url}
-                          alt={`About ${index + 1}`}
-                          className="w-full h-24 object-cover rounded border"
-                        />
-                      ))}
+                      {parseJSONString(selectedClient.aboutImgURLs).map(
+                        (url, index) => (
+                          <img
+                            key={index}
+                            src={url}
+                            alt={`About ${index + 1}`}
+                            className="w-full h-24 object-cover rounded border"
+                          />
+                        ),
+                      )}
                     </div>
                   </div>
                 )}
@@ -576,16 +578,19 @@ const ClientsTable = () => {
                     {selectedClient.techStackTitle}
                   </p>
                   {selectedClient.techStackURLs &&
-                    selectedClient.techStackURLs.length > 0 && (
+                    parseJSONString(selectedClient.techStackURLs).length >
+                      0 && (
                       <div className="mt-3 grid grid-cols-3 md:grid-cols-6 gap-4">
-                        {selectedClient.techStackURLs.map((url, index) => (
-                          <img
-                            key={index}
-                            src={url}
-                            alt={`Tech ${index + 1}`}
-                            className="w-full h-16 object-contain rounded border p-2"
-                          />
-                        ))}
+                        {parseJSONString(selectedClient.techStackURLs).map(
+                          (url, index) => (
+                            <img
+                              key={index}
+                              src={url}
+                              alt={`Tech ${index + 1}`}
+                              className="w-full h-16 object-contain rounded border p-2"
+                            />
+                          ),
+                        )}
                       </div>
                     )}
                 </div>
@@ -593,40 +598,44 @@ const ClientsTable = () => {
 
               {/* Wireframes */}
               {selectedClient.wireFrameURLs &&
-                selectedClient.wireFrameURLs.length > 0 && (
+                parseJSONString(selectedClient.wireFrameURLs).length > 0 && (
                   <div>
                     <h4 className="text-lg font-semibold  text-white border-b pb-2">
                       Wireframes
                     </h4>
                     <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {selectedClient.wireFrameURLs.map((url, index) => (
-                        <img
-                          key={index}
-                          src={url}
-                          alt={`Wireframe ${index + 1}`}
-                          className="w-full h-32 object-cover rounded border"
-                        />
-                      ))}
+                      {parseJSONString(selectedClient.wireFrameURLs).map(
+                        (url, index) => (
+                          <img
+                            key={index}
+                            src={url}
+                            alt={`Wireframe ${index + 1}`}
+                            className="w-full h-32 object-cover rounded border"
+                          />
+                        ),
+                      )}
                     </div>
                   </div>
                 )}
 
               {/* Prototypes */}
               {selectedClient.prototypeURLs &&
-                selectedClient.prototypeURLs.length > 0 && (
+                parseJSONString(selectedClient.prototypeURLs).length > 0 && (
                   <div>
                     <h4 className="text-lg font-semibold  text-white border-b pb-2">
                       Prototypes
                     </h4>
                     <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {selectedClient.prototypeURLs.map((url, index) => (
-                        <img
-                          key={index}
-                          src={url}
-                          alt={`Prototype ${index + 1}`}
-                          className="w-full h-32 object-cover rounded border"
-                        />
-                      ))}
+                      {parseJSONString(selectedClient.prototypeURLs).map(
+                        (url, index) => (
+                          <img
+                            key={index}
+                            src={url}
+                            alt={`Prototype ${index + 1}`}
+                            className="w-full h-32 object-cover rounded border"
+                          />
+                        ),
+                      )}
                     </div>
                   </div>
                 )}
@@ -662,7 +671,7 @@ const ClientsTable = () => {
                               {pointer.title || "No Title"}
                             </h5>
                           </div>
-                        )
+                        ),
                       )
                     ) : (
                       <p className=" text-white col-span-2">
@@ -709,7 +718,7 @@ const ClientsTable = () => {
                               {optimization.title || "No Title"}
                             </h5>
                           </div>
-                        )
+                        ),
                       )
                     ) : (
                       <p className=" text-white col-span-3">
@@ -742,7 +751,7 @@ const ClientsTable = () => {
                               {process.desc || "No Description"}
                             </p>
                           </div>
-                        )
+                        ),
                       )
                     ) : (
                       <p className=" text-white col-span-2">
@@ -783,7 +792,7 @@ const ClientsTable = () => {
                                 {goal.desc || "No Description"}
                               </p>
                             </div>
-                          )
+                          ),
                         )
                       ) : (
                         <p className=" text-white col-span-2">
