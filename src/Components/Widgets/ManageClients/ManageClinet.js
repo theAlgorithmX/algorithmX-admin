@@ -41,7 +41,6 @@ const ManageClients = () => {
   });
 
   // Watch for current image changes
-  const currentImage = watch("image") || "";
   const watchedImage = watch("image");
 
   // Fetch clients on component mount
@@ -104,7 +103,7 @@ const ManageClients = () => {
 
       if (editingClient) {
         // Update existing client
-        const response = await axiosHttp.put(
+        await axiosHttp.put(
           `/clients/${editingClient.id}`,
           clientData
         );
@@ -112,7 +111,7 @@ const ManageClients = () => {
         showToast("Client updated successfully!");
       } else {
         // Add new client
-        const response = await axiosHttp.post("/clients/", clientData);
+        await axiosHttp.post("/clients/", clientData);
         showToast("Client added successfully!");
       }
 
@@ -612,7 +611,7 @@ const ManageClients = () => {
                         <div className="relative inline-block">
                           <img
                             src={imagePreview}
-                            alt="Image preview"
+                            alt="Preview"
                             className="h-24 w-24 object-cover rounded-lg border border-gray-200"
                             style={{ minWidth: "100px", minHeight: "100px" }}
                           />

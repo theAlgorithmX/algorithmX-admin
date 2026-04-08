@@ -12,15 +12,14 @@ export default function EbookForm({ onSubmit, ebookId: propEbookId }) {
   const ebookId = propEbookId || queryEbookId;
   console.log(ebookId, "ebookId");
   const [isEditMode, setIsEditMode] = useState(false);
-  const [currentCoverImage, setCurrentCoverImage] = useState(null);
-  const [currentFile, setCurrentFile] = useState(null);
-  const [coverImagePreview, setCoverImagePreview] = useState(null);
+  const [, setCurrentCoverImage] = useState(null);
+  const [, setCurrentFile] = useState(null);
+  const [, setCoverImagePreview] = useState(null);
 
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm({

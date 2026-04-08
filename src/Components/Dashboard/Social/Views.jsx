@@ -3,7 +3,6 @@ import React from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import { H5 } from "../../../AbstractElements";
 import { DailyDropdown, ViewTitle } from "../../../Constant";
-import { ViewChartOption } from "../../../Data/Social/Chart";
 import DropdownCommon from "../../Common/Dropdown";
 
 const Views = () => {

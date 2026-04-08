@@ -50,17 +50,6 @@ export default function ViewEbooks({ onEdit }) {
     }
   };
 
-  // Download handler
-  const handleDownload = (fileUrl, fileName) => {
-    // If fileUrl is a direct URL, trigger download
-    const link = document.createElement("a");
-    link.href = fileUrl;
-    link.setAttribute("download", fileName || "ebook-file");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">

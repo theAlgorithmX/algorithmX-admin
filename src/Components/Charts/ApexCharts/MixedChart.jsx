@@ -3,7 +3,6 @@ import { Card, CardBody, Col } from "reactstrap";
 import { MixedChart } from "../../../Constant";
 import HeaderCard from "../../Common/Component/HeaderCard";
 // import Chart from 'react-apexcharts';
-import { apexMixedCharts } from "./apexData";
 
 const MixedChartClass = () => {
   return (

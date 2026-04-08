@@ -1,4 +1,3 @@
-import { MarketChart } from "../../Common/Data/ApexChart";
 import React, { Fragment } from "react";
 //import Charts from 'react-apexcharts';
 import { Row, Col, Card, CardBody } from "reactstrap";

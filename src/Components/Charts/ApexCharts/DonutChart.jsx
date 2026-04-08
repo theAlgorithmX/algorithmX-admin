@@ -3,7 +3,6 @@ import { Card, CardBody, Col } from "reactstrap";
 import { DonutChart } from "../../../Constant";
 import HeaderCard from "../../Common/Component/HeaderCard";
 // import Chart from 'react-apexcharts';
-import { apexDonutCharts } from "./apexData";
 
 const DonutChartClass = () => {
   return (

@@ -3,7 +3,6 @@ import { Card, CardBody, Col } from "reactstrap";
 import { PieChart } from "../../../Constant";
 import HeaderCard from "../../Common/Component/HeaderCard";
 // import Chart from 'react-apexcharts';
-import { apexPieChart } from "./apexData";
 
 const PieChartClass = () => {
   return (

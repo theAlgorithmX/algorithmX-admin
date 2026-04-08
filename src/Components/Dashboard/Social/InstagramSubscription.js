@@ -3,7 +3,6 @@ import React from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import { H5 } from '../../../AbstractElements';
 import { DailyDropdown, InstagramSubscribers, InstaGrowth } from '../../../Constant';
-import { InstagramSubscriptionChart } from '../../../Data/Social/Chart';
 import DropdownCommon from '../../Common/Dropdown';
 
 const InstagramSubscription = () => {
