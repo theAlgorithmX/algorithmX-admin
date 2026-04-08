@@ -1,10 +1,6 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import cubaimg from "../../assets/images/logo/logo-icon.png";
-import CustomizerContext from "../../_helper/Customizer";
+import React from "react";
 
 const SidebarIcon = () => {
-  const { layoutURL } = useContext(CustomizerContext);
   return (
     <div className="logo-icon-wrapper">
       {/* <Link to={`${process.env.PUBLIC_URL}/dashboard/default/${layoutURL}`}>

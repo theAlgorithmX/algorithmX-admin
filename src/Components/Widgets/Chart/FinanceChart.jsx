@@ -4,7 +4,6 @@ import { Navigation } from "react-feather";
 import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 import { H5 } from "../../../AbstractElements";
 import { Finance } from "../../../Constant";
-import { columnChart } from "../../Common/Data/ApexChart";
 
 const FinanceChart = () => {
   return (

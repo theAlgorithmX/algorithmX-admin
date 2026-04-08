@@ -1,7 +1,6 @@
 import React from "react";
 import { Row, Col, Card, CardBody } from "reactstrap";
 // import Chart from 'react-apexcharts';
-import { LiveProductChart } from "../../Common/Data/ApexChart";
 import HeaderCard from "../../Common/Component/HeaderCard";
 
 const LiveChart = () => {

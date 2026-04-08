@@ -2,7 +2,6 @@ import React from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import { H5, H4 } from "../../../AbstractElements";
 import { DailyDropdown, OrderThisMonthTitle } from "../../../Constant";
-import { OrderThisMonthChart } from "../../../Data/Ecommerce/Chart";
 import DropdownCommon from "../../Common/Dropdown";
 import CountUp from "react-countup";
 //import ReactApexChart from 'react-apexcharts';

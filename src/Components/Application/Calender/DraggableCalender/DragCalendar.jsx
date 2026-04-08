@@ -3,7 +3,7 @@ import { Col } from "reactstrap";
 import FullCalendar from "@fullcalendar/react";
 // import dayGridPlugin from "@fullcalendar/daygrid";
 // import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
+import { Draggable } from "@fullcalendar/interaction";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { H4 } from "../../../../AbstractElements";
 // import moment from "moment";

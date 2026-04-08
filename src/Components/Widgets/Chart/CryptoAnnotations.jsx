@@ -3,7 +3,6 @@ import React from "react";
 import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 import { H5 } from "../../../AbstractElements";
 import { CryptoAnnotationsTitle } from "../../../Constant";
-import { optionsAnnotation } from "../../Common/Data/ApexChart";
 
 const CryptoAnnotations = () => {
   return (

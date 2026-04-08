@@ -2,18 +2,15 @@ import React, {
   forwardRef,
   useImperativeHandle,
   useRef,
-  useCallback,
   useEffect,
 } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
 const WordEditor = forwardRef(({ updateContent, initialContent = "" }, ref) => {
   const editorRef = useRef(null);
-  const [content, setContent] = React.useState(initialContent);
 
   useEffect(() => {
     if (initialContent && editorRef.current) {
-      setContent(initialContent);
       editorRef.current.setContent(initialContent);
     }
   }, [initialContent]);
@@ -31,20 +28,6 @@ const WordEditor = forwardRef(({ updateContent, initialContent = "" }, ref) => {
       editorRef.current?.focus();
     },
   }));
-
-  const debouncedUpdateContent = useCallback(
-    (newContent) => {
-      let timeoutId;
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setContent(newContent);
-        if (updateContent) {
-          updateContent(newContent);
-        }
-      }, 100);
-    },
-    [updateContent]
-  );
 
   return (
     <div className=" py-10">

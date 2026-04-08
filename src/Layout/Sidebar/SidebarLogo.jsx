@@ -1,20 +1,8 @@
-import React, { useContext } from "react";
-import { Grid } from "react-feather";
+import React from "react";
 import { Link } from "react-router-dom";
-import CustomizerContext from "../../_helper/Customizer";
 import { Image } from "../../AbstractElements";
-import CubaIcon from "../../assets/images/logo/logo.png";
 
 const SidebarLogo = () => {
-  const { mixLayout, toggleSidebar, toggleIcon, layout, layoutURL } =
-    useContext(CustomizerContext);
-
-  const openCloseSidebar = () => {
-    toggleSidebar(!toggleIcon);
-  };
-
-  const layout1 = localStorage.getItem("sidebar_layout") || layout;
-
   return (
     <div className="logo-wrapper">
       <Link to="/dashboard/default/Dubai">

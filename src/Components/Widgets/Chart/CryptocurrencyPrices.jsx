@@ -3,7 +3,6 @@ import React from "react";
 import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 import { H5 } from "../../../AbstractElements";
 import { CryptocurrencyPricesTitle } from "../../../Constant";
-import { CryptocurrencyPricesTitleChartData } from "../../Common/Data/ApexChart";
 
 const CryptocurrencyPrices = () => {
   return (
