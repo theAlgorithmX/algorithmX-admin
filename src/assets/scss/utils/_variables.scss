@@ -43,8 +43,16 @@ $theme-medium-color: #eae8ff;
 $dropdown-border-color: #918e99;
 
 // gradient colors
-$gradient-primary: linear-gradient(26deg, var(--theme-default) 0%, #a26cf8 100%);
-$gradient-bg-primary: linear-gradient(103.75deg, #33b1ee -13.9%, var(--theme-default) 79.68%);
+$gradient-primary: linear-gradient(
+  26deg,
+  var(--theme-default) 0%,
+  #121212 100%
+);
+$gradient-bg-primary: linear-gradient(
+  103.75deg,
+  #33b1ee -13.9%,
+  var(--theme-default) 79.68%
+);
 
 //social colors
 $fb: #50598e;
@@ -252,7 +260,7 @@ $sidebar-padding-bottom: 12px;
 $sidebar-sub-header-padding: 15px;
 $sidebar-sub-header-margin: 0;
 $sidebar-heading-hover-padding: 5px;
-$sidebar-hover-txt-color: var(--theme-default);
+$sidebar-hover-txt-color: $black;
 $sidebar-arrow-margin-top: 2px;
 $sidebar-arrow-size: 15px;
 $sidebar-arrow-color: $theme-body-font-color;

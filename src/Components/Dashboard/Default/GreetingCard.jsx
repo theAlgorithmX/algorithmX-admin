@@ -1,57 +1,236 @@
-import React from 'react';
-import { Card, CardBody, Col, Media } from 'reactstrap';
-import { H4, P, Btn, Image } from '../../../AbstractElements';
-import { WelcomeMessage, WelcomeToCuba, WhatsNew } from '../../../Constant';
+import React, { useState, useEffect } from "react";
 
-import CarToon from '../../../assets/images/dashboard/cartoon.svg';
+const DashboardCards = () => {
+  // Simulated API data - replace with actual API calls
+  const [dashboardData, setDashboardData] = useState({
+    totalBlogs: 0,
+    totalEbooks: 0,
+    totalClients: 0,
+    glossaryEntries: 0,
+    brandAudits: 0,
+    productAudits: 0,
+    activeProjects: 0,
+    completedTasks: 0,
+  });
 
-const GreetingCard = () => {
-  return (
-    <Col className='col-xxl-4 col-sm-6 box-col-6'>
-      <Card className=' profile-box'>
-        <CardBody>
-          <Media>
-            <Media body>
-              <div className='greeting-user'>
-                <H4 attrH4={{ className: 'f-w-600' }}>{WelcomeToCuba}</H4>
-                <P>{WelcomeMessage}</P>
-                <div className='whatsnew-btn'>
-                  <Btn attrBtn={{ color: 'transparent', outline: true, className: 'btn btn-outline-white' }}>{WhatsNew}</Btn>
-                </div>
-              </div>
-            </Media>
-            <div>
-              <div className='clockbox'>
-                <svg id='clock' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'>
-                  <g id='face'>
-                    <circle className='circle' cx={300} cy={300} r='253.9' />
-                    <path className='hour-marks' d='M300.5 94V61M506 300.5h32M300.5 506v33M94 300.5H60M411.3 107.8l7.9-13.8M493 190.2l13-7.4M492.1 411.4l16.5 9.5M411 492.3l8.9 15.3M189 492.3l-9.2 15.9M107.7 411L93 419.5M107.5 189.3l-17.1-9.9M188.1 108.2l-9-15.6' />
-                    <circle className='mid-circle' cx={300} cy={300} r='16.2' />
-                  </g>
-                  <g id='hour'>
-                    <path className='hour-hand' d='M300.5 298V142' />
-                    <circle className='sizing-box' cx={300} cy={300} r='253.9' />
-                  </g>
-                  <g id='minute'>
-                    <path className='minute-hand' d='M300.5 298V67' />
-                    <circle className='sizing-box' cx={300} cy={300} r='253.9' />
-                  </g>
-                  <g id='second'>
-                    <path className='second-hand' d='M300.5 350V55' />
-                    <circle className='sizing-box' cx={300} cy={300} r='253.9'></circle>
-                  </g>
-                </svg>
-              </div>
-              <div className='badge f-10 p-0' id='txt' />
-            </div>
-          </Media>
-          <div className='cartoon'>
-            <Image attrImage={{ src: CarToon, alt: 'vector women with leptop' }} />
+  const [loading, setLoading] = useState(true);
+
+  // Simulate API call
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      // Simulate API delay
+      setTimeout(() => {
+        setDashboardData({
+          totalBlogs: 245,
+          totalEbooks: 18,
+          totalClients: 67,
+          glossaryEntries: 1250,
+          brandAudits: 34,
+          productAudits: 89,
+          activeProjects: 12,
+          completedTasks: 156,
+        });
+        setLoading(false);
+      }, 1000);
+    };
+
+    fetchData();
+  }, []);
+
+  // Card component
+  const DashboardCard = ({ title, value, icon, color, trend, trendValue }) => (
+    <div
+      className="relative rounded-lg shadow-md p-6 border-l-4 overflow-hidden"
+      style={{ borderLeftColor: color }}
+    >
+      {/* faint background tint */}
+      <div
+        className="absolute inset-0 opacity-10"
+        style={{ backgroundColor: color }}
+      ></div>
+
+      {/* content above the tint */}
+      <div className="relative flex items-center justify-between">
+        <div className="flex-1">
+          <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider">
+            {title}
+          </h3>
+          <div className="mt-2 flex items-baseline">
+            {value ? (
+              <span className="text-3xl font-bold text-white">
+                {value.toLocaleString()}
+              </span>
+            ) : (
+              <div className="h-8 w-16 bg-gray-200 rounded animate-pulse"></div>
+            )}
+            {trend && trendValue && (
+              <span
+                className={`ml-2 text-sm font-medium ${
+                  trend === "up" ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {trend === "up" ? "↗" : "↘"} {trendValue}%
+              </span>
+            )}
           </div>
-        </CardBody>
-      </Card>
-    </Col>
+        </div>
+        <div className="flex-shrink-0">
+          <div
+            className="w-12 h-12 rounded-full flex items-center justify-center text-white text-xl"
+            style={{ backgroundColor: color }}
+          >
+            {icon}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Welcome/Greeting Card
+  const GreetingCard = () => (
+    <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg p-6 text-white">
+      <div className="flex items-center justify-between">
+        <div className="flex-1">
+          <h2 className="text-2xl text-white font-bold mb-2">
+            Welcome to Your Dashboard
+          </h2>
+          <p className="text-blue-100 mb-4">
+            Here's your business overview at a glance
+          </p>
+          {/* <button className="bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg transition-all duration-200 border border-white border-opacity-30 hover:bg-opacity-30">
+            View Reports
+          </button> */}
+        </div>
+        <div className="hidden md:block">
+          <svg
+            className="w-24 h-24 text-white opacity-20"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Quick Stats Card
+  const QuickStatsCard = () => (
+    <div className="bg-gradient-to-r from-green-500 to-teal-600 rounded-lg shadow-lg p-6 text-white">
+      <div className="flex items-center justify-between">
+        <div className="flex-1">
+          <h2 className="text-2xl text-white font-bold mb-2">This Month</h2>
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-green-100">Revenue Growth</span>
+              <span className="text-white font-semibold">+24%</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-green-100">New Projects</span>
+              <span className="text-white font-semibold">8</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-green-100">Client Satisfaction</span>
+              <span className="text-white font-semibold">98%</span>
+            </div>
+          </div>
+        </div>
+        <div className="hidden md:block">
+          <svg
+            className="w-24 h-24 text-white opacity-20"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen  p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white">Dashboard Overview</h1>
+          <p className="text-gray-300 mt-2">
+            Monitor your business metrics and performance
+          </p>
+        </div>
+
+        {/* Greeting Cards - Half Width */}
+        <div className="mb-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <GreetingCard />
+          <QuickStatsCard />
+        </div>
+
+        {/* Dashboard Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <DashboardCard
+            title="Total Blogs"
+            value={dashboardData.totalBlogs}
+            icon="📝"
+            color="#3B82F6"
+          />
+
+          <DashboardCard
+            title="E-books"
+            value={dashboardData.totalEbooks}
+            icon="📚"
+            color="#10B981"
+          />
+
+          <DashboardCard
+            title="Total Clients"
+            value={dashboardData.totalClients}
+            icon="👥"
+            color="#8B5CF6"
+          />
+
+          <DashboardCard
+            title="Glossary Entries"
+            value={dashboardData.glossaryEntries}
+            icon="📖"
+            color="#F59E0B"
+          />
+
+          <DashboardCard
+            title="Brand Audits"
+            value={dashboardData.brandAudits}
+            icon="🔍"
+            color="#EF4444"
+          />
+
+          <DashboardCard
+            title="Product Audits"
+            value={dashboardData.productAudits}
+            icon="⚡"
+            color="#06B6D4"
+          />
+
+          <DashboardCard
+            title="Active Projects"
+            value={dashboardData.activeProjects}
+            icon="🚀"
+            color="#84CC16"
+          />
+
+          <DashboardCard
+            title="Completed Tasks"
+            value={dashboardData.completedTasks}
+            icon="✅"
+            color="#EC4899"
+          />
+        </div>
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-ZET4P9C2TK"
+        ></script>
+      </div>
+    </div>
   );
 };
 
-export default GreetingCard;
+export default DashboardCards;

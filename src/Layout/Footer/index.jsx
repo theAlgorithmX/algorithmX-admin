@@ -9,7 +9,7 @@ const Footer = () => {
       <footer className="footer">
         <Container fluid={true}>
           <Row>
-            <Col md="12" className="footer-copyright text-center">
+            <Col md="12" className="footer-copyright text-center text-white">
               <P attrPara={{ className: "mb-0" }}>
                 {"Copyright 2025 @AlgorithmX"}
               </P>

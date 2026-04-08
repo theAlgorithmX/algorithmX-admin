@@ -84,6 +84,44 @@ const SidebarMenuItems = ({
     }));
   }, [userPermissions]);
 
+  // Helper function to render icon
+  const renderIcon = (icon) => {
+    // If icon is a React component (React Icon), render it directly
+    if (React.isValidElement(icon)) {
+      return icon;
+    }
+    // If icon is a string, use SvgIcon component (for backward compatibility)
+    if (typeof icon === "string") {
+      // If icon looks like a Font Awesome class, render FA icon
+      const trimmed = icon.trim();
+      if (
+        trimmed.startsWith("fa-") ||
+        trimmed.startsWith("fa ") ||
+        trimmed.startsWith("fas ") ||
+        trimmed.startsWith("far ") ||
+        trimmed.startsWith("fal ") ||
+        trimmed.startsWith("fab ")
+      ) {
+        // Ensure it contains base prefix
+        const hasPrefix = /^(fa|fas|far|fal|fab)\s/.test(trimmed);
+        const className = hasPrefix ? trimmed : `fa ${trimmed}`;
+        return (
+          <i
+            className={className}
+            style={{ fontSize: "20px", marginRight: "8px", color: "#00e6e6" }}
+          ></i>
+        );
+      }
+      return (
+        <>
+          <SvgIcon className="stroke-icon" iconId={`stroke-${icon}`} />
+          <SvgIcon className="fill-icon" iconId={`fill-${icon}`} />
+        </>
+      );
+    }
+    return null;
+  };
+
   return (
     <>
       {filteredMenu.map((Item, i) => (
@@ -109,14 +147,7 @@ const SidebarMenuItems = ({
                     activeClass(menuItem.active);
                   }}
                 >
-                  <SvgIcon
-                    className="stroke-icon"
-                    iconId={`stroke-${menuItem.icon}`}
-                  />
-                  <SvgIcon
-                    className="fill-icon"
-                    iconId={`fill-${menuItem.icon}`}
-                  />
+                  {renderIcon(menuItem.icon)}
                   <span>{t(menuItem.title)}</span>
                   {menuItem.badge ? (
                     <label className={menuItem.badge}>
@@ -147,14 +178,7 @@ const SidebarMenuItems = ({
                   }`}
                   onClick={() => toggletNavActive(menuItem)}
                 >
-                  <SvgIcon
-                    className="stroke-icon"
-                    iconId={`stroke-${menuItem.icon}`}
-                  />
-                  <SvgIcon
-                    className="fill-icon"
-                    iconId={`fill-${menuItem.icon}`}
-                  />
+                  {renderIcon(menuItem.icon)}
                   <span>{t(menuItem.title)}</span>
                   {menuItem.badge ? (
                     <label className={menuItem.badge}>

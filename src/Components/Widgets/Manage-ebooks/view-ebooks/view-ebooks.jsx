@@ -104,7 +104,7 @@ export default function ViewEbooks({ onEdit }) {
             <tbody className="bg-white/5 backdrop-blur-sm divide-y divide-white/20">
               {ebooks.length > 0 ? (
                 ebooks.map((ebook, index) => (
-                  <tr key={ebook.id || ebook._id} className="hover:bg-gray-50">
+                  <tr key={ebook.id || ebook._id} className="">
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                       {ebook.id}
                     </td>

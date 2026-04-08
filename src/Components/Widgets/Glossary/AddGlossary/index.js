@@ -10,8 +10,6 @@ const AddGlossaryComponent = () => {
   const blogId = searchParams.get("GlossaryId");
 
   const handleBlogSubmit = async (data) => {
-    
-
     try {
       let URL;
       if (blogId) {
@@ -21,9 +19,10 @@ const AddGlossaryComponent = () => {
       }
       console.log(data, "data response");
       const payload = {
-        keyword : data.keyword,
+        keyword: data.keyword,
         summary: data.summary,
         content: data.content,
+        slug: data.slug,
       };
       console.log(payload, "payload");
 

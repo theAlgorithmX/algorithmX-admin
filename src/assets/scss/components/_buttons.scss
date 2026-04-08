@@ -215,13 +215,13 @@
   }
 }
 
-[class*="-gradien"] {
-  &:hover {
-    background-size: 50% 100%;
-    transition: all 0.3s ease;
-    color: $white;
-  }
-}
+// [class*="-gradien"] {
+//   &:hover {
+//     background-size: 50% 100%;
+//     transition: all 0.3s ease;
+//     color: $white;
+//   }
+// }
 
 .btn-square {
   @include btn-squre(0);

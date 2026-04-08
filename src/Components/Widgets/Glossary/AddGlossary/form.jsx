@@ -20,6 +20,7 @@ export default function BlogForm({ onSubmit, blogId }) {
   } = useForm({
     defaultValues: {
       keyword: "",
+      slug: "",
       summary: "",
       content: "",
     },
@@ -39,20 +40,14 @@ export default function BlogForm({ onSubmit, blogId }) {
     try {
       const response = await axiosHttp.get(`/glossary/glossaries/${blogId}`);
       if (response?.status === 200) {
-        // Set edit mode to true
         setIsEditMode(true);
-
-        // Get blog data from response
         const glossaryData = response.data.data;
-        console.log("API Response:", response.data);
-        console.log("Glossary Data:", glossaryData);
 
-        // Set initial editor content first
         setInitialEditorContent(glossaryData.content || "");
 
-        // Then reset form with all data
         reset({
           keyword: glossaryData.keyword || "",
+          slug: glossaryData.slug || "",
           summary: glossaryData.summary || "",
           content: glossaryData.content || "",
         });
@@ -67,23 +62,16 @@ export default function BlogForm({ onSubmit, blogId }) {
     if (blogId) {
       getBlogById();
     } else {
-      // Make sure we're in add mode when no blogId is present
       setIsEditMode(false);
       setInitialEditorContent("");
-
-      // Reset form to default values when switching to add mode
       reset({
         keyword: "",
+        slug: "",
         summary: "",
         content: "",
       });
     }
   }, [blogId]);
-
-  // Add effect to monitor initialEditorContent changes
-  useEffect(() => {
-    console.log("Initial editor content changed:", initialEditorContent);
-  }, [initialEditorContent]);
 
   const handleFormKeyDown = (e) => {
     if (
@@ -107,7 +95,6 @@ export default function BlogForm({ onSubmit, blogId }) {
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        // Get the latest content from editor before submitting
         const currentContent = getEditorContent();
         const finalData = {
           ...data,
@@ -127,7 +114,7 @@ export default function BlogForm({ onSubmit, blogId }) {
         {isEditMode ? "Update Glossary" : "Add Glossary"}
       </h1>
 
-      {/* Title */}
+      {/* Keyword */}
       <div>
         <label className="block mb-1 font-medium text-white">
           Keyword <span className="text-red-500">*</span>
@@ -136,11 +123,28 @@ export default function BlogForm({ onSubmit, blogId }) {
           {...register("keyword", { required: "Keyword is required" })}
           placeholder="Enter Keyword "
           className={`w-full p-2 border rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70 ${
-            errors.title ? "border-red-500" : "border-white/20"
+            errors.keyword ? "border-red-500" : "border-white/20"
           }`}
         />
         {errors.keyword && (
           <p className="text-red-500 text-sm">{errors.keyword.message}</p>
+        )}
+      </div>
+
+      {/* Slug */}
+      <div>
+        <label className="block mb-1 font-medium text-white">
+          Slug <span className="text-red-500">*</span>
+        </label>
+        <input
+          {...register("slug", { required: "Slug is required" })}
+          placeholder="Enter Slug (e.g. my-keyword)"
+          className={`w-full p-2 border rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70 ${
+            errors.slug ? "border-red-500" : "border-white/20"
+          }`}
+        />
+        {errors.slug && (
+          <p className="text-red-500 text-sm">{errors.slug.message}</p>
         )}
       </div>
 
@@ -154,7 +158,7 @@ export default function BlogForm({ onSubmit, blogId }) {
           placeholder="Enter a brief summary of the blog post"
           rows={3}
           className={`w-full p-2 border rounded bg-white/10 backdrop-blur-sm text-white placeholder-white/70 ${
-            errors.title ? "border-red-500" : "border-white/20"
+            errors.summary ? "border-red-500" : "border-white/20"
           }`}
         />
         {errors.summary && (
@@ -162,7 +166,7 @@ export default function BlogForm({ onSubmit, blogId }) {
         )}
       </div>
 
-      {/* Modify the WordEditor props */}
+      {/* Content Editor */}
       <WordEditor
         ref={editorRef}
         updateContent={updateEditorContent}

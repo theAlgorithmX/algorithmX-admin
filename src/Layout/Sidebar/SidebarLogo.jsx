@@ -17,7 +17,9 @@ const SidebarLogo = () => {
 
   return (
     <div className="logo-wrapper">
-      <Link>
+      <Link to="/dashboard/default/Dubai">
+        {" "}
+        {/* 👈 Add your desired URL here */}
         <Image
           attrImage={{
             className: "img-fluid d-inline h-[50px] w-[50px] mb-[5px]",

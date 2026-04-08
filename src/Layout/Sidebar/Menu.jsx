@@ -27,20 +27,23 @@ export const MENUITEMS = [
       {
         path: `${process.env.PUBLIC_URL}/widgets/rbac`,
         title: "User Management",
-        icon: "widget",
+        icon: "fa fa-users",
+        active: false,
         type: "link",
         permissionKey: "user-management",
       },
       {
         path: `${process.env.PUBLIC_URL}/widgets/onboard-users`,
         title: "Onboard User",
-        icon: "widget",
+        icon: "fa fa-user-plus",
+        active: false,
         type: "link",
         permissionKey: "onboarduser",
       },
       {
         title: "Manage Blogs",
-        icon: "widget",
+        icon: "fa fa-newspaper-o",
+
         type: "sub",
         permissionKey: "blogs",
         active: false,
@@ -65,13 +68,14 @@ export const MENUITEMS = [
       // {
       //   path: `${process.env.PUBLIC_URL}/widgets/managecategories`,
       //   title: "Manage Category",
-      //   icon: "widget",
+      //
       //   type: "link",
       //   permissionKey: "manage-categories",
       // },
       {
         title: "Manage Glossary",
-        icon: "widget",
+        icon: "fa fa-book",
+
         type: "sub",
         permissionKey: "glossary",
         active: false,
@@ -96,12 +100,13 @@ export const MENUITEMS = [
       // {
       //   path: `${process.env.PUBLIC_URL}/widgets/manageclients`,
       //   title: "Manage Clients",
-      //   icon: "widget",
+      //
       //   type: "link",
       // },
       {
         title: "Manage-Clients",
-        icon: "widget",
+        icon: "fa fa-address-book",
+
         type: "sub",
         permissionKey: "clients",
         active: false,
@@ -120,7 +125,8 @@ export const MENUITEMS = [
       },
       {
         title: "Manage-Ebooks",
-        icon: "widget",
+        icon: "fa fa-file-pdf-o",
+
         type: "sub",
         permissionKey: "ebooks",
         active: false,
@@ -144,7 +150,8 @@ export const MENUITEMS = [
       },
       {
         title: "Manage-Brand-Audits",
-        icon: "widget",
+        icon: "fa fa-check-square-o",
+
         type: "sub",
         permissionKey: "brand-audits",
         active: false,
@@ -168,7 +175,8 @@ export const MENUITEMS = [
       },
       {
         title: "Manage-Product-Audits",
-        icon: "widget",
+        icon: "fa fa-tags",
+
         type: "sub",
         permissionKey: "product-audits",
         active: false,
@@ -192,7 +200,8 @@ export const MENUITEMS = [
       },
       {
         title: "Manage-Press-Release",
-        icon: "widget",
+        icon: "fa fa-envelope-o",
+
         type: "sub",
         permissionKey: "press-release",
         active: false,
@@ -216,7 +225,8 @@ export const MENUITEMS = [
       },
       {
         title: "Manage-Guides",
-        icon: "widget",
+        icon: "fa fa-map-signs",
+
         type: "sub",
         permissionKey: "guides",
         active: false,
@@ -240,7 +250,8 @@ export const MENUITEMS = [
       },
       {
         title: "Manage-Impact-Stories",
-        icon: "widget",
+        icon: "fa fa-bullhorn",
+
         type: "sub",
         permissionKey: "impact-stories",
         active: false,
@@ -265,7 +276,8 @@ export const MENUITEMS = [
       {
         path: `${process.env.PUBLIC_URL}/widgets/viewform`,
         title: "View Form",
-        icon: "widget",
+        icon: "fa fa-list",
+
         type: "link",
         permissionKey: "view-form",
       },
